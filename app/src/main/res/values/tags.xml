@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tag_case_list">Case List</string>
+    <string name="tag_case_dashboard">Case Dashboard</string>
+
+    <string name="tag_open_drawer">Open drawer</string>
+    <string name="tag_close_drawer">Close drawer</string>
+</resources>

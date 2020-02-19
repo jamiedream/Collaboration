@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_one"
+            android:checked="true"
+            android:icon="@drawable/ic_arrow"
+            android:title="首頁" />
+
+        <item
+            android:id="@+id/item_two"
+            android:icon="@drawable/ic_arrow"
+            android:title="使用說明" />
+
+        <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_arrow"
+            android:title="設定" />
+
+        <item
+            android:id="@+id/item_three"
+            android:icon="@drawable/ic_arrow"
+            android:title="關於" />
+    </group>
+</menu>

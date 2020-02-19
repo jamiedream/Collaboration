@@ -1,7 +1,7 @@
 package com.viwave.collaborationproject.data
 
 import com.google.gson.*
-import com.viwave.collaborationproject.Utils.ConvertUtil
+import com.viwave.collaborationproject.utils.ConvertUtil
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.subSys.Staff
 import com.viwave.collaborationproject.data.subSys.SubSys

@@ -1,6 +1,14 @@
 package com.viwave.collaborationproject.FakeData
 
+import com.viwave.collaborationproject.data.cases.Case
+
 class QueryData {
+
+    val caseList =
+        mutableListOf(
+            Case("3333333", "賈個案", "M", null, null),
+            Case("4444444", "甄個案", "M", null, null)
+        )
 
     val data =
         "{\n" +

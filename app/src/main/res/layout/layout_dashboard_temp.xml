@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/dp_10"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="@dimen/dp_4"
+    app:cardCornerRadius="@dimen/dp_6">
+
+    <FrameLayout
+        android:id="@+id/border_temp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_4">
+        <ImageView
+            android:id="@+id/icon_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/title_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/temperature"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginStart="@dimen/dp_6"
+            app:layout_constraintStart_toEndOf="@id/icon_temp"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/value_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/two_dash"
+            android:layout_marginStart="@dimen/dp_6"
+            app:layout_constraintStart_toEndOf="@id/icon_temp"
+            app:layout_constraintEnd_toStartOf="@id/unit_temp"
+            app:layout_constraintTop_toBottomOf="@id/title_temp"
+            />
+
+        <TextView
+            android:id="@+id/unit_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_celsius"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginStart="@dimen/dp_6"
+            app:layout_constraintStart_toEndOf="@id/title_temp"
+            app:layout_constraintTop_toBottomOf="@id/title_temp"
+            />
+
+        <ImageView
+            android:id="@+id/add_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_s"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

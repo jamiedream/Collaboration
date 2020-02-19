@@ -1,4 +1,4 @@
-package com.viwave.collaborationproject.Utils
+package com.viwave.collaborationproject.utils
 
 import android.util.Base64
 
