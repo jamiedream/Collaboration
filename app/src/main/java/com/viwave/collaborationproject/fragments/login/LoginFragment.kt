@@ -1,9 +1,10 @@
-package com.viwave.collaborationproject.fragments
+package com.viwave.collaborationproject.fragments.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.viwave.collaborationproject.fragments.BaseFragment
 
 class LoginFragment: BaseFragment() {
 

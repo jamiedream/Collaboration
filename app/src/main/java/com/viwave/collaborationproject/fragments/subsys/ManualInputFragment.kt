@@ -1,25 +1,26 @@
-package com.viwave.collaborationproject.fragments
+package com.viwave.collaborationproject.fragments.subsys
 
 import android.os.Bundle
 import android.view.*
 import android.widget.EditText
+import android.widget.Toast
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
-import com.viwave.collaborationproject.utils.InputControlUtil
+import com.viwave.collaborationproject.fragments.BaseFragment
+import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.utils.InputFormatUtil
 import com.viwave.collaborationproject.utils.LogUtil
-import java.lang.ref.WeakReference
 
 class ManualInputFragment(private val bioType: BioLiveData.Companion.BioType): BaseFragment(), BackPressedDelegate {
 
     override fun onBackPressed(): Boolean {
-        replaceFragment(this@ManualInputFragment, MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
-//        fragmentManager?.popBackStack()
+        replaceFragment(this@ManualInputFragment,
+            MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
         return true
     }
 
-    private val TAG = this::class.java
+    private val TAG = this::class.java.simpleName
 
     private val textValue by lazy { view!!.findViewById<EditText>(R.id.value_measurement) }
 
@@ -59,13 +60,34 @@ class ManualInputFragment(private val bioType: BioLiveData.Companion.BioType): B
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.manual_add -> {
-                LogUtil.logD("ManualInputFragment", "新增資料")
-                onBackPressed()
+
+                when(bioType){
+                    BioLiveData.Companion.BioType.BloodGlucose -> {}
+                    BioLiveData.Companion.BioType.BloodPressure -> {}
+                    BioLiveData.Companion.BioType.Height -> {}
+                    BioLiveData.Companion.BioType.Oxygen -> {}
+                    BioLiveData.Companion.BioType.Pulse -> {}
+                    BioLiveData.Companion.BioType.Respire -> {}
+                    BioLiveData.Companion.BioType.Temperature -> {
+                        //34~42.2
+                        val value = textValue.text.toString().replace(",", ".").toFloat()
+                        LogUtil.logD(TAG, value)
+                        when(value){
+                            in 34f..42.2f ->  {
+                                bioViewModel.getDemoTempData().value = value
+                                onBackPressed()
+                            }
+                            else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    BioLiveData.Companion.BioType.Weight -> {}
+
+                }
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-//        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
@@ -75,11 +97,6 @@ class ManualInputFragment(private val bioType: BioLiveData.Companion.BioType): B
 
         textValue.filters = arrayOf(InputFormatUtil(3, 1))
 
-    }
-
-    override fun onStop() {
-        InputControlUtil.hideKeyboard(WeakReference((activity)))
-        super.onStop()
     }
 
 }

@@ -1,4 +1,4 @@
-package com.viwave.collaborationproject.fragments.mainList.adapter
+package com.viwave.collaborationproject.fragments.subsys.mainList.adapter
 
 import android.view.View
 import android.widget.ImageView

@@ -1,22 +1,26 @@
-package com.viwave.collaborationproject.fragments
+package com.viwave.collaborationproject.fragments.subsys
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
-import com.viwave.collaborationproject.fragments.mainList.MainListFragment
-import com.viwave.collaborationproject.fragments.mainList.MainListFragment.Companion.caseViewModel
+import com.viwave.collaborationproject.fragments.BaseFragment
+import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment
+import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment.Companion.bioViewModel
+import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment.Companion.caseViewModel
+import com.viwave.collaborationproject.utils.DataFormatUtil
 
 class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     override fun onBackPressed(): Boolean {
         replaceFragment(this@MeasurementDashboardFragment, MainListFragment(), getString(R.string.tag_case_list))
-//        fragmentManager?.popBackStack()
         return true
     }
 
@@ -46,15 +50,28 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
     }
 
     private fun initTempView(view: View){
-        val tempValue = view.findViewById<TextView>(R.id.value_temp)
+
+        val lastTempDataObserver = Observer<Float> {
+            view.findViewById<TextView>(R.id.value_temp).text = DataFormatUtil.formatString(it)
+        }
+        bioViewModel.getDemoTempData().observe(this, lastTempDataObserver)
+
+        view.findViewById<ImageView>(R.id.add_temp).setOnClickListener(
+            object: View.OnClickListener{
+                override fun onClick(v: View?) {
+                    replaceFragment(this@MeasurementDashboardFragment,
+                        ManualInputFragment(
+                            BioLiveData.Companion.BioType.Temperature
+                        ), getString(R.string.tag_case_manual))
+                }
+            }
+        )
+
         view.findViewById<CardView>(R.id.block_temp).setOnClickListener(
             object : View.OnClickListener{
                 override fun onClick(v: View?) {
-                    replaceFragment(this@MeasurementDashboardFragment, ManualInputFragment(
-                        BioLiveData.Companion.BioType.Temperature), getString(R.string.tag_case_manual))
-//                    addFragment(this@MeasurementDashboardFragment, ManualInputFragment(BioLiveData.Companion.BioType.Temperature), getString(R.string.tag_case_dashboard))
+                    
                 }
-
             }
         )
 

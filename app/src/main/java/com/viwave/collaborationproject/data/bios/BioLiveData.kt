@@ -13,4 +13,8 @@ class BioLiveData {
         return selectedType
     }
 
+    private val tempData = MutableLiveData<Float>()
+    internal fun demoTempData(): MutableLiveData<Float> {
+        return tempData
+    }
 }

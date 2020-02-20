@@ -16,7 +16,6 @@ class InputFormatUtil(digitsBeforeZero: Int, digitsAfterZero: Int): InputFilter 
         dstart: Int,
         dend: Int
     ): CharSequence? {
-        LogUtil.logD(TAG, source)
         val matcher = pattern.matcher(dest)
         if(!matcher.matches())
             return ""

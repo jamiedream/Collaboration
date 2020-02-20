@@ -11,7 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.navigation.NavigationView
-import com.viwave.collaborationproject.fragments.mainList.MainListFragment
+import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment
 
 class MainActivity : AppCompatActivity() {
 

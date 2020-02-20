@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable
 import androidx.fragment.app.Fragment
 import com.viwave.collaborationproject.MainActivity
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.utils.InputControlUtil
+import java.lang.ref.WeakReference
 
 abstract class BaseFragment: Fragment() {
 
@@ -42,6 +44,11 @@ abstract class BaseFragment: Fragment() {
             replace(R.id.host_fragment, replaceFragment, tag)?.
             addToBackStack("replace $tag")?.
             commit()
+    }
+
+    override fun onStop() {
+        InputControlUtil.hideKeyboard(WeakReference((activity)))
+        super.onStop()
     }
 
 }

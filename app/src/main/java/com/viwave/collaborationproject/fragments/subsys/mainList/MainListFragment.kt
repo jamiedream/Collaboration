@@ -1,4 +1,4 @@
-package com.viwave.collaborationproject.fragments.mainList
+package com.viwave.collaborationproject.fragments.subsys.mainList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,16 +15,15 @@ import com.viwave.collaborationproject.data.bios.BioViewModel
 import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.data.cases.CaseViewModel
 import com.viwave.collaborationproject.fragments.BaseFragment
-import com.viwave.collaborationproject.fragments.MeasurementDashboardFragment
-import com.viwave.collaborationproject.fragments.mainList.adapter.CaseListAdapter
-import com.viwave.collaborationproject.utils.LogUtil
+import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment
+import com.viwave.collaborationproject.fragments.subsys.mainList.adapter.CaseListAdapter
 
 class MainListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     override fun onBackPressed(): Boolean {
         return true
     }
-    
+
     companion object{
         lateinit var caseViewModel: CaseViewModel
         lateinit var bioViewModel: BioViewModel
@@ -74,7 +73,8 @@ class MainListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
     override fun whichCase(case: Case) {
         caseViewModel.getSelectedCase().value = case
 //        addFragment(this, MeasurementDashboardFragment(), getString(R.string.tag_case_list))
-        replaceFragment(this, MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
+        replaceFragment(this,
+            MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
     }
 
 }

@@ -1,4 +1,4 @@
-package com.viwave.collaborationproject.fragments.mainList
+package com.viwave.collaborationproject.fragments.subsys.mainList
 
 import com.viwave.collaborationproject.data.cases.Case
 
