@@ -11,7 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.navigation.NavigationView
-import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         toolbar.setNavigationIcon(R.drawable.btn_arrow)
 
         //switch fragment
-        switchFragmentToTop(supportFragmentManager, MainListFragment())
+        switchFragmentToTop(supportFragmentManager, CaseListFragment())
 //        drawerLayout.closeDrawer(GravityCompat.START)
     }
 

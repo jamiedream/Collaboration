@@ -8,7 +8,7 @@ import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
-import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment.Companion.bioViewModel
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.utils.InputFormatUtil
 import com.viwave.collaborationproject.utils.LogUtil
 

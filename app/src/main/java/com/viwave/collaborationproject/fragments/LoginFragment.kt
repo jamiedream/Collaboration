@@ -1,14 +1,13 @@
-package com.viwave.collaborationproject.fragments.login
+package com.viwave.collaborationproject.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.viwave.collaborationproject.fragments.BaseFragment
 
 class LoginFragment: BaseFragment() {
 
-    private val TAG = this::class.java
+    private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
         inflater: LayoutInflater,

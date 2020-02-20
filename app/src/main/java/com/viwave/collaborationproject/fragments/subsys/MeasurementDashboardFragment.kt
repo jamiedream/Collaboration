@@ -12,15 +12,15 @@ import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
-import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment
-import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment.Companion.bioViewModel
-import com.viwave.collaborationproject.fragments.subsys.mainList.MainListFragment.Companion.caseViewModel
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
 import com.viwave.collaborationproject.utils.DataFormatUtil
 
 class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     override fun onBackPressed(): Boolean {
-        replaceFragment(this@MeasurementDashboardFragment, MainListFragment(), getString(R.string.tag_case_list))
+        replaceFragment(this@MeasurementDashboardFragment, CaseListFragment(), getString(R.string.tag_case_list))
         return true
     }
 
@@ -70,7 +70,7 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
         view.findViewById<CardView>(R.id.block_temp).setOnClickListener(
             object : View.OnClickListener{
                 override fun onClick(v: View?) {
-                    
+
                 }
             }
         )

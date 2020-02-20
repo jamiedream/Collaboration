@@ -1,11 +1,11 @@
-package com.viwave.collaborationproject.fragments.subsys.mainList.adapter
+package com.viwave.collaborationproject.fragments.subsys.caseList.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.cases.Case
-import com.viwave.collaborationproject.fragments.subsys.mainList.ICaseClicked
+import com.viwave.collaborationproject.fragments.subsys.caseList.ICaseClicked
 
 class CaseListAdapter(private val caseList: MutableList<Case>, private val whichCaseClicked: ICaseClicked): RecyclerView.Adapter<CaseListViewHolder>() {
 

@@ -1,4 +1,4 @@
-package com.viwave.collaborationproject.fragments.subsys.mainList
+package com.viwave.collaborationproject.fragments.subsys.caseList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +16,9 @@ import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.data.cases.CaseViewModel
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment
-import com.viwave.collaborationproject.fragments.subsys.mainList.adapter.CaseListAdapter
+import com.viwave.collaborationproject.fragments.subsys.caseList.adapter.CaseListAdapter
 
-class MainListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
+class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     override fun onBackPressed(): Boolean {
         return true
@@ -56,7 +56,12 @@ class MainListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         setToolbarTitle(getString(R.string.app_name))
         setToolbarLeftIcon(true)
 
-        val caseListAdapter = CaseListAdapter(QueryData().caseList, this)
+        caseList(QueryData().caseList)
+
+    }
+
+    private fun caseList(caseList: MutableList<Case>){
+        val caseListAdapter = CaseListAdapter(caseList, this)
         recyclerView?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = caseListAdapter
@@ -67,7 +72,6 @@ class MainListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                 )
             )
         }
-
     }
 
     override fun whichCase(case: Case) {
