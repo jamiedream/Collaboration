@@ -4,19 +4,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.bios.BioViewModel
 import com.viwave.collaborationproject.data.cases.Case
+import com.viwave.collaborationproject.data.cases.CaseViewModel
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.MeasurementDashboardFragment
 import com.viwave.collaborationproject.fragments.mainList.adapter.CaseListAdapter
+import com.viwave.collaborationproject.utils.LogUtil
 
-class MainListFragment: BaseFragment(), ICaseClicked {
+class MainListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
-    private val TAG = this::class.java
+    override fun onBackPressed(): Boolean {
+        return true
+    }
+    
+    companion object{
+        lateinit var caseViewModel: CaseViewModel
+        lateinit var bioViewModel: BioViewModel
+    }
+
+    private val TAG = this::class.java.simpleName
 
     private val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.cmn_recycler) }
 
@@ -32,8 +46,16 @@ class MainListFragment: BaseFragment(), ICaseClicked {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        caseViewModel = ViewModelProviders.of(this).get(CaseViewModel::class.java)
+        bioViewModel = ViewModelProviders.of(this).get(BioViewModel::class.java)
+    }
+
     override fun onResume() {
         super.onResume()
+        setToolbarTitle(getString(R.string.app_name))
+        setToolbarLeftIcon(true)
 
         val caseListAdapter = CaseListAdapter(QueryData().caseList, this)
         recyclerView?.apply {
@@ -50,8 +72,9 @@ class MainListFragment: BaseFragment(), ICaseClicked {
     }
 
     override fun whichCase(case: Case) {
-        addFragment(this, MeasurementDashboardFragment(case), getString(R.string.tag_case_list))
-//        replaceFragment(this, MeasurementDashboardFragment(case), getString(R.string.tag_case_list))
+        caseViewModel.getSelectedCase().value = case
+//        addFragment(this, MeasurementDashboardFragment(), getString(R.string.tag_case_list))
+        replaceFragment(this, MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
     }
 
 }

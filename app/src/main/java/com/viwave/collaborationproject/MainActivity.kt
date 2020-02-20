@@ -1,11 +1,10 @@
 package com.viwave.collaborationproject
 
 import android.graphics.drawable.Drawable
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.navigation.NavigationView
 import com.viwave.collaborationproject.fragments.mainList.MainListFragment
-import com.viwave.collaborationproject.utils.LogUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,8 +32,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
     }
 
     override fun onResume() {
@@ -112,13 +108,13 @@ class MainActivity : AppCompatActivity() {
      * */
     fun setToolbarTitle(title: String){
         toolbar.title = title
+        setSupportActionBar(toolbar)
     }
 
     fun setToolbarLeftIcon(isDrawer: Boolean, icon: Drawable? = getDrawable(R.drawable.ic_arrow)) {
         when (isDrawer) {
             true -> {
                 reloadDrawer()
-
             }
             false -> {
                 toolbar.navigationIcon = icon

@@ -8,14 +8,15 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
-import com.viwave.collaborationproject.data.bios.BioType
-import com.viwave.collaborationproject.data.cases.Case
-import com.viwave.collaborationproject.utils.LogUtil
+import com.viwave.collaborationproject.data.bios.BioLiveData
+import com.viwave.collaborationproject.fragments.mainList.MainListFragment
+import com.viwave.collaborationproject.fragments.mainList.MainListFragment.Companion.caseViewModel
 
-class MeasurementDashboardFragment(private val case: Case): BaseFragment(), BackPressedDelegate {
+class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     override fun onBackPressed(): Boolean {
-        fragmentManager?.popBackStack()
+        replaceFragment(this@MeasurementDashboardFragment, MainListFragment(), getString(R.string.tag_case_list))
+//        fragmentManager?.popBackStack()
         return true
     }
 
@@ -38,7 +39,9 @@ class MeasurementDashboardFragment(private val case: Case): BaseFragment(), Back
 
     override fun onResume() {
         super.onResume()
-        setToolbarTitle(case.caseName)
+        caseViewModel.getSelectedCase().value?.let {
+            setToolbarTitle(it.caseName)
+        }
         setToolbarLeftIcon(false)
     }
 
@@ -47,7 +50,9 @@ class MeasurementDashboardFragment(private val case: Case): BaseFragment(), Back
         view.findViewById<CardView>(R.id.block_temp).setOnClickListener(
             object : View.OnClickListener{
                 override fun onClick(v: View?) {
-                    addFragment(this@MeasurementDashboardFragment, ManualInputFragment(BioType.Temperature), getString(R.string.tag_case_dashboard))
+                    replaceFragment(this@MeasurementDashboardFragment, ManualInputFragment(
+                        BioLiveData.Companion.BioType.Temperature), getString(R.string.tag_case_manual))
+//                    addFragment(this@MeasurementDashboardFragment, ManualInputFragment(BioLiveData.Companion.BioType.Temperature), getString(R.string.tag_case_dashboard))
                 }
 
             }

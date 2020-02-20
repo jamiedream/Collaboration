@@ -3,18 +3,19 @@ package com.viwave.collaborationproject.fragments
 import android.os.Bundle
 import android.view.*
 import android.widget.EditText
-import androidx.fragment.app.Fragment
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
-import com.viwave.collaborationproject.data.bios.BioType
+import com.viwave.collaborationproject.data.bios.BioLiveData
+import com.viwave.collaborationproject.utils.InputControlUtil
 import com.viwave.collaborationproject.utils.InputFormatUtil
 import com.viwave.collaborationproject.utils.LogUtil
-import kotlinx.android.synthetic.main.layout_dashboard_temp.*
+import java.lang.ref.WeakReference
 
-class ManualInputFragment(private val bioType: String): BaseFragment(), BackPressedDelegate {
+class ManualInputFragment(private val bioType: BioLiveData.Companion.BioType): BaseFragment(), BackPressedDelegate {
 
     override fun onBackPressed(): Boolean {
-        fragmentManager?.popBackStack()
+        replaceFragment(this@ManualInputFragment, MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
+//        fragmentManager?.popBackStack()
         return true
     }
 
@@ -29,18 +30,19 @@ class ManualInputFragment(private val bioType: String): BaseFragment(), BackPres
     ): View? {
 
         when(bioType){
-            BioType.BloodGlucose -> {}
-            BioType.BloodPressure -> {}
-            BioType.Height -> {}
-            BioType.Oxygen -> {}
-            BioType.Pulse -> {}
-            BioType.Respire -> {}
-            BioType.Temperature -> {}
-            BioType.Weight -> {}
+            BioLiveData.Companion.BioType.BloodGlucose -> {}
+            BioLiveData.Companion.BioType.BloodPressure -> {}
+            BioLiveData.Companion.BioType.Height -> {}
+            BioLiveData.Companion.BioType.Oxygen -> {}
+            BioLiveData.Companion.BioType.Pulse -> {}
+            BioLiveData.Companion.BioType.Respire -> {}
+            BioLiveData.Companion.BioType.Temperature -> {}
+            BioLiveData.Companion.BioType.Weight -> {}
 
         }
 
         val view = inflater.inflate(R.layout.layout_manual_temp, container, false)
+        setHasOptionsMenu(true)
         return view
     }
 
@@ -48,16 +50,17 @@ class ManualInputFragment(private val bioType: String): BaseFragment(), BackPres
         super.onViewCreated(view, savedInstanceState)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_manual_add, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_manual_add, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.manual_add -> {
                 LogUtil.logD("ManualInputFragment", "新增資料")
-                fragmentManager?.popBackStack()
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -65,18 +68,18 @@ class ManualInputFragment(private val bioType: String): BaseFragment(), BackPres
 //        return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onResume() {
         super.onResume()
-        setToolbarLeftIcon(false)
         setToolbarTitle(getString(R.string.manual_input))
+        setToolbarLeftIcon(false)
 
         textValue.filters = arrayOf(InputFormatUtil(3, 1))
 
+    }
+
+    override fun onStop() {
+        InputControlUtil.hideKeyboard(WeakReference((activity)))
+        super.onStop()
     }
 
 }

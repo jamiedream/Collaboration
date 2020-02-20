@@ -45,7 +45,9 @@
             android:textSize="@dimen/sp_24"
             android:textColor="@color/silver_light"
             android:layout_marginStart="@dimen/dp_10"
+            android:gravity="center_horizontal"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/value_measurement"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/value_measurement"
             />

@@ -13,7 +13,7 @@ abstract class BaseFragment: Fragment() {
         (activity as MainActivity).setToolbarTitle(title)
     }
 
-    fun setToolbarLeftIcon(isDrawShow: Boolean, icon: Drawable? = context?.getDrawable(R.drawable.ic_arrow)){
+    fun setToolbarLeftIcon(isDrawShow: Boolean, icon: Drawable? = context?.getDrawable(R.drawable.ic_arrow_back)){
         (activity as MainActivity).setToolbarLeftIcon(isDrawShow, icon)
     }
 
