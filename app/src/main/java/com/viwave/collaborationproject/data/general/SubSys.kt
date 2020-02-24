@@ -1,4 +1,4 @@
-package com.viwave.collaborationproject.data.subSys
+package com.viwave.collaborationproject.data.general
 
 data class SubSys(
     val sysCode: String,

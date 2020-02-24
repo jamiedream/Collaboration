@@ -1,10 +1,10 @@
 package com.viwave.collaborationproject.data
 
 import com.google.gson.*
-import com.viwave.collaborationproject.utils.ConvertUtil
 import com.viwave.collaborationproject.data.bios.Bio
-import com.viwave.collaborationproject.data.subSys.Staff
-import com.viwave.collaborationproject.data.subSys.SubSys
+import com.viwave.collaborationproject.data.general.SubSys
+import com.viwave.collaborationproject.data.general.User
+import com.viwave.collaborationproject.utils.ConvertUtil
 import java.lang.reflect.Type
 
 object DataSort{
@@ -12,12 +12,12 @@ object DataSort{
     //todo, check token split symbol
     //login
     val staffInfo =
-        object: JsonDeserializer<Staff>{
+        object: JsonDeserializer<User>{
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): Staff? {
+            ): User? {
                 json?.let {
                     val jsonObject = json.asJsonObject
                     val token = jsonObject.get("token").asString
@@ -36,7 +36,7 @@ object DataSort{
                             )
                         )
                     }
-                    return Staff(id, name, loginTime, token, sysList)
+                    return User(id, name, loginTime, token, sysList)
                 }
                 return null
             }

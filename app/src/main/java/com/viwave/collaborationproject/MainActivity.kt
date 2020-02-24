@@ -22,8 +22,11 @@ class MainActivity : AppCompatActivity() {
     private val navigationListener =
         object: NavigationView.OnNavigationItemSelectedListener{
             override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-                when(menuItem){
-
+                when(menuItem.itemId){
+                    R.string.menu_case_list -> {}
+                    R.string.menu_unupload_data -> {}
+                    R.string.menu_measurement_device -> {}
+                    R.string.menu_about -> {}
                 }
                 return true
             }

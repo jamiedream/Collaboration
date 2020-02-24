@@ -1,6 +1,6 @@
-package com.viwave.collaborationproject.data.subSys
+package com.viwave.collaborationproject.data.general
 
-data class Staff(
+data class User(
     val id: String,
     val name: String,
     val loginTime: String,

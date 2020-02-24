@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_arrow"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/st_mary"
+            android:textSize="@dimen/sp_20"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/hi_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center_horizontal"
+        android:text="xxx 你好 \n請選擇登入系統"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".9"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent=".82"
+        app:layout_constraintTop_toBottomOf="@id/hi_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/item_daily_care"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/sys_daily_care"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_manual_data_block"
+            android:gravity="center"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".46"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_station"
+            app:layout_constraintBottom_toTopOf="@id/item_daily_nursing"
+            />
+
+        <TextView
+            android:id="@+id/item_station"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/sys_station"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_manual_data_block"
+            android:gravity="center"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".46"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_daily_care"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_home_service"
+            />
+
+        <TextView
+            android:id="@+id/item_daily_nursing"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/sys_daily_nursing"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_manual_data_block"
+            android:gravity="center"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".46"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintTop_toBottomOf="@id/item_daily_care"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_home_service"
+            />
+
+        <TextView
+            android:id="@+id/item_home_service"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/sys_home_service"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_manual_data_block"
+            android:gravity="center"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".46"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintTop_toBottomOf="@id/item_station"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_daily_nursing"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

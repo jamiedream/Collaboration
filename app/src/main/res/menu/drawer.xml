@@ -2,24 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/item_one"
-            android:checked="true"
-            android:icon="@drawable/ic_arrow"
-            android:title="首頁" />
+            android:id="@+id/item_case_list"
+            android:title="@string/menu_case_list" />
 
         <item
-            android:id="@+id/item_two"
-            android:icon="@drawable/ic_arrow"
-            android:title="使用說明" />
+            android:id="@+id/item_unupload_data"
+            android:title="@string/menu_unupload_data" />
 
         <item
-            android:id="@+id/action_settings"
-            android:icon="@drawable/ic_arrow"
-            android:title="設定" />
+            android:id="@+id/item_measurement_device"
+            android:title="@string/menu_measurement_device" />
 
         <item
-            android:id="@+id/item_three"
-            android:icon="@drawable/ic_arrow"
-            android:title="關於" />
+            android:id="@+id/item_about"
+            android:title="@string/menu_about" />
     </group>
 </menu>
