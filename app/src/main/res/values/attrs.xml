@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ManualInput">
+        <attr name="manualInputTitle" format="string" />
+        <attr name="manualInputUnit" format="string" />
+        <attr name="manualInputEditIme" format="integer">
+            <enum name="imeNext" value="0x00000005" />
+            <enum name="imeDone" value="0x00000006" />
+        </attr>
+        <attr name="manualInputEditType" format="integer">
+            <enum name="typeNumber" value="0x00000002" />
+            <enum name="typeNumberDecimal" value="0x00002002" />
+        </attr>
+    </declare-styleable>
+
+</resources>
