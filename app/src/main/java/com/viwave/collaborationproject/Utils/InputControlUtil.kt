@@ -11,4 +11,9 @@ object InputControlUtil {
         val imm = weakReference.get()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(weakReference.get()?.currentFocus?.windowToken, 0)
     }
+
+    fun showKeyboard(weakReference: WeakReference<FragmentActivity?>){
+        val imm = weakReference.get()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
+    }
 }

@@ -9,8 +9,10 @@ import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
+import com.viwave.collaborationproject.utils.InputControlUtil
 import com.viwave.collaborationproject.utils.InputFormatUtil
 import com.viwave.collaborationproject.utils.LogUtil
+import java.lang.ref.WeakReference
 
 class ManualInputFragment(private val bioType: BioLiveData.Companion.BioType): BaseFragment(), BackPressedDelegate {
 
@@ -96,6 +98,9 @@ class ManualInputFragment(private val bioType: BioLiveData.Companion.BioType): B
         setToolbarLeftIcon(false)
 
         textValue.filters = arrayOf(InputFormatUtil(3, 1))
+        textValue.requestFocus()
+
+        InputControlUtil.showKeyboard(WeakReference(activity))
 
     }
 

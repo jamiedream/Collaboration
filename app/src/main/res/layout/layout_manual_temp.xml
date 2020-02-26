@@ -62,6 +62,7 @@
             android:background="@drawable/bg_edittext"
             android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_6"
+            android:imeOptions="actionDone"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".6"
             app:layout_constraintStart_toStartOf="@id/title_measurement"

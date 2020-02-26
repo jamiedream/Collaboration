@@ -56,24 +56,16 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
         }
         bioViewModel.getDemoTempData().observe(this, lastTempDataObserver)
 
-        view.findViewById<ImageView>(R.id.add_temp).setOnClickListener(
-            object: View.OnClickListener{
-                override fun onClick(v: View?) {
-                    replaceFragment(this@MeasurementDashboardFragment,
-                        ManualInputFragment(
-                            BioLiveData.Companion.BioType.Temperature
-                        ), getString(R.string.tag_case_manual))
-                }
-            }
-        )
+        view.findViewById<ImageView>(R.id.add_temp).setOnClickListener {
+            replaceFragment(this@MeasurementDashboardFragment,
+                ManualInputFragment(
+                    BioLiveData.Companion.BioType.Temperature
+                ), getString(R.string.tag_case_manual))
+        }
 
-        view.findViewById<CardView>(R.id.block_temp).setOnClickListener(
-            object : View.OnClickListener{
-                override fun onClick(v: View?) {
-
-                }
-            }
-        )
+        view.findViewById<CardView>(R.id.block_temp).setOnClickListener {
+            //todo, to data(diagram or list)
+        }
 
     }
 
