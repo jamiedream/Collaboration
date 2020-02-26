@@ -13,9 +13,9 @@ class GeneralViewModel: ViewModel() {
         )
     }
 
-    var loginUser = MutableLiveData<User>().apply {
+    var loginUser = MutableLiveData<User?>().apply {
         postValue(
-            UserPreference.instance.query(UserKey.USER, null)
+            UserPreference.instance.queryUser(UserKey.USER)
         )
     }
 

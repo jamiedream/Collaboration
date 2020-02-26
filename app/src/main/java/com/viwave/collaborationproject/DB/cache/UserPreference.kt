@@ -59,7 +59,7 @@ class UserPreference private constructor(){
         return userPreferences.getBoolean(key, default)
     }
 
-    fun queryUser(key: String, user: User): User{
+    fun queryUser(key: String): User{
         val json = userPreferences.getString(key, "")
         return Gson().fromJson<User>(json, User::class.java)
     }
