@@ -38,6 +38,7 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
         super.onViewCreated(view, savedInstanceState)
 
         initTempView(view)
+        initBloodGlucose(view)
 
     }
 
@@ -51,20 +52,36 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     private fun initTempView(view: View){
 
-        val lastTempDataObserver = Observer<Float> {
-            view.findViewById<MeasurementItemLayout>(R.id.value_temp).setValue(DataFormatUtil.formatString(it))
-        }
-        bioViewModel.getDemoTempData().observe(this, lastTempDataObserver)
+        bioViewModel.getDemoTempData().observe(
+            this,
+                Observer<Float> {
+                    view.findViewById<MeasurementItemLayout>(R.id.value_temp).setValue(DataFormatUtil.formatString(it))
+                }
+            )
 
         view.findViewById<ImageView>(R.id.add_temp).setOnClickListener {
-            replaceFragment(this@MeasurementDashboardFragment,
-                ManualInputFragment(
-                    BioLiveData.Companion.BioType.Temperature
-                ), getString(R.string.tag_case_manual))
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Temperature
+            replaceFragment(this@MeasurementDashboardFragment, ManualInputFragment(), getString(R.string.tag_case_manual))
         }
 
         view.findViewById<CardView>(R.id.block_temp).setOnClickListener {
             //todo, to data(diagram or list)
+        }
+
+    }
+
+    private fun initBloodGlucose(view: View){
+
+        bioViewModel.getDemoGlucoseData().observe(
+            this,
+            Observer<Int> {
+                view.findViewById<MeasurementItemLayout>(R.id.value_blood_glucose).setValue(it)
+            }
+        )
+
+        view.findViewById<ImageView>(R.id.add_blood_glucose).setOnClickListener {
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.BloodGlucose
+            replaceFragment(this@MeasurementDashboardFragment, ManualInputFragment(), getString(R.string.tag_case_manual))
         }
 
     }

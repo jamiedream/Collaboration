@@ -23,6 +23,9 @@
 
     <string name="blood_glucose">血糖</string>
     <string name="unit_blood_glucose">mg/dL</string>
+    <string name="fasting">空腹</string>
+    <string name="before_meal">餐前</string>
+    <string name="after_meal">餐後</string>
 
     <string name="oxygen">血氧</string>
     <string name="percentage">％</string>
