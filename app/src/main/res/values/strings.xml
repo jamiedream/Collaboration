@@ -9,6 +9,28 @@
     <string name="temperature">體溫</string>
     <string name="unit_celsius">°C</string>
 
+    <string name="respire">呼吸</string>
+    <string name="unit_respire">次數/分鐘</string>
+
+    <string name="blood_pressure">血壓</string>
+    <string name="unit_blood_pressure">mmHg</string>
+
+    <string name="pulse">脈搏</string>
+    <string name="unit_pulse">BPM</string>
+
+    <string name="weight">體重</string>
+    <string name="unit_weight">kg</string>
+
+    <string name="blood_glucose">血糖</string>
+    <string name="unit_blood_glucose">mg/dL</string>
+
+    <string name="oxygen">血氧</string>
+    <string name="percentage">％</string>
+
+    <string name="height">身高</string>
+    <string name="unit_height">公分</string>
+
+
     <string name="menu_case_list">我的照顧清單</string>
     <string name="menu_unupload_data">未上傳資料</string>
     <string name="menu_measurement_device">量測設備</string>
@@ -25,4 +47,8 @@
     <string name="login">登入</string>
 
     <string name="two_dash">--</string>
+    <string name="two_dash_two_value">--/--</string>
+
+    <string name="upload_failed">上傳失敗</string>
+    <string name="upload_success">上傳成功</string>
 </resources>

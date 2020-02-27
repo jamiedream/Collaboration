@@ -11,6 +11,18 @@
         android:layout_height="match_parent">
 
         <include
+            android:id="@+id/block_blood_pressure"
+            layout="@layout/layout_dashboard_blood_pressure"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
             android:id="@+id/block_temp"
             layout="@layout/layout_dashboard_temp"
             android:layout_width="0dp"
@@ -18,9 +30,81 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintWidth_percent="1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/block_blood_pressure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/block_weight"
+            layout="@layout/layout_dashboard_weight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintTop_toBottomOf="@id/block_temp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/block_blood_glucose"
+            layout="@layout/layout_dashboard_blood_glucose"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintTop_toBottomOf="@id/block_weight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/block_oxygen"
+            layout="@layout/layout_dashboard_oxygen"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintTop_toBottomOf="@id/block_blood_glucose"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/block_respire"
+            layout="@layout/layout_dashboard_respire"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintTop_toBottomOf="@id/block_oxygen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/block_height"
+            layout="@layout/layout_dashboard_height"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintTop_toBottomOf="@id/block_respire"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/block_pulse"
+            layout="@layout/layout_dashboard_pulse"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintTop_toBottomOf="@id/block_height"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
