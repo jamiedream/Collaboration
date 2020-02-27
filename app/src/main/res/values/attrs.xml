@@ -20,4 +20,9 @@
         <attr name="measureItemValue" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="AutoFitRecyclerView">
+        <attr name="autoFitItemPaddingWidth" format="integer" />
+        <attr name="autoFitItemColumnCount" format="integer" />
+    </declare-styleable>
+
 </resources>
