@@ -26,7 +26,7 @@ class ManualInputLayout: ConstraintLayout {
     private val unitMeasure by lazy { findViewById<TextView>(R.id.unit_measurement) }
     private val editMeasure by lazy { findViewById<EditText>(R.id.value_measurement) }
     private fun init(context: Context, attributesSet: AttributeSet?){
-        View.inflate(context, R.layout.layout_manual_input, this)
+        View.inflate(context, R.layout.view_manual_input, this)
 
         when(attributesSet != null){ true -> {
             context.theme.obtainStyledAttributes(

@@ -14,4 +14,10 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="MeasureItem">
+        <attr name="measureItemTitle" format="string" />
+        <attr name="measureItemUnit" format="string" />
+        <attr name="measureItemValue" format="string" />
+    </declare-styleable>
+
 </resources>

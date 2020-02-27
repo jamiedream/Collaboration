@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
@@ -15,6 +14,7 @@ import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
+import com.viwave.collaborationproject.fragments.widgets.MeasurementItemLayout
 import com.viwave.collaborationproject.utils.DataFormatUtil
 
 class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
@@ -52,7 +52,7 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
     private fun initTempView(view: View){
 
         val lastTempDataObserver = Observer<Float> {
-            view.findViewById<TextView>(R.id.value_temp).text = DataFormatUtil.formatString(it)
+            view.findViewById<MeasurementItemLayout>(R.id.value_temp).setValue(DataFormatUtil.formatString(it))
         }
         bioViewModel.getDemoTempData().observe(this, lastTempDataObserver)
 
