@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.viwave.collaborationproject.R
 
 class ManualInputLayout: ConstraintLayout {
@@ -42,5 +43,18 @@ class ManualInputLayout: ConstraintLayout {
                 recycle()
             }
         }}
+    }
+
+    fun enableEdit(isEnable: Boolean){
+        if(isEnable){
+            titleMeasure.setTextColor(ContextCompat.getColor(context, R.color.silver_light))
+            unitMeasure.setTextColor(ContextCompat.getColor(context, R.color.silver_light))
+            editMeasure.isEnabled = true
+
+        }else{
+            titleMeasure.setTextColor(ContextCompat.getColor(context, R.color.silver))
+            unitMeasure.setTextColor(ContextCompat.getColor(context, R.color.silver))
+            editMeasure.isEnabled = false
+        }
     }
 }

@@ -20,5 +20,7 @@
     <dimen name="sp_24">24sp</dimen>
 
     <dimen name="border_radius">12dp</dimen>
+    <dimen name="border_width">1dp</dimen>
+    <dimen name="toggle_border_radius">14dp</dimen>
 
 </resources>

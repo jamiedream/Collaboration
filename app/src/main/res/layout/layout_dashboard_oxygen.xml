@@ -42,7 +42,7 @@
             />
 
         <com.viwave.collaborationproject.fragments.widgets.MeasurementItemLayout
-            android:id="@+id/value_pulse"
+            android:id="@+id/value_oxygen_pulse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_24"

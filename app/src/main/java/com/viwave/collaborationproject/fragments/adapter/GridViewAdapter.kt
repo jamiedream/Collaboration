@@ -22,20 +22,36 @@ class GridViewAdapter(dataArray: SparseArray<String>, private val listener: ITog
     private var data = dataArray
     private var toggleList = ArrayList<ToggleButton>()
 
+    companion object{
+        const val TAB_START = 0
+        const val TAB_END = 2
+        const val TAB_CENTER = 1
+    }
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val holder = ViewHolder(
-            LayoutInflater.from(viewGroup.context).inflate(
-                R.layout.view_toggle_button,
-                viewGroup,
-                false
-            )
-        )
+        val holder =
+            when(viewType){
+                TAB_START ->
+                    ViewHolder(LayoutInflater.from(viewGroup.context).inflate(R.layout.view_tab_start, viewGroup, false))
+                TAB_END ->
+                    ViewHolder(LayoutInflater.from(viewGroup.context).inflate(R.layout.view_tab_end, viewGroup, false))
+                else ->
+                    ViewHolder(LayoutInflater.from(viewGroup.context).inflate(R.layout.view_tab_center, viewGroup, false))
+            }
         toggleList.add(holder.toggleButton)
         return holder
     }
 
     override fun getItemCount(): Int {
         return data.size()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if(position == 0){
+            TAB_START
+        }else if(position == data.size() - 1){
+            TAB_END
+        }else TAB_CENTER
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

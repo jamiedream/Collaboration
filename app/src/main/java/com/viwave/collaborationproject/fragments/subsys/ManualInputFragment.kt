@@ -30,6 +30,8 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
 
     private val TAG = this::class.java.simpleName
 
+    private lateinit var note: String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,10 +40,6 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
         val layout = bioViewModel.getSelectedTypeManualLayout().value
         setHasOptionsMenu(true)
         return inflater.inflate(layout?: R.layout.layout_manual_temp, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
 
@@ -57,24 +55,42 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 when(bioViewModel.getSelectedType().value){
                     BioLiveData.Companion.BioType.BloodGlucose -> {
                         //20~600
-                        val value = glucoseEditText.text.toString().replace(",", ".").toInt()
+                        val value = glucoseEditText.text.toString().toInt()
                         when(value){
                             in 20..600 -> {
                                 bioViewModel.getDemoGlucoseData().value = value
+                                bioViewModel.getDemoGlucoseNoteData().value = note
                                 onBackPressed()
                             }
                             else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
                         }
                     }
                     BioLiveData.Companion.BioType.BloodPressure -> {}
-                    BioLiveData.Companion.BioType.Height -> {}
+                    BioLiveData.Companion.BioType.Height -> {
+                        val value = heightEditText.text.toString().replace(",", ".").toFloat()
+                        bioViewModel.getDemoHeightData().value = value
+                        onBackPressed()
+                    }
                     BioLiveData.Companion.BioType.Oxygen -> {}
-                    BioLiveData.Companion.BioType.Pulse -> {}
-                    BioLiveData.Companion.BioType.Respire -> {}
+                    BioLiveData.Companion.BioType.Pulse -> {
+                        val value = pulseEditText.text.toString().toInt()
+                        //40~199
+                        when(value){
+                            in 40..199 -> {
+                                bioViewModel.getDemoPulseData().value = value
+                                onBackPressed()
+                            }
+                            else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    BioLiveData.Companion.BioType.Respire -> {
+                        val value = respireEditText.text.toString().toInt()
+                        bioViewModel.getDemoRespireData().value = value
+                        onBackPressed()
+                    }
                     BioLiveData.Companion.BioType.Temperature -> {
                         //34~42.2
                         val value = tempEditText.text.toString().replace(",", ".").toFloat()
-                        LogUtil.logD(TAG, value)
                         when(value){
                             in 34f..42.2f ->  {
                                 bioViewModel.getDemoTempData().value = value
@@ -83,7 +99,16 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                             else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
                         }
                     }
-                    BioLiveData.Companion.BioType.Weight -> {}
+                    BioLiveData.Companion.BioType.Weight -> {
+                        val value = weightEditText.text.toString().replace(",", ".").toFloat()
+                        when(value){
+                            in 11f..360f -> {
+                                bioViewModel.getDemoWeightData().value = value
+                                onBackPressed()
+                            }
+                            else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                        }
+                    }
 
                 }
 
@@ -95,6 +120,17 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
 
     private lateinit var tempEditText: EditText
     private lateinit var glucoseEditText: EditText
+    private lateinit var weightEditText: EditText
+    private lateinit var respireEditText: EditText
+    private lateinit var heightEditText: EditText
+    private lateinit var pulseEditText: EditText
+
+    private lateinit var systolicEditText: EditText
+    private lateinit var diastolicEditText: EditText
+    private lateinit var bpPulseEditText: EditText
+
+    private lateinit var oxygenEditText: EditText
+    private lateinit var oxygenPulseEditText: EditText
 
     override fun onResume() {
         super.onResume()
@@ -115,18 +151,51 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 listItem.append(2, context?.getString(R.string.after_meal))
                 val gridAdapter = GridViewAdapter(listItem, this)
                 autoFitView.adapter = gridAdapter
+
+                note = listItem[listItem.size() - 1]
             }
-            BioLiveData.Companion.BioType.BloodPressure -> {}
-            BioLiveData.Companion.BioType.Height -> {}
-            BioLiveData.Companion.BioType.Oxygen -> {}
-            BioLiveData.Companion.BioType.Pulse -> {}
-            BioLiveData.Companion.BioType.Respire -> {}
+            BioLiveData.Companion.BioType.BloodPressure -> {
+                systolicEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_sys).findViewById(R.id.value_measurement)
+                diastolicEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_dia).findViewById(R.id.value_measurement)
+                bpPulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_pulse).findViewById(R.id.value_measurement)
+                systolicEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+                diastolicEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+                bpPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+                systolicEditText.requestFocus()
+                
+            }
+            BioLiveData.Companion.BioType.Height -> {
+                heightEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_height).findViewById(R.id.value_measurement)
+                heightEditText.filters = arrayOf(InputFormatUtil(4, 1))
+                heightEditText.requestFocus()
+            }
+            BioLiveData.Companion.BioType.Oxygen -> {
+                oxygenEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen).findViewById(R.id.value_measurement)
+                oxygenPulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen_pulse).findViewById(R.id.value_measurement)
+                oxygenEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+                oxygenPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+                oxygenEditText.requestFocus()
+            }
+            BioLiveData.Companion.BioType.Pulse -> {
+                pulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_pulse).findViewById(R.id.value_measurement)
+                pulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+                pulseEditText.requestFocus()
+            }
+            BioLiveData.Companion.BioType.Respire -> {
+                respireEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_respire).findViewById(R.id.value_measurement)
+                respireEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+                respireEditText.requestFocus()
+            }
             BioLiveData.Companion.BioType.Temperature -> {
                 tempEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_temp).findViewById(R.id.value_measurement)
                 tempEditText.filters = arrayOf(InputFormatUtil(3, 1))
                 tempEditText.requestFocus()
             }
-            BioLiveData.Companion.BioType.Weight -> {}
+            BioLiveData.Companion.BioType.Weight -> {
+                weightEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_weight).findViewById(R.id.value_measurement)
+                weightEditText.filters = arrayOf(InputFormatUtil(4, 1))
+                weightEditText.requestFocus()
+            }
 
         }
 
@@ -135,6 +204,7 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
     }
 
     override fun pressedToggle(toggleName: String) {
+        note = toggleName
         LogUtil.logD(TAG, toggleName)
     }
 

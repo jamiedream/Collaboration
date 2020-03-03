@@ -23,12 +23,12 @@
         />
 
     <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
-        android:id="@+id/manual_glucose"
+        android:id="@+id/manual_bp_sys"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:manualInputTitle="@string/blood_glucose"
-        app:manualInputUnit="@string/unit_blood_glucose"
-        app:manualInputEditIme="imeDone"
+        app:manualInputTitle="@string/systolic"
+        app:manualInputUnit="@string/unit_blood_pressure"
+        app:manualInputEditIme="imeNext"
         app:manualInputEditType="typeNumber"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".6"
@@ -39,18 +39,38 @@
         app:layout_constraintBottom_toBottomOf="@id/icon_measurement"
         />
 
-    <com.viwave.collaborationproject.fragments.widgets.AutoFitRecyclerView
-        android:id="@+id/view_auto_fit"
+    <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
+        android:id="@+id/manual_bp_dia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_24"
-        android:background="@drawable/btn_toggle"
-        android:padding="@dimen/border_width"
-        app:autoFitItemColumnCount="3"
+        android:layout_marginTop="@dimen/dp_12"
+        app:manualInputTitle="@string/diastolic"
+        app:manualInputUnit="@string/unit_blood_pressure"
+        app:manualInputEditIme="imeNext"
+        app:manualInputEditType="typeNumber"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".6"
-        app:layout_constraintTop_toBottomOf="@id/manual_glucose"
+        app:layout_constraintVertical_bias=".2"
         app:layout_constraintStart_toEndOf="@id/icon_measurement"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/manual_bp_sys"
         />
+
+    <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
+        android:id="@+id/manual_bp_pulse"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        app:manualInputTitle="@string/pulse"
+        app:manualInputUnit="@string/unit_pulse"
+        app:manualInputEditIme="imeDone"
+        app:manualInputEditType="typeNumber"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".6"
+        app:layout_constraintVertical_bias=".2"
+        app:layout_constraintStart_toEndOf="@id/icon_measurement"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/manual_bp_dia"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

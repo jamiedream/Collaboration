@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         //switch fragment
         switchFragmentToTop(supportFragmentManager, CaseListFragment())
 //        drawerLayout.closeDrawer(GravityCompat.START)
+
     }
 
     private fun switchPage(){

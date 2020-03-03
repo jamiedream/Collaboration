@@ -39,6 +39,12 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
         initTempView(view)
         initBloodGlucose(view)
+        initWeight(view)
+        initRespire(view)
+        initHeight(view)
+        initPulse(view)
+        initBloodPressure(view)
+        initOxygen(view)
 
     }
 
@@ -61,7 +67,7 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
         view.findViewById<ImageView>(R.id.add_temp).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Temperature
-            replaceFragment(this@MeasurementDashboardFragment, ManualInputFragment(), getString(R.string.tag_case_manual))
+            intentToManualInput()
         }
 
         view.findViewById<CardView>(R.id.block_temp).setOnClickListener {
@@ -81,9 +87,92 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
         view.findViewById<ImageView>(R.id.add_blood_glucose).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.BloodGlucose
-            replaceFragment(this@MeasurementDashboardFragment, ManualInputFragment(), getString(R.string.tag_case_manual))
+            intentToManualInput()
         }
 
     }
 
+    private fun initWeight(view: View){
+
+        bioViewModel.getDemoWeightData().observe(
+            this,
+            Observer<Float> {
+                view.findViewById<MeasurementItemLayout>(R.id.value_weight).setValue(it)
+            }
+        )
+
+        view.findViewById<ImageView>(R.id.add_weight).setOnClickListener {
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Weight
+            intentToManualInput()
+        }
+    }
+
+    private fun initRespire(view: View){
+
+        bioViewModel.getDemoRespireData().observe(
+            this,
+            Observer<Int> {
+                view.findViewById<MeasurementItemLayout>(R.id.value_respire).setValue(it)
+            }
+        )
+
+        view.findViewById<ImageView>(R.id.add_respire).setOnClickListener {
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Respire
+            intentToManualInput()
+        }
+
+    }
+
+    private fun initHeight(view: View){
+
+        bioViewModel.getDemoHeightData().observe(
+            this,
+            Observer<Float> {
+                view.findViewById<MeasurementItemLayout>(R.id.value_height).setValue(it)
+            }
+        )
+
+        view.findViewById<ImageView>(R.id.add_height).setOnClickListener {
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Height
+            intentToManualInput()
+        }
+    }
+
+    private fun initPulse(view: View){
+
+        bioViewModel.getDemoPulseData().observe(
+            this,
+            Observer<Int> {
+                view.findViewById<MeasurementItemLayout>(R.id.value_pulse).setValue(it)
+            }
+        )
+
+        view.findViewById<ImageView>(R.id.add_pulse).setOnClickListener {
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Pulse
+            intentToManualInput()
+        }
+
+    }
+
+    private fun initBloodPressure(view: View){
+
+        view.findViewById<ImageView>(R.id.add_blood_pressure).setOnClickListener {
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.BloodPressure
+            intentToManualInput()
+        }
+
+    }
+
+    private fun initOxygen(view: View){
+
+        view.findViewById<ImageView>(R.id.add_oxygen).setOnClickListener {
+            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Oxygen
+            intentToManualInput()
+        }
+
+    }
+
+    private fun intentToManualInput(){
+        replaceFragment(this@MeasurementDashboardFragment, ManualInputFragment(), getString(R.string.tag_case_manual))
+    }
 }

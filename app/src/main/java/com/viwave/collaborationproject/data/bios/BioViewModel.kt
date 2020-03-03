@@ -20,6 +20,12 @@ open class BioViewModel: ViewModel() {
             when(selectedType?.value){
                 BioLiveData.Companion.BioType.BloodGlucose -> R.layout.layout_manual_blood_glucose
                 BioLiveData.Companion.BioType.Temperature -> R.layout.layout_manual_temp
+                BioLiveData.Companion.BioType.Weight -> R.layout.layout_manual_weight
+                BioLiveData.Companion.BioType.Respire -> R.layout.layout_manual_respire
+                BioLiveData.Companion.BioType.Height -> R.layout.layout_manual_height
+                BioLiveData.Companion.BioType.Pulse -> R.layout.layout_manual_pulse
+                BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_manual_blood_pressure
+                BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_manual_oxygen
                 else -> 0
             }
         return selectedTypeManualLayout
@@ -40,4 +46,45 @@ open class BioViewModel: ViewModel() {
         }
         return demoGlucoseData!!
     }
+
+    private var demoGlucoseNoteData: MutableLiveData<String>? = null
+    fun getDemoGlucoseNoteData(): MutableLiveData<String> {
+        if(demoGlucoseNoteData == null){
+            demoGlucoseNoteData = BioLiveData().demoGlucoseNoteData()
+        }
+        return demoGlucoseNoteData!!
+    }
+
+    private var demoWeightData: MutableLiveData<Float>? = null
+    fun getDemoWeightData(): MutableLiveData<Float> {
+        if(demoWeightData == null){
+            demoWeightData = BioLiveData().demoWeightData()
+        }
+        return demoWeightData!!
+    }
+
+    private var demoRespireData: MutableLiveData<Int>? = null
+    fun getDemoRespireData(): MutableLiveData<Int> {
+        if(demoRespireData == null){
+            demoRespireData = BioLiveData().demoRespireData()
+        }
+        return demoRespireData!!
+    }
+
+    private var demoHeightData: MutableLiveData<Float>? = null
+    fun getDemoHeightData(): MutableLiveData<Float> {
+        if(demoHeightData == null){
+            demoHeightData = BioLiveData().demoHeightData()
+        }
+        return demoHeightData!!
+    }
+
+    private var demoPulseData: MutableLiveData<Int>? = null
+    fun getDemoPulseData(): MutableLiveData<Int> {
+        if(demoPulseData == null){
+            demoPulseData = BioLiveData().demoPulseData()
+        }
+        return demoPulseData!!
+    }
+
 }
