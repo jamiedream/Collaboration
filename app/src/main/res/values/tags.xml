@@ -3,6 +3,8 @@
     <string name="tag_case_list">Case List</string>
     <string name="tag_case_dashboard">Case Dashboard</string>
     <string name="tag_case_manual">Case Manual</string>
+    <string name="tag_sys_list">Sys List</string>
+    <string name="tag_add_case">Add Case</string>
 
     <string name="tag_open_drawer">Open drawer</string>
     <string name="tag_close_drawer">Close drawer</string>

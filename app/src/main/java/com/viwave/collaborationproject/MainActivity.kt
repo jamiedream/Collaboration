@@ -3,6 +3,7 @@ package com.viwave.collaborationproject
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -10,7 +11,12 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import com.viwave.collaborationproject.DB.cache.UserKey
+import com.viwave.collaborationproject.DB.cache.UserPreference
+import com.viwave.collaborationproject.data.general.GeneralViewModel
+import com.viwave.collaborationproject.fragments.LoginFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 
 class MainActivity : AppCompatActivity() {
@@ -32,40 +38,29 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    companion object{
+        lateinit var generalViewModel: GeneralViewModel
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        generalViewModel = ViewModelProviders.of(this).get(GeneralViewModel::class.java)
+        navDrawer.setNavigationItemSelectedListener(navigationListener)
+        toolbar.setNavigationIcon(R.drawable.btn_arrow)
+        when(UserPreference.instance.query(UserKey.IS_LOGIN, false)){
+            true -> switchFragmentToTop(supportFragmentManager, CaseListFragment())
+            false -> switchFragmentToTop(supportFragmentManager, LoginFragment())
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
 
-        setToolbarTitle(getString(R.string.app_name))
-
-        lockDrawer(true)
-        reloadDrawer()
-
-        navDrawer.setNavigationItemSelectedListener(navigationListener)
-
-        //todo
-        //hide init navigation icon
-        toolbar.setNavigationIcon(R.drawable.btn_arrow)
-
-        //switch fragment
-        switchFragmentToTop(supportFragmentManager, CaseListFragment())
-//        drawerLayout.closeDrawer(GravityCompat.START)
-
     }
 
-    private fun switchPage(){
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            toolbar.setBackgroundColor(getColor(R.color.colorPrimary))
-//        } else {
-//            toolbar.setBackgroundColor(resources.getColor(R.color.colorPrimary))
-//        }
-//        FragmentSwitcher.switchFragmentToTop(supportFragmentManager, fragment)
-//        drawerLayout.closeDrawer(GravityCompat.START)
-    }
 
     private fun switchFragmentToTop(fm: FragmentManager, fragment: Fragment) {
         val transaction = fm.beginTransaction()
@@ -90,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Drawer
      * */
-    private fun lockDrawer(isLock: Boolean){
+    fun lockDrawer(isLock: Boolean){
         if(isLock){
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }else{
@@ -126,6 +121,13 @@ class MainActivity : AppCompatActivity() {
                     onBackPressed()
                 }
             }
+        }
+    }
+
+    fun setToolbarVis(isShowToolbar: Boolean){
+        when(isShowToolbar){
+            true -> toolbar.visibility = View.VISIBLE
+            false -> toolbar.visibility = View.GONE
         }
     }
 }

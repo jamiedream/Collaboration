@@ -1,6 +1,7 @@
 package com.viwave.collaborationproject.data
 
 import com.google.gson.*
+import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.data.general.User
@@ -21,20 +22,24 @@ object DataSort{
                 json?.let {
                     val jsonObject = json.asJsonObject
                     val token = jsonObject.get("token").asString
-                    val tokenArray = token.split("\\.")
-                    val id = ConvertUtil.fromBase64(tokenArray[0])
-                    val name = ConvertUtil.fromBase64(tokenArray[1])
-                    val loginTime = ConvertUtil.fromBase64(tokenArray[2])
+                    val tokenArray = ConvertUtil.fromBase64(token).split(".")
+                    val id = tokenArray[0]
+                    val name = tokenArray[1]
+                    val loginTime = tokenArray[2]
                     val sysArray = jsonObject.get("system").asJsonArray
                     val sysList = mutableListOf<SubSys>()
                     sysArray.forEach {subSys ->
-                        val subSysObject = subSys.asJsonObject
-                        sysList.add(
-                            SubSys(
-                                subSysObject.get("sysCode").asString,
-                                subSysObject.get("sysCode").asString
+                        subSys.asJsonObject.get("sysCode").asString.apply {
+                            sysList.add(
+                                when(this){
+                                    SysKey.DAILY_CARE_CODE -> SysKey.DailyCare
+                                    SysKey.DAILY_NURSING_CODE -> SysKey.DailyNursing
+                                    SysKey.DAILY_STATION_CODE -> SysKey.Station
+                                    SysKey.DAILY_HOME_CARE_CODE -> SysKey.HomeCare
+                                    else -> SysKey.DailyCare
+                                }
                             )
-                        )
+                        }
                     }
                     return User(id, name, loginTime, token, sysList)
                 }

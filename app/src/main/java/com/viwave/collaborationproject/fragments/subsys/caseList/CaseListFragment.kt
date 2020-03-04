@@ -1,14 +1,14 @@
 package com.viwave.collaborationproject.fragments.subsys.caseList
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.viwave.collaborationproject.BackPressedDelegate
+import com.viwave.collaborationproject.DB.cache.SysKey
+import com.viwave.collaborationproject.DB.cache.UserPreference
 import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioViewModel
@@ -17,6 +17,7 @@ import com.viwave.collaborationproject.data.cases.CaseViewModel
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.adapter.CaseListAdapter
+import com.viwave.collaborationproject.utils.LogUtil
 
 class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
@@ -38,7 +39,24 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.view_cmn_recycler, container, false)
+        val view = inflater.inflate(R.layout.view_cmn_recycler, container, false)
+        setHasOptionsMenu(true)
+        return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_case_add, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.case_add -> {
+                LogUtil.logD(TAG, "ADD CASE")
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +71,20 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     override fun onResume() {
         super.onResume()
-        setToolbarTitle(getString(R.string.app_name))
+        setLockDrawer(false)
+        UserPreference.instance.querySubSys().run {
+            setToolbarTitle(
+                getString(
+                    when(this){
+                        SysKey.DailyCare -> R.string.sys_daily_care
+                        SysKey.DailyNursing -> R.string.sys_daily_nursing
+                        SysKey.Station -> R.string.sys_station
+                        SysKey.HomeCare -> R.string.sys_home_service
+                        else -> R.string.app_name
+                    }
+                )
+            )
+        }
         setToolbarLeftIcon(true)
 
         caseList(QueryData().caseList)
@@ -76,7 +107,6 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     override fun whichCase(case: Case) {
         caseViewModel.getSelectedCase().value = case
-//        addFragment(this, MeasurementDashboardFragment(), getString(R.string.tag_case_list))
         replaceFragment(this,
             MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
     }

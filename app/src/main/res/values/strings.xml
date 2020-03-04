@@ -56,4 +56,6 @@
 
     <string name="upload_failed">上傳失敗</string>
     <string name="upload_success">上傳成功</string>
+
+    <string name="login_hi">%s 你好 \n請選擇登入系統</string>
 </resources>

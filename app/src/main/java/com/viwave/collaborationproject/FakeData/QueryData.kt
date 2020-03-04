@@ -1,8 +1,72 @@
 package com.viwave.collaborationproject.FakeData
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.viwave.collaborationproject.data.cases.Case
 
 class QueryData {
+
+    val aObject =
+        JsonObject().apply {
+            this.addProperty("sysCode", "A")
+            this.addProperty("sysName", "居服")
+        }
+    val bObject =
+        JsonObject().apply {
+            this.addProperty("sysCode", "B")
+            this.addProperty("sysName", "居護")
+        }
+
+    val cObject =
+        JsonObject().apply {
+            this.addProperty("sysCode", "C")
+            this.addProperty("sysName", "活力站")
+        }
+
+    val dObject =
+        JsonObject().apply {
+            this.addProperty("sysCode", "D")
+            this.addProperty("sysName", "日照中心")
+        }
+
+
+//    val aObject = JSONObject().put("sysCode", "A").put("sysName", "居服")
+//    val bObject = JSONObject().put("sysCode", "B").put("sysName", "居護")
+//    val cObject = JSONObject().put("sysCode", "C").put("sysName", "活力站")
+//    val dObject = JSONObject().put("sysCode", "D").put("sysName", "日照中心")
+
+//    val sysArray =
+//        JSONArray().put(aObject)
+    val sysArray =
+        JsonArray().apply {
+            this.add(aObject)
+        }
+    val loginReturn =
+        JsonObject().apply {
+            this.addProperty("res", "1")
+            this.addProperty("msg", "1")
+            this.addProperty("token", "MDAwMDAxLkphbWllLjE1ODMzMDQyMDQ=")
+            this.add("system", sysArray as JsonElement)
+        }
+
+
+//    val sysArray2 =
+//        JSONArray().put(aObject).put(bObject).put(cObject).put(dObject)
+    val sysArray2 =
+        JsonArray().apply {
+            this.add(aObject)
+            this.add(bObject)
+            this.add(cObject)
+            this.add(dObject)
+        }
+    val loginReturn2 =
+        JsonObject().apply {
+            this.addProperty("res", "1")
+            this.addProperty("msg", "1")
+            this.addProperty("token", "MDAwMDAxLkphbWllLjE1ODMzMDQyMDQ=")
+            this.add("system", sysArray2 as JsonElement)
+        }
 
     val caseList =
         mutableListOf(

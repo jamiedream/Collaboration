@@ -1,6 +1,7 @@
 package com.viwave.collaborationproject.fragments
 
 import android.graphics.drawable.Drawable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.viwave.collaborationproject.MainActivity
 import com.viwave.collaborationproject.R
@@ -17,6 +18,10 @@ abstract class BaseFragment: Fragment() {
 
     fun setToolbarLeftIcon(isDrawShow: Boolean, icon: Drawable? = context?.getDrawable(R.drawable.ic_arrow_back)){
         (activity as MainActivity).setToolbarLeftIcon(isDrawShow, icon)
+    }
+
+    fun setLockDrawer(isLock: Boolean = true){
+        (activity as MainActivity).lockDrawer(isLock)
     }
 
     /**
@@ -46,7 +51,23 @@ abstract class BaseFragment: Fragment() {
             commit()
     }
 
+    protected var isShowToolBar = true
+
+    override fun onResume() {
+        setLockDrawer()
+        super.onResume()
+        if(!isShowToolBar){
+            (activity as MainActivity).setToolbarVis(isShowToolBar)
+            (activity as AppCompatActivity).supportActionBar?.hide()
+        }
+
+    }
+
     override fun onStop() {
+        if(!isShowToolBar) {
+            (activity as AppCompatActivity).supportActionBar?.show()
+            (activity as MainActivity).setToolbarVis(true)
+        }
         InputControlUtil.hideKeyboard(WeakReference((activity)))
         super.onStop()
     }

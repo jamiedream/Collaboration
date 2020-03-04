@@ -1,15 +1,17 @@
 package com.viwave.collaborationproject.DB.cache
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import com.viwave.collaborationproject.CollaborationApplication
+import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.data.general.User
 
 class UserPreference private constructor(){
 
     private val TAG = this::class.java.simpleName
 
-    val USER_PREFERENCE_NAME = "User"
+    val USER_PREFERENCE_NAME = "UserPreference"
 
     val userPreferences = CollaborationApplication.context.getSharedPreferences(USER_PREFERENCE_NAME, Context.MODE_PRIVATE)
 
@@ -17,11 +19,24 @@ class UserPreference private constructor(){
         val instance: UserPreference by lazy { UserPreference() }
     }
 
-    fun editUser(key: String, user: User){
+    fun editUser(user: User){
+        val edit = userPreferences.edit()
+        val json = Gson().toJson(user)
+        edit.putString(UserKey.USER, json)
+        edit.apply()
+    }
+
+    fun editSubSys(subSys: SubSys){
         val edit = userPreferences.edit()
         val gson = Gson()
-        val json = gson.toJson(user)
-        edit.putString(key, json)
+        val json = gson.toJson(subSys)
+        edit.putString(UserKey.SELECTED_SUBSYS, json)
+        edit.apply()
+    }
+
+    fun edit(key: String, value: Boolean){
+        val edit = userPreferences.edit()
+        edit.putBoolean(key, value)
         edit.apply()
     }
 
@@ -43,6 +58,7 @@ class UserPreference private constructor(){
         edit.apply()
     }
 
+
     fun query(key: String, default: String): String{
         return userPreferences.getString(key, default)?: ""
     }
@@ -59,9 +75,15 @@ class UserPreference private constructor(){
         return userPreferences.getBoolean(key, default)
     }
 
-    fun queryUser(key: String): User{
-        val json = userPreferences.getString(key, "")
-        return Gson().fromJson<User>(json, User::class.java)
+    fun queryUser(): User?{
+        val json = userPreferences.getString(UserKey.USER, "")
+        Log.d("queryUser", json)
+        return Gson().fromJson(json, User::class.java)
+    }
+
+    fun querySubSys(): SubSys?{
+        val json = userPreferences.getString(UserKey.SELECTED_SUBSYS, "")
+        return Gson().fromJson(json, SubSys::class.java)
     }
 
     fun remove(key: String){

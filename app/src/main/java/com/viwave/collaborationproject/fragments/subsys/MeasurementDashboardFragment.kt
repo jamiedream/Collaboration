@@ -1,12 +1,9 @@
 package com.viwave.collaborationproject.fragments.subsys
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
@@ -14,8 +11,6 @@ import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
-import com.viwave.collaborationproject.fragments.widgets.MeasurementItemLayout
-import com.viwave.collaborationproject.utils.DataFormatUtil
 
 class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
@@ -31,7 +26,22 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_case_dashboard, container, false)
+        val view = inflater.inflate(R.layout.fragment_case_dashboard, container, false)
+        setHasOptionsMenu(true)
+        return view
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val item = menu.findItem(R.id.dashboard_no)
+        caseViewModel.getSelectedCase().value?.let {
+            item.setTitle(it.caseNumber)
+        }
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_dashboard_no, menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,13 +68,6 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     private fun initTempView(view: View){
 
-        bioViewModel.getDemoTempData().observe(
-            this,
-                Observer<Float> {
-                    view.findViewById<MeasurementItemLayout>(R.id.value_temp).setValue(DataFormatUtil.formatString(it))
-                }
-            )
-
         view.findViewById<ImageView>(R.id.add_temp).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Temperature
             intentToManualInput()
@@ -78,13 +81,6 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     private fun initBloodGlucose(view: View){
 
-        bioViewModel.getDemoGlucoseData().observe(
-            this,
-            Observer<Int> {
-                view.findViewById<MeasurementItemLayout>(R.id.value_blood_glucose).setValue(it)
-            }
-        )
-
         view.findViewById<ImageView>(R.id.add_blood_glucose).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.BloodGlucose
             intentToManualInput()
@@ -94,13 +90,6 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     private fun initWeight(view: View){
 
-        bioViewModel.getDemoWeightData().observe(
-            this,
-            Observer<Float> {
-                view.findViewById<MeasurementItemLayout>(R.id.value_weight).setValue(it)
-            }
-        )
-
         view.findViewById<ImageView>(R.id.add_weight).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Weight
             intentToManualInput()
@@ -108,13 +97,6 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
     }
 
     private fun initRespire(view: View){
-
-        bioViewModel.getDemoRespireData().observe(
-            this,
-            Observer<Int> {
-                view.findViewById<MeasurementItemLayout>(R.id.value_respire).setValue(it)
-            }
-        )
 
         view.findViewById<ImageView>(R.id.add_respire).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Respire
@@ -125,13 +107,6 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     private fun initHeight(view: View){
 
-        bioViewModel.getDemoHeightData().observe(
-            this,
-            Observer<Float> {
-                view.findViewById<MeasurementItemLayout>(R.id.value_height).setValue(it)
-            }
-        )
-
         view.findViewById<ImageView>(R.id.add_height).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Height
             intentToManualInput()
@@ -139,13 +114,6 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
     }
 
     private fun initPulse(view: View){
-
-        bioViewModel.getDemoPulseData().observe(
-            this,
-            Observer<Int> {
-                view.findViewById<MeasurementItemLayout>(R.id.value_pulse).setValue(it)
-            }
-        )
 
         view.findViewById<ImageView>(R.id.add_pulse).setOnClickListener {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Pulse
