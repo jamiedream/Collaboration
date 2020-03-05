@@ -58,4 +58,7 @@
     <string name="upload_success">上傳成功</string>
 
     <string name="login_hi">%s 你好 \n請選擇登入系統</string>
+
+    <string name="about_app_version">版本號：&#032;%s</string>
+    <string name="about_app_copyright">版本號：&#032;%s</string>
 </resources>

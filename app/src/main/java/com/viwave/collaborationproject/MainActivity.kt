@@ -2,7 +2,6 @@ package com.viwave.collaborationproject
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +15,10 @@ import com.google.android.material.navigation.NavigationView
 import com.viwave.collaborationproject.DB.cache.UserKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
 import com.viwave.collaborationproject.data.general.GeneralViewModel
+import com.viwave.collaborationproject.fragments.AboutFragment
+import com.viwave.collaborationproject.fragments.DeviceFragment
 import com.viwave.collaborationproject.fragments.LoginFragment
+import com.viwave.collaborationproject.fragments.PendingDataFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 
 class MainActivity : AppCompatActivity() {
@@ -26,16 +28,14 @@ class MainActivity : AppCompatActivity() {
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val navDrawer by lazy { findViewById<NavigationView>(R.id.nav_view) }
     private val navigationListener =
-        object: NavigationView.OnNavigationItemSelectedListener{
-            override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-                when(menuItem.itemId){
-                    R.string.menu_case_list -> {}
-                    R.string.menu_unupload_data -> {}
-                    R.string.menu_measurement_device -> {}
-                    R.string.menu_about -> {}
-                }
-                return true
+        NavigationView.OnNavigationItemSelectedListener { menuItem ->
+            when(menuItem.title){
+                getString(R.string.menu_case_list) -> switchFragmentToTop(supportFragmentManager, CaseListFragment())
+                getString(R.string.menu_unupload_data) -> switchFragmentToTop(supportFragmentManager, PendingDataFragment())
+                getString(R.string.menu_measurement_device) -> switchFragmentToTop(supportFragmentManager, DeviceFragment())
+                getString(R.string.menu_about) -> switchFragmentToTop(supportFragmentManager, AboutFragment())
             }
+            true
         }
 
     companion object{
