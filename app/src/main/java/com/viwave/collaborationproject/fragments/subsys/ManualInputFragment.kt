@@ -13,7 +13,7 @@ import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
-import com.viwave.collaborationproject.fragments.adapter.GridViewAdapter
+import com.viwave.collaborationproject.fragments.widgets.adapter.GridViewAdapter
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.widgets.AutoFitRecyclerView
 import com.viwave.collaborationproject.fragments.widgets.ManualInputLayout

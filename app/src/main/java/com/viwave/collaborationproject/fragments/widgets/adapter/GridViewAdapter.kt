@@ -1,4 +1,4 @@
-package com.viwave.collaborationproject.fragments.adapter
+package com.viwave.collaborationproject.fragments.widgets.adapter
 /*
  * Copyright (c) viWave 2019.
  * Create by J.Y Yen 16/ 7/ 2019.
