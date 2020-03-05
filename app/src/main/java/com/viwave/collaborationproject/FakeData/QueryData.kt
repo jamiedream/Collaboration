@@ -30,14 +30,6 @@ class QueryData {
             this.addProperty("sysName", "日照中心")
         }
 
-
-//    val aObject = JSONObject().put("sysCode", "A").put("sysName", "居服")
-//    val bObject = JSONObject().put("sysCode", "B").put("sysName", "居護")
-//    val cObject = JSONObject().put("sysCode", "C").put("sysName", "活力站")
-//    val dObject = JSONObject().put("sysCode", "D").put("sysName", "日照中心")
-
-//    val sysArray =
-//        JSONArray().put(aObject)
     val sysArray =
         JsonArray().apply {
             this.add(aObject)
@@ -50,9 +42,6 @@ class QueryData {
             this.add("system", sysArray as JsonElement)
         }
 
-
-//    val sysArray2 =
-//        JSONArray().put(aObject).put(bObject).put(cObject).put(dObject)
     val sysArray2 =
         JsonArray().apply {
             this.add(aObject)
@@ -60,6 +49,7 @@ class QueryData {
             this.add(cObject)
             this.add(dObject)
         }
+
     val loginReturn2 =
         JsonObject().apply {
             this.addProperty("res", "1")
