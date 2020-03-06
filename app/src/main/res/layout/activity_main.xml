@@ -54,15 +54,14 @@
         app:headerLayout="@layout/layout_drawer_header"
         app:menu="@menu/drawer"
         >
-<!--        <LinearLayout-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
-<!--            <include-->
-<!--                layout="@layout/layout_drawer_header"/>-->
-<!--            <include-->
-<!--                layout="@layout/layout_drawer_menu"/>-->
-<!--        </LinearLayout>-->
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_20"
+            android:text="@string/logout"
+            android:layout_gravity="bottom"
+            />
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -64,6 +64,12 @@ class QueryData {
             Case("4444444", "甄個案", "M", null, null)
         )
 
+    val caseList2 =
+        mutableListOf(
+            Case("3333333", "臼個案", "M", null, null),
+            Case("4444444", "辛個案", "M", null, null)
+        )
+
     val data =
         "{\n" +
                 "    {\n" +

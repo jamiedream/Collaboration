@@ -76,16 +76,26 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         generalViewModel.getSelectedSubSys().observe(this, Observer<SubSys?>{
             setToolbarTitle(
                 when(it?.sysName){
-                    SysKey.DAILY_CARE_NAME -> getString(R.string.sys_daily_care)
-                    SysKey.DAILY_NURSING_NAME -> getString(R.string.sys_daily_nursing)
-                    SysKey.DAILY_STATION_NAME -> getString(R.string.sys_station)
-                    SysKey.DAILY_HOME_CARE_NAME -> getString(R.string.sys_home_service)
+                    SysKey.DAILY_CARE_NAME -> {
+                        caseList(QueryData().caseList)
+                        getString(R.string.sys_daily_care)
+                    }
+                    SysKey.DAILY_NURSING_NAME -> {
+                        caseList(QueryData().caseList2)
+                        getString(R.string.sys_daily_nursing)
+                    }
+                    SysKey.DAILY_STATION_NAME -> {
+                        caseList(QueryData().caseList)
+                        getString(R.string.sys_station)
+                    }
+                    SysKey.DAILY_HOME_CARE_NAME -> {
+                        caseList(QueryData().caseList2)
+                        getString(R.string.sys_home_service)
+                    }
                     else -> getString(R.string.sys_daily_care)
                 }
             )
             setToolbarLeftIcon(true)
-
-            caseList(QueryData().caseList)
         })
 
     }

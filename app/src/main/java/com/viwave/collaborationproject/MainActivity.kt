@@ -3,6 +3,7 @@ package com.viwave.collaborationproject
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -24,6 +25,7 @@ import com.viwave.collaborationproject.fragments.DeviceFragment
 import com.viwave.collaborationproject.fragments.LoginFragment
 import com.viwave.collaborationproject.fragments.PendingDataFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
+import com.viwave.collaborationproject.utils.LogUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
     private val navDrawerName by lazy { navDrawer.getHeaderView(0).findViewById<TextView>(R.id.txt_login_name) }
     private val navDrawerSys by lazy { navDrawer.getHeaderView(0).findViewById<TextView>(R.id.list_subsys) }
+    private val navDrawerLogout by lazy { navDrawer.findViewById<Button>(R.id.btn_logout) }
 
     companion object{
         lateinit var generalViewModel: GeneralViewModel
@@ -110,6 +113,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        navDrawerLogout.setOnClickListener {
+            //dialog: deal with data upload
+//            UserPreference.instance.clear()
+//            switchFragmentToTop(LoginFragment())
+            LogUtil.logD(TAG, "logout")
+        }
     }
 
     private fun switchFragmentToTop(fragment: Fragment) {
@@ -123,6 +133,14 @@ class MainActivity : AppCompatActivity() {
 
         val fragment =
             this.supportFragmentManager.findFragmentById(R.id.host_fragment)
+
+        //todo, test
+        LogUtil.logD(TAG, supportFragmentManager.backStackEntryCount)
+        if(supportFragmentManager.backStackEntryCount == 0){
+            //dialog: sure to close app?
+            LogUtil.logD(TAG, "Last stack")
+            return
+        }
 
         when ((fragment as? BackPressedDelegate)?.onBackPressed()) {
             true -> return

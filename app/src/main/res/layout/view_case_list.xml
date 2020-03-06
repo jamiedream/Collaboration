@@ -32,25 +32,6 @@
             android:textSize="@dimen/sp_16"
             android:textColor="@android:color/black"
             />
-        <LinearLayout
-            android:id="@+id/bp_measurement_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/case_name"
-            >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_s" />
-            <TextView
-                android:id="@+id/bp_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/two_dash"
-                android:textSize="@dimen/sp_12"
-                />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/temp_measurement_count"
@@ -58,7 +39,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_toEndOf="@id/bp_measurement_count"
             >
             <ImageView
                 android:layout_width="wrap_content"
@@ -74,12 +54,75 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bg_measurement_count"
+            android:id="@+id/pulse_measurement_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
             android:layout_toEndOf="@id/temp_measurement_count"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_s" />
+            <TextView
+                android:id="@+id/pulse_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/two_dash"
+                android:textSize="@dimen/sp_12"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/respire_measurement_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/case_name"
+            android:layout_toEndOf="@id/pulse_measurement_count"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_s" />
+            <TextView
+                android:id="@+id/respire_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/two_dash"
+                android:textSize="@dimen/sp_12"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bp_measurement_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/case_name"
+            android:layout_toEndOf="@id/respire_measurement_count"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_s" />
+            <TextView
+                android:id="@+id/bp_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/two_dash"
+                android:textSize="@dimen/sp_12"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bg_measurement_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/case_name"
+            android:layout_toEndOf="@id/bp_measurement_count"
             >
             <ImageView
                 android:layout_width="wrap_content"
@@ -93,17 +136,111 @@
                 android:textSize="@dimen/sp_12"
                 />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/height_measurement_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/case_name"
+            android:layout_toEndOf="@id/bg_measurement_count"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_s" />
+            <TextView
+                android:id="@+id/height_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/two_dash"
+                android:textSize="@dimen/sp_12"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/weight_measurement_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/case_name"
+            android:layout_toEndOf="@id/height_measurement_count"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_s" />
+            <TextView
+                android:id="@+id/weight_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/two_dash"
+                android:textSize="@dimen/sp_12"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/oxygen_measurement_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/case_name"
+            android:layout_toEndOf="@id/weight_measurement_count"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_s" />
+            <TextView
+                android:id="@+id/oxygen_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/two_dash"
+                android:textSize="@dimen/sp_12"
+                />
+        </LinearLayout>
     </RelativeLayout>
 
     <TextView
         android:id="@+id/txt_case_id"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/two_dash"
         android:textSize="@dimen/sp_12"
+        android:gravity="center"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/txt_schedule"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/two_dash"
+        android:textSize="@dimen/sp_12"
+        android:gravity="center"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/txt_case_id"
+        />
+
+    <TextView
+        android:id="@+id/txt_state"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/two_dash"
+        android:textSize="@dimen/sp_12"
+        android:gravity="center"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".12"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/txt_schedule"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
