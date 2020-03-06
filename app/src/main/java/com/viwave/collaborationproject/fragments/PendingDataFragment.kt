@@ -18,7 +18,7 @@ class PendingDataFragment: BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setLockDrawer(false)
         setToolbarTitle(getString(R.string.menu_unupload_data))
+        setToolbarLeftIcon(true)
     }
 }

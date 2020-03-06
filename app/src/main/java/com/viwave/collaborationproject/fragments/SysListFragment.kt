@@ -37,7 +37,10 @@ class SysListFragment: BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        generalViewModel.loginUser.value?.run {
+        setToolbarLeftIcon(false)
+
+        UserPreference.instance.queryUser()?.run {
+            generalViewModel.getLoginUserName().value = this.name
             val sysList = this.sysList
             sysList.forEach {
                 when(it){
@@ -57,6 +60,7 @@ class SysListFragment: BaseFragment() {
             this.isEnabled = true
             this.setOnClickListener {
                 UserPreference.instance.editSubSys(subSys)
+                generalViewModel.getSelectedSubSys().value = subSys
                 replaceFragment(this@SysListFragment, CaseListFragment(), getString(R.string.tag_case_list))
             }
         }

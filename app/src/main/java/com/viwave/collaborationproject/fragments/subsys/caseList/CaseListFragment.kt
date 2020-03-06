@@ -2,18 +2,20 @@ package com.viwave.collaborationproject.fragments.subsys.caseList
 
 import android.os.Bundle
 import android.view.*
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.SysKey
-import com.viwave.collaborationproject.DB.cache.UserPreference
 import com.viwave.collaborationproject.FakeData.QueryData
+import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioViewModel
 import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.data.cases.CaseViewModel
+import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.adapter.CaseListAdapter
@@ -71,23 +73,20 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     override fun onResume() {
         super.onResume()
-        setLockDrawer(false)
-        UserPreference.instance.querySubSys().run {
+        generalViewModel.getSelectedSubSys().observe(this, Observer<SubSys?>{
             setToolbarTitle(
-                getString(
-                    when(this){
-                        SysKey.DailyCare -> R.string.sys_daily_care
-                        SysKey.DailyNursing -> R.string.sys_daily_nursing
-                        SysKey.Station -> R.string.sys_station
-                        SysKey.HomeCare -> R.string.sys_home_service
-                        else -> R.string.app_name
-                    }
-                )
+                when(it?.sysName){
+                    SysKey.DAILY_CARE_NAME -> getString(R.string.sys_daily_care)
+                    SysKey.DAILY_NURSING_NAME -> getString(R.string.sys_daily_nursing)
+                    SysKey.DAILY_STATION_NAME -> getString(R.string.sys_station)
+                    SysKey.DAILY_HOME_CARE_NAME -> getString(R.string.sys_home_service)
+                    else -> getString(R.string.sys_daily_care)
+                }
             )
-        }
-        setToolbarLeftIcon(true)
+            setToolbarLeftIcon(true)
 
-        caseList(QueryData().caseList)
+            caseList(QueryData().caseList)
+        })
 
     }
 

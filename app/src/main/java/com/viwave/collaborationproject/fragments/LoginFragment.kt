@@ -36,7 +36,11 @@ class LoginFragment: BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isShowToolBar = false
+    }
 
+    override fun onResume() {
+        super.onResume()
+        setToolbarLeftIcon(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

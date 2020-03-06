@@ -23,8 +23,8 @@ class AboutFragment: BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setLockDrawer(false)
         setToolbarTitle(getString(R.string.menu_about))
+        setToolbarLeftIcon(true)
         textAppVersion.text = String.format(getString(R.string.about_app_version), BuildConfig.VERSION_NAME)
     }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_daily_care"
+        android:title="@string/sys_daily_care" />
+    <item
+        android:id="@+id/menu_daily_nursing"
+        android:title="@string/sys_daily_nursing" />
+    <item
+        android:id="@+id/menu_station"
+        android:title="@string/sys_station" />
+    <item
+        android:id="@+id/menu_home_care"
+        android:title="@string/sys_home_service" />
+</menu>

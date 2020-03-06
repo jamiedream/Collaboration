@@ -18,7 +18,7 @@ class DeviceFragment: BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setLockDrawer(false)
         setToolbarTitle(getString(R.string.menu_measurement_device))
+        setToolbarLeftIcon(true)
     }
 }

@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
+import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
@@ -60,10 +62,11 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     override fun onResume() {
         super.onResume()
-        caseViewModel.getSelectedCase().value?.let {
+
+        caseViewModel.getSelectedCase().observe(this, Observer<Case>{
             setToolbarTitle(it.caseName)
-        }
-        setToolbarLeftIcon(false)
+            setToolbarLeftIcon(false)
+        })
     }
 
     private fun initTempView(view: View){

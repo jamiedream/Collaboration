@@ -26,7 +26,7 @@ class UserPreference private constructor(){
         edit.apply()
     }
 
-    fun editSubSys(subSys: SubSys){
+    fun editSubSys(subSys: SubSys?){
         val edit = userPreferences.edit()
         val gson = Gson()
         val json = gson.toJson(subSys)

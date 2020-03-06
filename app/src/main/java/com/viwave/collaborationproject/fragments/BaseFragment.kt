@@ -20,10 +20,6 @@ abstract class BaseFragment: Fragment() {
         (activity as MainActivity).setToolbarLeftIcon(isDrawShow, icon)
     }
 
-    fun setLockDrawer(isLock: Boolean = true){
-        (activity as MainActivity).lockDrawer(isLock)
-    }
-
     /**
      * @param nowFragment fragment which showed on screen
      * @param fragmentManager fragmentManager from fragment which show in the screen
@@ -54,7 +50,6 @@ abstract class BaseFragment: Fragment() {
     protected var isShowToolBar = true
 
     override fun onResume() {
-        setLockDrawer()
         super.onResume()
         if(!isShowToolBar){
             (activity as MainActivity).setToolbarVis(isShowToolBar)
