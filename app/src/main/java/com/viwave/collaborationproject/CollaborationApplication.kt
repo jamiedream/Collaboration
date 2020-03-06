@@ -1,8 +1,8 @@
 package com.viwave.collaborationproject
 
-import android.app.Application
+import com.viwaveulife.vuioht.VUMeasurementApplication
 
-class CollaborationApplication: Application() {
+class CollaborationApplication: VUMeasurementApplication() {
 
     companion object{
         lateinit var context: CollaborationApplication
