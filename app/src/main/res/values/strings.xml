@@ -57,16 +57,18 @@
     <string name="two_dash_two_value">--/--</string>
 
     <string name="device_blood_pressure">血壓計(Rossmax X3)</string>
-    <string name="device_blood_glucose">血糖儀(Rossmax HT-100B)</string>
+    <string name="device_blood_glucose">血糖儀(Rossmax HS200)</string>
     <string name="device_temperature">額溫槍(Rossmax HC700)</string>
     <string name="device_bind">綁定</string>
     <string name="device_unbind">解除</string>
+    <string name="device_scan">掃描量測設備</string>
+    <string name="device_notice">提醒</string>
+    <string name="device_request_location_permission_msg">請於取得位置資訊權限選取「同意」，用以使用藍牙設備。</string>
 
     <string name="dashboard_upload_failed">上傳失敗</string>
     <string name="dashboard_upload_success">上傳成功</string>
 
     <string name="about_app_version">版本號：&#032;%s</string>
     <string name="about_app_copyright">版本號：&#032;%s</string>
-
 
 </resources>
