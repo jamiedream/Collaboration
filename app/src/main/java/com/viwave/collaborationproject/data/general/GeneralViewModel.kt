@@ -2,22 +2,15 @@ package com.viwave.collaborationproject.data.general
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.viwave.collaborationproject.DB.cache.UserPreference
 
 class GeneralViewModel: ViewModel() {
 
-    var loginUser = MutableLiveData<User?>().apply {
-        postValue(
-            UserPreference.instance.queryUser()
-        )
-    }
-
-    private var loginUserName: MutableLiveData<String?>? = null
-    fun getLoginUserName(): MutableLiveData<String?>{
-        if(loginUserName == null){
-            loginUserName = GeneralLiveData().getLoginUserName()
+    private var loginUser: MutableLiveData<User?>? = null
+    fun getLoginUser(): MutableLiveData<User?>{
+        if(loginUser == null){
+            loginUser = GeneralLiveData().getLoginUser()
         }
-        return loginUserName!!
+        return loginUser!!
     }
 
     private var selectedSubSys: MutableLiveData<SubSys?>? = null

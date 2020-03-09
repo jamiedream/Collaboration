@@ -20,6 +20,7 @@ import com.viwave.collaborationproject.DB.cache.UserKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
 import com.viwave.collaborationproject.data.general.GeneralViewModel
 import com.viwave.collaborationproject.data.general.SubSys
+import com.viwave.collaborationproject.data.general.User
 import com.viwave.collaborationproject.fragments.AboutFragment
 import com.viwave.collaborationproject.fragments.DeviceFragment
 import com.viwave.collaborationproject.fragments.LoginFragment
@@ -70,14 +71,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        generalViewModel.getLoginUserName().removeObserver(userNameObserver)
+        generalViewModel.getLoginUser().removeObserver(userObserver)
         generalViewModel.getSelectedSubSys().removeObserver(subSysObserver)
         super.onStop()
     }
 
-    private val userNameObserver =
-        Observer<String?>{
-            navDrawerName.text = it
+    private val userObserver =
+        Observer<User?>{
+            navDrawerName.text = it?.name
         }
     private val subSysObserver =
         Observer<SubSys?>{
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        generalViewModel.getLoginUserName().observe(this, userNameObserver)
+        generalViewModel.getLoginUser().observe(this, userObserver)
         generalViewModel.getSelectedSubSys().observe(this, subSysObserver)
 
         navDrawerSys.setOnClickListener { v ->

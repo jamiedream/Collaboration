@@ -5,10 +5,10 @@ import com.viwave.collaborationproject.DB.cache.UserPreference
 
 class GeneralLiveData {
 
-    private val loginUserName = MutableLiveData<String?>()
-    internal fun getLoginUserName(): MutableLiveData<String?> {
-        loginUserName.postValue(UserPreference.instance.queryUser()?.name)
-        return loginUserName
+    private val loginUser = MutableLiveData<User?>()
+    internal fun getLoginUser(): MutableLiveData<User?> {
+        loginUser.postValue(UserPreference.instance.queryUser())
+        return loginUser
     }
 
     private val selectedSubSys = MutableLiveData<SubSys?>()
