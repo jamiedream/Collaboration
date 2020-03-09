@@ -57,25 +57,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         generalViewModel = ViewModelProviders.of(this).get(GeneralViewModel::class.java)
+
+        toolbar.setNavigationIcon(R.drawable.btn_arrow)
         lockDrawer(true)
         reloadDrawer()
         navDrawer.setNavigationItemSelectedListener(navigationListener)
-        toolbar.setNavigationIcon(R.drawable.btn_arrow)
         when(UserPreference.instance.query(UserKey.IS_LOGIN, false)){
             true -> switchFragmentToTop(CaseListFragment())
             false -> switchFragmentToTop(LoginFragment())
         }
-
+        navDrawer.menu.getItem(0).isChecked = true
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStop() {
+        generalViewModel.getLoginUserName().removeObserver(userNameObserver)
+        generalViewModel.getSelectedSubSys().removeObserver(subSysObserver)
+        super.onStop()
+    }
 
-        generalViewModel.getLoginUserName().observe(this, Observer<String?>{
+    private val userNameObserver =
+        Observer<String?>{
             navDrawerName.text = it
-        })
-
-        generalViewModel.getSelectedSubSys().observe(this, Observer<SubSys?>{
+        }
+    private val subSysObserver =
+        Observer<SubSys?>{
             UserPreference.instance.editSubSys(it)
             navDrawerSys.text =
                 when(it?.sysName){
@@ -85,8 +90,13 @@ class MainActivity : AppCompatActivity() {
                     SysKey.DAILY_HOME_CARE_NAME -> getString(R.string.sys_home_service)
                     else -> getString(R.string.sys_daily_care)
                 }
-        })
+        }
 
+    override fun onResume() {
+        super.onResume()
+
+        generalViewModel.getLoginUserName().observe(this, userNameObserver)
+        generalViewModel.getSelectedSubSys().observe(this, subSysObserver)
 
         navDrawerSys.setOnClickListener { v ->
             navDrawerSys.isEnabled = false

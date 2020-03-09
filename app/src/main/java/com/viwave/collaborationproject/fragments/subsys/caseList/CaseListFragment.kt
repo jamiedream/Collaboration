@@ -34,8 +34,6 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     private val TAG = this::class.java.simpleName
 
-    private val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.cmn_recycler) }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,19 +59,14 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         caseViewModel = ViewModelProviders.of(this).get(CaseViewModel::class.java)
         bioViewModel = ViewModelProviders.of(this).get(BioViewModel::class.java)
     }
 
-    override fun onResume() {
-        super.onResume()
-        generalViewModel.getSelectedSubSys().observe(this, Observer<SubSys?>{
+    private val subSysObserver =
+        Observer<SubSys?>{
             setToolbarTitle(
                 when(it?.sysName){
                     SysKey.DAILY_CARE_NAME -> {
@@ -96,12 +89,16 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                 }
             )
             setToolbarLeftIcon(true)
-        })
+        }
 
+    override fun onResume() {
+        super.onResume()
+        generalViewModel.getSelectedSubSys().observe(this, subSysObserver)
     }
 
     private fun caseList(caseList: MutableList<Case>){
         val caseListAdapter = CaseListAdapter(caseList, this)
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.cmn_recycler)
         recyclerView?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = caseListAdapter
@@ -118,6 +115,11 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         caseViewModel.getSelectedCase().value = case
         replaceFragment(this,
             MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))
+    }
+
+    override fun onStop() {
+        generalViewModel.getSelectedSubSys().removeObserver(subSysObserver)
+        super.onStop()
     }
 
 }

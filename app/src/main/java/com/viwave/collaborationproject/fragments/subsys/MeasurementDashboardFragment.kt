@@ -10,14 +10,13 @@ import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.fragments.BaseFragment
-import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
 
 class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     override fun onBackPressed(): Boolean {
-        replaceFragment(this@MeasurementDashboardFragment, CaseListFragment(), getString(R.string.tag_case_list))
+        fragmentManager?.popBackStack()
         return true
     }
 
@@ -60,13 +59,20 @@ class MeasurementDashboardFragment(): BaseFragment(), BackPressedDelegate {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        caseViewModel.getSelectedCase().observe(this, Observer<Case>{
+    private val selectedCaseObserver =
+        Observer<Case>{
             setToolbarTitle(it.caseName)
             setToolbarLeftIcon(false)
-        })
+        }
+
+    override fun onResume() {
+        super.onResume()
+        caseViewModel.getSelectedCase().observe(this, selectedCaseObserver)
+    }
+
+    override fun onStop() {
+        caseViewModel.getSelectedCase().removeObserver(selectedCaseObserver)
+        super.onStop()
     }
 
     private fun initTempView(view: View){
