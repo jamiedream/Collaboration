@@ -52,125 +52,16 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.manual_add -> {
-
                 when(bioViewModel.getSelectedType().value){
-                    BioLiveData.Companion.BioType.BloodGlucose -> {
-                        if(!glucoseEditText.text.isNullOrEmpty()) {
-                            //20~600
-                            val value = glucoseEditText.text.toString().toInt()
-                            when (value) {
-                                in 20..600 -> {
-                                    onBackPressed()
-                                }
-                                else -> Toast.makeText(
-                                    context,
-                                    "Warning! Data is not save since exceed regular range.",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }else
-                            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-                    }
-                    BioLiveData.Companion.BioType.BloodPressure -> {}
-                    BioLiveData.Companion.BioType.Height -> {
-                        if(!heightEditText.text.isNullOrEmpty()) {
-                            val value = heightEditText.text.toString().replace(",", ".").toFloat()
-                            onBackPressed()
-                        }else
-                            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-                    }
-                    BioLiveData.Companion.BioType.Oxygen -> {
-                        when{
-                            oxygenEditText.text.isNullOrEmpty() && oxygenPulseEditText.text.isNullOrEmpty() ->
-                                Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-                            oxygenEditText.text.isNullOrEmpty() && !oxygenPulseEditText.text.isNullOrEmpty() ->
-                                Toast.makeText(context, "Warning! Oxygen data is empty.", Toast.LENGTH_LONG).show()
-                            !oxygenEditText.text.isNullOrEmpty() && oxygenPulseEditText.text.isNullOrEmpty() ->
-                                Toast.makeText(context, "Warning! Pulse data is empty.", Toast.LENGTH_LONG).show()
-                            else -> {
-                                //35~100
-                                val oxygenValue = oxygenEditText.text.toString().toInt()
-                                //40~199
-                                val pulseValue = oxygenPulseEditText.text.toString().toInt()
-                                when(oxygenValue) {
-                                    in 35..100 -> {
-                                        when(pulseValue){
-                                            in 40..199 -> {
-                                                onBackPressed()
-                                            }
-                                            else ->
-                                                Toast.makeText(context, "Warning! Pulse data exceed regular range.", Toast.LENGTH_LONG).show()
-                                        }
-                                    }
-                                    else -> {
-                                        when(pulseValue){
-                                            in 40..199 ->
-                                                Toast.makeText(context, "Warning! Oxygen data exceed regular range.", Toast.LENGTH_LONG).show()
-                                            else ->
-                                                Toast.makeText(context, "Warning! Oxygen and pulse data exceed regular range.", Toast.LENGTH_LONG).show()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    BioLiveData.Companion.BioType.Pulse -> {
-                        if(!pulseEditText.text.isNullOrEmpty()) {
-                            val value = pulseEditText.text.toString().toInt()
-                            //40~199
-                            when (value) {
-                                in 40..199 -> {
-                                    onBackPressed()
-                                }
-                                else -> Toast.makeText(
-                                    context,
-                                    "Warning! Data is not save since exceed regular range.",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }else
-                            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-                    }
-                    BioLiveData.Companion.BioType.Respire -> {
-                        if(!respireEditText.text.isNullOrEmpty()) {
-                            val value = respireEditText.text.toString().toInt()
-                            onBackPressed()
-                        }else
-                            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-                    }
-                    BioLiveData.Companion.BioType.Temperature -> {
-                        //34~42.2
-                        if(!tempEditText.text.isNullOrEmpty()){
-                            val value = tempEditText.text.toString().replace(",", ".").toFloat()
-                            when(value){
-                                in 34f..42.2f ->  {
-                                    onBackPressed()
-                                }
-                                else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
-                            }
-                        }else
-                            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-
-                    }
-                    BioLiveData.Companion.BioType.Weight -> {
-                        if(!weightEditText.text.isNullOrEmpty()) {
-                            val value = weightEditText.text.toString().replace(",", ".").toFloat()
-                            when (value) {
-                                in 11f..360f -> {
-                                    onBackPressed()
-                                }
-                                else -> Toast.makeText(
-                                    context,
-                                    "Warning! Data is not save since exceed regular range.",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }else
-                            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-                    }
-
+                    BioLiveData.Companion.BioType.BloodGlucose -> uploadBG()
+                    BioLiveData.Companion.BioType.BloodPressure -> uploadBP()
+                    BioLiveData.Companion.BioType.Height -> uploadHeight()
+                    BioLiveData.Companion.BioType.Oxygen -> uploadOxygen()
+                    BioLiveData.Companion.BioType.Pulse -> uploadPulse()
+                    BioLiveData.Companion.BioType.Respire -> uploadRespire()
+                    BioLiveData.Companion.BioType.Temperature -> uploadTemp()
+                    BioLiveData.Companion.BioType.Weight -> uploadWeight()
                 }
-
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -212,6 +103,14 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 autoFitView.adapter = gridAdapter
 
                 note = listItem[listItem.size() - 1]
+
+                view!!.findViewById<ManualInputLayout>(R.id.manual_glucose).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadBG()
+                        }
+                    }
+                )
             }
             BioLiveData.Companion.BioType.BloodPressure -> {
                 systolicEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_sys).findViewById(R.id.value_measurement)
@@ -222,6 +121,14 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 diastolicEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 bpPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 systolicEditText.requestFocus()
+
+                view!!.findViewById<ManualInputLayout>(R.id.manual_bp_pulse).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadBP()
+                        }
+                    }
+                )
 
                 systolicEditText.addTextChangedListener(
                     object: TextWatcher{
@@ -252,6 +159,7 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
 
                     }
                 )
+
                 diastolicEditText.addTextChangedListener(
                     object: TextWatcher{
                         override fun afterTextChanged(s: Editable?) {
@@ -298,6 +206,13 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 heightEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_height).findViewById(R.id.value_measurement)
                 heightEditText.filters = arrayOf(InputFormatUtil(4, 1))
                 heightEditText.requestFocus()
+                view!!.findViewById<ManualInputLayout>(R.id.manual_height).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadHeight()
+                        }
+                    }
+                )
             }
             BioLiveData.Companion.BioType.Oxygen -> {
                 oxygenEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen).findViewById(R.id.value_measurement)
@@ -305,26 +220,61 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 oxygenEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 oxygenPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 oxygenEditText.requestFocus()
+                view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen_pulse).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadOxygen()
+                        }
+                    }
+                )
             }
             BioLiveData.Companion.BioType.Pulse -> {
                 pulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_pulse).findViewById(R.id.value_measurement)
                 pulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 pulseEditText.requestFocus()
+                view!!.findViewById<ManualInputLayout>(R.id.manual_pulse).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadPulse()
+                        }
+                    }
+                )
             }
             BioLiveData.Companion.BioType.Respire -> {
                 respireEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_respire).findViewById(R.id.value_measurement)
                 respireEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 respireEditText.requestFocus()
+                view!!.findViewById<ManualInputLayout>(R.id.manual_respire).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadRespire()
+                        }
+                    }
+                )
             }
             BioLiveData.Companion.BioType.Temperature -> {
                 tempEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_temp).findViewById(R.id.value_measurement)
                 tempEditText.filters = arrayOf(InputFormatUtil(3, 1))
                 tempEditText.requestFocus()
+                view!!.findViewById<ManualInputLayout>(R.id.manual_temp).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadTemp()
+                        }
+                    }
+                )
             }
             BioLiveData.Companion.BioType.Weight -> {
                 weightEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_weight).findViewById(R.id.value_measurement)
                 weightEditText.filters = arrayOf(InputFormatUtil(4, 1))
                 weightEditText.requestFocus()
+                view!!.findViewById<ManualInputLayout>(R.id.manual_weight).setIMECallback(
+                    object: IUploadListener{
+                        override fun upload() {
+                            uploadWeight()
+                        }
+                    }
+                )
             }
 
         }
@@ -336,6 +286,168 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
     override fun pressedToggle(toggleName: String) {
         note = toggleName
         LogUtil.logD(TAG, toggleName)
+    }
+
+    private fun uploadBG(){
+        if(!glucoseEditText.text.isNullOrEmpty()) {
+            //20~600
+            val value = glucoseEditText.text.toString().toInt()
+            when (value) {
+                in 20..600 -> {
+                    onBackPressed()
+                }
+                else -> Toast.makeText(
+                    context,
+                    "Warning! Data is not save since exceed regular range.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }else
+            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+    }
+
+    private fun uploadTemp(){
+        //34~42.2
+        if(!tempEditText.text.isNullOrEmpty()){
+            val value = tempEditText.text.toString().replace(",", ".").toFloat()
+            when(value){
+                in 34f..42.2f ->  {
+                    onBackPressed()
+                }
+                else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+            }
+        }else
+            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+    }
+
+    private fun uploadBP(){
+        when {
+            systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+            systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && !bpPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Systolic and diastolic data is empty.", Toast.LENGTH_LONG).show()
+            systolicEditText.text.isNullOrEmpty() && !diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Systolic and pulse data is empty.", Toast.LENGTH_LONG).show()
+            !systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Diastolic and pulse data is empty.", Toast.LENGTH_LONG).show()
+            !systolicEditText.text.isNullOrEmpty() && !diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Pulse data is empty.", Toast.LENGTH_LONG).show()
+            !systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && !bpPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Diastolic data is empty.", Toast.LENGTH_LONG).show()
+            systolicEditText.text.isNullOrEmpty() && !diastolicEditText.text.isNullOrEmpty() && !bpPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Systolic data is empty.", Toast.LENGTH_LONG).show()
+            else -> {
+                //30..260
+                val valueSys = systolicEditText.text.toString().toInt()
+                val valueDia = diastolicEditText.text.toString().toInt()
+                val valuePulse = bpPulseEditText.text.toString().toInt()
+                when(valueSys){
+                    in 30..260 -> {
+                        when(valueDia){
+                            in 30..260 -> {
+                                when(valuePulse){
+                                    in 40..199 -> onBackPressed()
+                                    else ->
+                                        Toast.makeText(context, "Warning! Pulse is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            else ->
+                                Toast.makeText(context, "Warning! Diastolic is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    else ->
+                        Toast.makeText(context, "Warning! Systolic is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                }
+
+            }
+        }
+    }
+
+    private fun uploadPulse(){
+        if(!pulseEditText.text.isNullOrEmpty()) {
+            val value = pulseEditText.text.toString().toInt()
+            //40~199
+            when (value) {
+                in 40..199 -> {
+                    onBackPressed()
+                }
+                else -> Toast.makeText(
+                    context,
+                    "Warning! Data is not save since exceed regular range.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }else
+            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+    }
+
+    private fun uploadRespire(){
+        if(!respireEditText.text.isNullOrEmpty()) {
+            val value = respireEditText.text.toString().toInt()
+            onBackPressed()
+        }else
+            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+    }
+
+    private fun uploadWeight(){
+        if(!weightEditText.text.isNullOrEmpty()) {
+            val value = weightEditText.text.toString().replace(",", ".").toFloat()
+            when (value) {
+                in 11f..360f -> {
+                    onBackPressed()
+                }
+                else -> Toast.makeText(
+                    context,
+                    "Warning! Data is not save since exceed regular range.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }else
+            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+    }
+
+    private fun uploadOxygen(){
+        when{
+            oxygenEditText.text.isNullOrEmpty() && oxygenPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+            oxygenEditText.text.isNullOrEmpty() && !oxygenPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Oxygen data is empty.", Toast.LENGTH_LONG).show()
+            !oxygenEditText.text.isNullOrEmpty() && oxygenPulseEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Pulse data is empty.", Toast.LENGTH_LONG).show()
+            else -> {
+                //35~100
+                val oxygenValue = oxygenEditText.text.toString().toInt()
+                //40~199
+                val pulseValue = oxygenPulseEditText.text.toString().toInt()
+                when(oxygenValue) {
+                    in 35..100 -> {
+                        when(pulseValue){
+                            in 40..199 -> {
+                                onBackPressed()
+                            }
+                            else ->
+                                Toast.makeText(context, "Warning! Pulse data exceed regular range.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    else -> {
+                        when(pulseValue){
+                            in 40..199 ->
+                                Toast.makeText(context, "Warning! Oxygen data exceed regular range.", Toast.LENGTH_LONG).show()
+                            else ->
+                                Toast.makeText(context, "Warning! Oxygen and pulse data exceed regular range.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun uploadHeight(){
+        if(!heightEditText.text.isNullOrEmpty()) {
+            val value = heightEditText.text.toString().replace(",", ".").toFloat()
+            onBackPressed()
+        }else
+            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
     }
 
 }

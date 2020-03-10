@@ -3,13 +3,17 @@ package com.viwave.collaborationproject.fragments.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.fragments.subsys.IUploadListener
 
 class ManualInputLayout: ConstraintLayout {
+
+    private val TAG = this::class.java.simpleName
 
     constructor(context: Context): super(context){
         init(context, null)
@@ -40,6 +44,12 @@ class ManualInputLayout: ConstraintLayout {
                 unitMeasure.text = unit
                 editMeasure.imeOptions = ime
                 editMeasure.inputType = type
+                if(ime == EditorInfo.IME_ACTION_DONE){
+                    editMeasure.setOnEditorActionListener { _, actionId, _ ->
+                        callback?.upload()
+                        true
+                    }
+                }
                 recycle()
             }
         }}
@@ -56,5 +66,10 @@ class ManualInputLayout: ConstraintLayout {
             unitMeasure.setTextColor(ContextCompat.getColor(context, R.color.silver))
             editMeasure.isEnabled = false
         }
+    }
+
+    private var callback: IUploadListener? = null
+    fun setIMECallback(callback: IUploadListener){
+        this.callback = callback
     }
 }
