@@ -1,6 +1,7 @@
 package com.viwave.collaborationproject.DB.cache
 
 object DeviceKey {
+
     const val DEVICE_SKU_BP_X3:String = "RM_BP_X3"
     const val DEVICE_SKU_BP_X5:String = "RM_BP_X5"
     const val DEVICE_SKU_TM_HC700:String = "RM_TM_HC700"
@@ -18,6 +19,8 @@ object DeviceKey {
     const val DEVICE_KEY_WEIGHT = "Body Fat Monitors"
 
     const val DEVICE_X3 = "X3"
+    const val DEVICE_X5 = "X5"
+    const val DEVICE_HT100 = "HT100"
     const val DEVICE_HS200 = "HS200"
     const val DEVICE_HC700 = "HC700"
 }

@@ -34,6 +34,7 @@ class QueryData {
         JsonArray().apply {
             this.add(aObject)
         }
+
     val loginReturn =
         JsonObject().apply {
             this.addProperty("res", "1")
@@ -54,7 +55,7 @@ class QueryData {
         JsonObject().apply {
             this.addProperty("res", "1")
             this.addProperty("msg", "1")
-            this.addProperty("token", "MDAwMDAxLkphbWllLjE1ODMzMDQyMDQ=")
+            this.addProperty("token", "MDAwMDAyLkx1Y3kuMjU4MzMwNDIwNA==")
             this.add("system", sysArray2 as JsonElement)
         }
 

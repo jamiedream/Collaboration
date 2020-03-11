@@ -87,9 +87,18 @@ class DeviceFragment: BaseFragment() {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
         }
 
-        initBPX3()
-        initTempHC700()
-        initBGHS200()
+        initBtns()
+
+        vuBleManager.allObserveDevice.forEach {
+            PreferenceUtil.loadDevice(it.value.id)?.let {measurementDevice ->
+                when(measurementDevice.deviceName){
+                    DeviceKey.DEVICE_X3 -> initBP(measurementDevice.macAddress)
+                    DeviceKey.DEVICE_HC700 -> initTemp(measurementDevice.macAddress)
+                    DeviceKey.DEVICE_HS200 -> initBG(measurementDevice.macAddress)
+                }
+            }
+        }
+
     }
 
     override fun onRequestPermissionsResult(
@@ -124,15 +133,25 @@ class DeviceFragment: BaseFragment() {
             }
         }
 
-    private fun initBPX3() {
-        val device = vuBleManager.getObserveDevice(txtMacBP.text.toString())
-        if (device != null) {
-            btnBindBP.text = stringUnbind
-            txtMacBP.text = device.id
-        } else {
-            btnBindBP.text = stringBind
-        }
+    private fun initBP(macAddress: String) {
+        val device = vuBleManager.getObserveDevice(macAddress)
+        btnBindBP.text = stringUnbind
+        txtMacBP.text = device.id
+    }
 
+    private fun initBG(macAddress: String) {
+        val device = vuBleManager.getObserveDevice(macAddress)
+        btnBindBG.text = stringUnbind
+        txtMacBG.text = device.id
+    }
+
+    private fun initTemp(macAddress: String) {
+        val device = vuBleManager.getObserveDevice(macAddress)
+        btnBindTemp.text = stringUnbind
+        txtMacTemp.text = device.id
+    }
+
+    private fun initBtns(){
         btnBindBP.setOnClickListener(
             object : View.OnClickListener {
                 override fun onClick(v: View?) {
@@ -161,16 +180,6 @@ class DeviceFragment: BaseFragment() {
 
             }
         )
-    }
-
-    private fun initBGHS200() {
-        val device = vuBleManager.getObserveDevice(txtMacBG.text.toString())
-        if (device != null) {
-            btnBindBG.text = stringUnbind
-            txtMacBG.text = device.id
-        } else {
-            btnBindBG.text = stringBind
-        }
 
         btnBindBG.setOnClickListener(
             object : View.OnClickListener {
@@ -200,16 +209,6 @@ class DeviceFragment: BaseFragment() {
 
             }
         )
-    }
-
-    private fun initTempHC700() {
-        val device = vuBleManager.getObserveDevice(txtMacTemp.text.toString())
-        if (device != null) {
-            btnBindTemp.text = stringUnbind
-            txtMacTemp.text = device.id
-        } else {
-            btnBindTemp.text = stringBind
-        }
 
         btnBindTemp.setOnClickListener(
             object : View.OnClickListener {
@@ -239,6 +238,7 @@ class DeviceFragment: BaseFragment() {
 
             }
         )
+
     }
 
     private fun showRequestLocationPermissionNotice() {

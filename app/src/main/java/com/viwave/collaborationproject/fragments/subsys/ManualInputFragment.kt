@@ -11,15 +11,18 @@ import android.widget.Toast
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
+import com.viwave.collaborationproject.data.bios.BioUpload
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
+import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment.Companion.MEASURE_CASE_NO
+import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment.Companion.MEASURE_SCDID
+import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment.Companion.MEASURE_STAFF_ID
+import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment.Companion.MEASURE_SYS_CODE
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.widgets.AutoFitRecyclerView
 import com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
 import com.viwave.collaborationproject.fragments.widgets.adapter.GridViewAdapter
-import com.viwave.collaborationproject.utils.InputControlUtil
-import com.viwave.collaborationproject.utils.InputFormatUtil
-import com.viwave.collaborationproject.utils.LogUtil
+import com.viwave.collaborationproject.utils.*
 import java.lang.ref.WeakReference
 
 class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressedListener {
@@ -82,6 +85,18 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
     private lateinit var oxygenEditText: EditText
     private lateinit var oxygenPulseEditText: EditText
 
+    private lateinit var caseNo: String
+    private lateinit var SCDID: String
+    private lateinit var staffId: String
+    private lateinit var sysCode: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        caseNo = this.arguments?.getString(MEASURE_CASE_NO)?: ""
+        SCDID = this.arguments?.getString(MEASURE_SCDID)?: ""
+        staffId = this.arguments?.getString(MEASURE_STAFF_ID)?: ""
+        sysCode = this.arguments?.getString(MEASURE_SYS_CODE)?: ""
+    }
     override fun onResume() {
         super.onResume()
         setToolbarTitle(getString(R.string.manual_input))
@@ -294,6 +309,18 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
             val value = glucoseEditText.text.toString().toInt()
             when (value) {
                 in 20..600 -> {
+                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                    val bgUploadData =
+                        BioUpload(
+                            caseNo,
+                            staffId,
+                            SCDID,
+                            sysCode,
+                            getString(R.string.blood_glucose),
+                            takenAt,
+                            "$value",
+                            note
+                        )
                     onBackPressed()
                 }
                 else -> Toast.makeText(
@@ -312,6 +339,18 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
             val value = tempEditText.text.toString().replace(",", ".").toFloat()
             when(value){
                 in 34f..42.2f ->  {
+                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                    val tempUploadData =
+                        BioUpload(
+                            caseNo,
+                            staffId,
+                            SCDID,
+                            sysCode,
+                            getString(R.string.temperature),
+                            takenAt,
+                            DataFormatUtil.formatString(value),
+                            ""
+                        )
                     onBackPressed()
                 }
                 else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
@@ -346,7 +385,32 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                         when(valueDia){
                             in 30..260 -> {
                                 when(valuePulse){
-                                    in 40..199 -> onBackPressed()
+                                    in 40..199 -> {
+                                        val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                                        val bpUploadData =
+                                            BioUpload(
+                                                caseNo,
+                                                staffId,
+                                                SCDID,
+                                                sysCode,
+                                                getString(R.string.blood_pressure),
+                                                takenAt,
+                                                "${valueSys}/${valueDia}",
+                                                ""
+                                            )
+                                        val bpPulseUploadData =
+                                            BioUpload(
+                                                caseNo,
+                                                staffId,
+                                                SCDID,
+                                                sysCode,
+                                                getString(R.string.pulse),
+                                                takenAt,
+                                                "$valuePulse",
+                                                ""
+                                            )
+                                        onBackPressed()
+                                    }
                                     else ->
                                         Toast.makeText(context, "Warning! Pulse is not save since exceed regular range.", Toast.LENGTH_LONG).show()
                                 }
@@ -369,6 +433,18 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
             //40~199
             when (value) {
                 in 40..199 -> {
+                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                    val pulseUploadData =
+                        BioUpload(
+                            caseNo,
+                            staffId,
+                            SCDID,
+                            sysCode,
+                            getString(R.string.pulse),
+                            takenAt,
+                            "$value",
+                            ""
+                        )
                     onBackPressed()
                 }
                 else -> Toast.makeText(
@@ -384,6 +460,18 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
     private fun uploadRespire(){
         if(!respireEditText.text.isNullOrEmpty()) {
             val value = respireEditText.text.toString().toInt()
+            val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+            val respireUploadData =
+                BioUpload(
+                    caseNo,
+                    staffId,
+                    SCDID,
+                    sysCode,
+                    getString(R.string.respire),
+                    takenAt,
+                    "$value",
+                    ""
+                )
             onBackPressed()
         }else
             Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
@@ -394,6 +482,18 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
             val value = weightEditText.text.toString().replace(",", ".").toFloat()
             when (value) {
                 in 11f..360f -> {
+                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                    val weightUploadData =
+                        BioUpload(
+                            caseNo,
+                            staffId,
+                            SCDID,
+                            sysCode,
+                            getString(R.string.weight),
+                            takenAt,
+                            DataFormatUtil.formatString(value),
+                            ""
+                        )
                     onBackPressed()
                 }
                 else -> Toast.makeText(
@@ -423,6 +523,29 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                     in 35..100 -> {
                         when(pulseValue){
                             in 40..199 -> {
+                                val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                                val oxygenUploadData =
+                                    BioUpload(
+                                        caseNo,
+                                        staffId,
+                                        SCDID,
+                                        sysCode,
+                                        getString(R.string.oxygen),
+                                        takenAt,
+                                        "$oxygenValue",
+                                        ""
+                                    )
+                                val oxygenPulseUploadData =
+                                    BioUpload(
+                                        caseNo,
+                                        staffId,
+                                        SCDID,
+                                        sysCode,
+                                        getString(R.string.pulse),
+                                        takenAt,
+                                        "$pulseValue",
+                                        ""
+                                    )
                                 onBackPressed()
                             }
                             else ->
@@ -445,6 +568,18 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
     private fun uploadHeight(){
         if(!heightEditText.text.isNullOrEmpty()) {
             val value = heightEditText.text.toString().replace(",", ".").toFloat()
+            val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+            val heightUploadData =
+                BioUpload(
+                    caseNo,
+                    staffId,
+                    SCDID,
+                    sysCode,
+                    getString(R.string.height),
+                    takenAt,
+                    DataFormatUtil.formatString(value),
+                    ""
+                )
             onBackPressed()
         }else
             Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
