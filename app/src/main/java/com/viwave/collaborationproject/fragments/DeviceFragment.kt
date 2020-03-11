@@ -17,6 +17,7 @@ import android.widget.TextView
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.utils.LogUtil
+import com.viwave.collaborationproject.utils.PreferenceUtil
 import com.viwaveulife.vuioht.VUBleDevice
 import com.viwaveulife.vuioht.VUBleManager
 import com.viwaveulife.vuioht.VUBleScanFilter
@@ -124,7 +125,7 @@ class DeviceFragment: BaseFragment() {
         }
 
     private fun initBPX3() {
-        val device = vuBleManager.getObserveDevice(DeviceKey.DEVICE_SKU_BP_X3)
+        val device = vuBleManager.getObserveDevice(txtMacBP.text.toString())
         if (device != null) {
             btnBindBP.text = stringUnbind
             txtMacBP.text = device.id
@@ -149,7 +150,9 @@ class DeviceFragment: BaseFragment() {
                             adapter.notifyDataSetChanged()
                         }
                         false -> {
-                            vuBleManager.delObserveDevice(device)
+                            val unbindDevice = vuBleManager.getObserveDevice(txtMacBP.text.toString())
+                            PreferenceUtil.saveDevice(unbindDevice.id)
+                            vuBleManager.delObserveDevice(unbindDevice)
                             txtMacBP.text = ""
                             btnBindBP.text = stringBind
                         }
@@ -161,7 +164,7 @@ class DeviceFragment: BaseFragment() {
     }
 
     private fun initBGHS200() {
-        val device = vuBleManager.getObserveDevice(DeviceKey.DEVICE_SKU_BG_HS200)
+        val device = vuBleManager.getObserveDevice(txtMacBG.text.toString())
         if (device != null) {
             btnBindBG.text = stringUnbind
             txtMacBG.text = device.id
@@ -186,7 +189,9 @@ class DeviceFragment: BaseFragment() {
                             adapter.notifyDataSetChanged()
                         }
                         false -> {
-                            vuBleManager.delObserveDevice(device)
+                            val unbindDevice = vuBleManager.getObserveDevice(txtMacBG.text.toString())
+                            PreferenceUtil.saveDevice(unbindDevice.id)
+                            vuBleManager.delObserveDevice(unbindDevice)
                             txtMacBG.text = ""
                             btnBindBG.text = stringBind
                         }
@@ -198,7 +203,7 @@ class DeviceFragment: BaseFragment() {
     }
 
     private fun initTempHC700() {
-        val device = vuBleManager.getObserveDevice(DeviceKey.DEVICE_SKU_TM_HC700)
+        val device = vuBleManager.getObserveDevice(txtMacTemp.text.toString())
         if (device != null) {
             btnBindTemp.text = stringUnbind
             txtMacTemp.text = device.id
@@ -223,7 +228,9 @@ class DeviceFragment: BaseFragment() {
                             adapter.notifyDataSetChanged()
                         }
                         false -> {
-                            vuBleManager.delObserveDevice(device)
+                            val unbindDevice = vuBleManager.getObserveDevice(txtMacTemp.text.toString())
+                            PreferenceUtil.saveDevice(unbindDevice.id)
+                            vuBleManager.delObserveDevice(unbindDevice)
                             txtMacTemp.text = ""
                             btnBindTemp.text = stringBind
                         }
@@ -279,20 +286,46 @@ class DeviceFragment: BaseFragment() {
             val macAddress = device.id
             when (type) {
                 DeviceKey.DEVICE_SKU_BP_X3 -> {
-                    LogUtil.logD(TAG, macAddress)
-                    txtMacBP.text = macAddress
-                    vuBleManager.addObserveDevice(DeviceKey.DEVICE_SKU_BP_X3, device)
-                    btnBindBP.text = stringUnbind
+                    if(vuBleManager.addObserveDevice(macAddress, device)){
+                        val measurementDevice =
+                            MeasurementDevice(
+                                macAddress,
+                                DeviceKey.DEVICE_X3,
+                                type,
+                                DeviceKey.DEVICE_KEY_BP
+                            )
+                        PreferenceUtil.saveDevice(macAddress, measurementDevice)
+                        txtMacBP.text = macAddress
+                        btnBindBP.text = stringUnbind
+                    }
                 }
                 DeviceKey.DEVICE_SKU_BG_HS200 -> {
-                    txtMacBG.text = macAddress
-                    vuBleManager.addObserveDevice(DeviceKey.DEVICE_SKU_BG_HS200, device)
-                    btnBindBG.text = stringUnbind
+                    if(vuBleManager.addObserveDevice(macAddress, device)){
+                        val measurementDevice =
+                            MeasurementDevice(
+                                macAddress,
+                                DeviceKey.DEVICE_HS200,
+                                type,
+                                DeviceKey.DEVICE_KEY_BG
+                            )
+                        PreferenceUtil.saveDevice(macAddress, measurementDevice)
+                        txtMacBG.text = macAddress
+                        btnBindBG.text = stringUnbind
+                    }
                 }
                 DeviceKey.DEVICE_SKU_TM_HC700 -> {
-                    txtMacTemp.text = macAddress
-                    vuBleManager.addObserveDevice(DeviceKey.DEVICE_SKU_TM_HC700, device)
-                    btnBindTemp.text = stringUnbind
+                    if(vuBleManager.addObserveDevice(macAddress, device)){
+                        val measurementDevice =
+                            MeasurementDevice(
+                                macAddress,
+                                DeviceKey.DEVICE_HC700,
+                                type,
+                                DeviceKey.DEVICE_KEY_TEMP
+                            )
+                        PreferenceUtil.saveDevice(macAddress, measurementDevice)
+                        txtMacTemp.text = macAddress
+                        btnBindTemp.text = stringUnbind
+                    }
                 }
             }
             dialog.dismiss()

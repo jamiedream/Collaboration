@@ -10,4 +10,14 @@ object DeviceKey {
     const val DEVICE_SKU_OXIMETER_SA310:String = "RM_PO_SA310"
     const val DEVICE_SKU_OXIMETER_SB210:String = "RM_PO_SB210"
     const val DEVICE_SKU_FAT_SCALE_LS212B:String = "RM_BF_LS212-B"
+
+    const val DEVICE_KEY_BP = "Blood Pressure Monitor"
+    const val DEVICE_KEY_BG = "Blood Glucose Meters"
+    const val DEVICE_KEY_TEMP = "Thermometers"
+    const val DEVICE_KEY_OXYGEN = "Pulse Oximeters"
+    const val DEVICE_KEY_WEIGHT = "Body Fat Monitors"
+
+    const val DEVICE_X3 = "X3"
+    const val DEVICE_HS200 = "HS200"
+    const val DEVICE_HC700 = "HC700"
 }

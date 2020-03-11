@@ -45,7 +45,7 @@ class ManualInputLayout: ConstraintLayout {
                 editMeasure.imeOptions = ime
                 editMeasure.inputType = type
                 if(ime == EditorInfo.IME_ACTION_DONE){
-                    editMeasure.setOnEditorActionListener { _, actionId, _ ->
+                    editMeasure.setOnEditorActionListener { _, _, _ ->
                         callback?.upload()
                         true
                     }
