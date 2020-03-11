@@ -57,7 +57,7 @@
     <string name="two_dash_two_value">--/--</string>
 
     <string name="device_blood_pressure">血壓計(Rossmax X3)</string>
-    <string name="device_blood_glucose">血糖儀(Rossmax HS200)</string>
+    <string name="device_blood_glucose">血糖儀(Rossmax HT100)</string>
     <string name="device_temperature">額溫槍(Rossmax HC700)</string>
     <string name="device_bind">綁定</string>
     <string name="device_unbind">解除</string>

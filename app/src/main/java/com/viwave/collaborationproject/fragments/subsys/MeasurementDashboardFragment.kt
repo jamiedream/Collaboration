@@ -484,6 +484,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Weight
             intentToManualInput()
         }
+
     }
 
     private fun initRespire(view: View){
@@ -501,6 +502,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
             bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Height
             intentToManualInput()
         }
+
     }
 
     private fun initPulse(view: View){

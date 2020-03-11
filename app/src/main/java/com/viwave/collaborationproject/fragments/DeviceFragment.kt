@@ -94,7 +94,7 @@ class DeviceFragment: BaseFragment() {
                 when(measurementDevice.deviceName){
                     DeviceKey.DEVICE_X3 -> initBP(measurementDevice.macAddress)
                     DeviceKey.DEVICE_HC700 -> initTemp(measurementDevice.macAddress)
-                    DeviceKey.DEVICE_HS200 -> initBG(measurementDevice.macAddress)
+                    DeviceKey.DEVICE_HT100 -> initBG(measurementDevice.macAddress)
                 }
             }
         }
@@ -191,7 +191,7 @@ class DeviceFragment: BaseFragment() {
                                 tempView = v
                                 return
                             }
-                            val type = DeviceKey.DEVICE_SKU_BG_HS200
+                            val type = DeviceKey.DEVICE_SKU_BG_HT100
                             scanLeDevice(true, type)
                             showDeviceList(type)
                             vuBleDeviceList.clear()
@@ -259,8 +259,8 @@ class DeviceFragment: BaseFragment() {
                 DeviceKey.DEVICE_SKU_BP_X3 -> {
                     scanFilterList.addAll(VUBleScanFilter.generateRossmaxBloodPressureX3ScanFilterList())
                 }
-                DeviceKey.DEVICE_SKU_BG_HS200 -> {
-                    scanFilterList.addAll(VUBleScanFilter.generateRossmaxBloodGlucoseHS200ScanFilterList())
+                DeviceKey.DEVICE_SKU_BG_HT100 -> {
+                    scanFilterList.addAll(VUBleScanFilter.generateRossmaxBloodGlucoseHT100ScanFilterList())
                 }
                 DeviceKey.DEVICE_SKU_TM_HC700 -> {
                     scanFilterList.addAll(VUBleScanFilter.generateRossmaxThermometerHC700ScanFilterList())
@@ -299,12 +299,12 @@ class DeviceFragment: BaseFragment() {
                         btnBindBP.text = stringUnbind
                     }
                 }
-                DeviceKey.DEVICE_SKU_BG_HS200 -> {
+                DeviceKey.DEVICE_SKU_BG_HT100 -> {
                     if(vuBleManager.addObserveDevice(macAddress, device)){
                         val measurementDevice =
                             MeasurementDevice(
                                 macAddress,
-                                DeviceKey.DEVICE_HS200,
+                                DeviceKey.DEVICE_HT100,
                                 type,
                                 DeviceKey.DEVICE_KEY_BG
                             )
