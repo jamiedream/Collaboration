@@ -1,2 +1,2 @@
 rootProject.name='CollaborationProject'
-include ':app'
+include ':app', ':ViChartLib'
