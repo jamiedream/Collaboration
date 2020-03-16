@@ -3,31 +3,39 @@ package com.viwave.collaborationproject.FakeData
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_CARE_CODE
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_CARE_NAME
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_HOME_CARE_CODE
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_HOME_CARE_NAME
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_NURSING_CODE
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_NURSING_NAME
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_STATION_CODE
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_STATION_NAME
 import com.viwave.collaborationproject.data.cases.Case
 
 class QueryData {
 
     val aObject =
         JsonObject().apply {
-            this.addProperty("sysCode", "A")
-            this.addProperty("sysName", "居服")
+            this.addProperty("sysCode", DAILY_CARE_CODE)
+            this.addProperty("sysName", DAILY_CARE_NAME)
         }
     val bObject =
         JsonObject().apply {
-            this.addProperty("sysCode", "B")
-            this.addProperty("sysName", "居護")
+            this.addProperty("sysCode", DAILY_NURSING_CODE)
+            this.addProperty("sysName", DAILY_NURSING_NAME)
         }
 
     val cObject =
         JsonObject().apply {
-            this.addProperty("sysCode", "C")
-            this.addProperty("sysName", "活力站")
+            this.addProperty("sysCode", DAILY_STATION_CODE)
+            this.addProperty("sysName", DAILY_STATION_NAME)
         }
 
     val dObject =
         JsonObject().apply {
-            this.addProperty("sysCode", "D")
-            this.addProperty("sysName", "日照中心")
+            this.addProperty("sysCode", DAILY_HOME_CARE_CODE)
+            this.addProperty("sysName", DAILY_HOME_CARE_NAME)
         }
 
     val sysArray =

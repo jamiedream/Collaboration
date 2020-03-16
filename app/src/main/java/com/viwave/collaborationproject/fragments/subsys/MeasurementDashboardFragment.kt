@@ -13,11 +13,11 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
+import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.bios.BioUpload
-import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
@@ -83,7 +83,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     override fun onPrepareOptionsMenu(menu: Menu) {
         val item = menu.findItem(R.id.dashboard_no)
         caseViewModel.getSelectedCase().value?.let {
-            item.setTitle(it.caseNumber)
+            item.setTitle(it.getCaseNumber)
         }
         super.onPrepareOptionsMenu(menu)
     }
@@ -114,10 +114,10 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private var note: String = ""
 
     private val selectedCaseObserver =
-        Observer<Case>{
-            caseNo = it.caseNumber
-            SCDID = it.SCDTID?: ""
-            setToolbarTitle(it.caseName)
+        Observer<CaseEntity>{
+            caseNo = it.getCaseNumber
+            SCDID = it.getSCDID?: ""
+            setToolbarTitle(it.getCaseName)
             setToolbarLeftIcon(false)
         }
 

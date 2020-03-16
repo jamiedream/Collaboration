@@ -9,13 +9,19 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.GsonBuilder
+import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
+import com.viwave.collaborationproject.DB.remote.CaseDatabase
+import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.DataSort
 import com.viwave.collaborationproject.data.UploadData
 import com.viwave.collaborationproject.data.general.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class LoginFragment: BaseFragment() {
 
@@ -41,42 +47,132 @@ class LoginFragment: BaseFragment() {
     override fun onResume() {
         super.onResume()
         setToolbarLeftIcon(false)
+
+        editAccount.setOnEditorActionListener { _, _, _ ->
+            editPassword.requestFocus()
+            true
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btnLogin.setOnClickListener(
-            object: View.OnClickListener{
-                override fun onClick(v: View?) {
-                    //api login, case list, history data
+        btnLogin.setOnClickListener {
+            //api login, case list, history data
+            when{
+                editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
+                    Toast.makeText(context, "Account and password are empty.", Toast.LENGTH_LONG).show()
+                editAccount.text.isNullOrEmpty() && !editPassword.text.isNullOrEmpty() ->
+                    Toast.makeText(context, "Account is empty.", Toast.LENGTH_LONG).show()
+                !editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
+                    Toast.makeText(context, "Password is empty.", Toast.LENGTH_LONG).show()
+                else ->{
+                    //account: test, pwd: abc123
+                    val loginObject = UploadData.uploadLoginInfo(editAccount.text.toString(), editPassword.text.toString())
                     when{
-                        editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
-                            Toast.makeText(context, "Account and password are empty.", Toast.LENGTH_LONG).show()
-                        editAccount.text.isNullOrEmpty() && !editPassword.text.isNullOrEmpty() ->
-                            Toast.makeText(context, "Account is empty.", Toast.LENGTH_LONG).show()
-                        !editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
-                            Toast.makeText(context, "Password is empty.", Toast.LENGTH_LONG).show()
-                        else ->{
-                            //account: test, pwd: abc123
-                            val loginObject = UploadData.uploadLoginInfo(editAccount.text.toString(), editPassword.text.toString())
-                            when{
-                                editAccount.text.toString() == "test" && editPassword.text.toString() == "abc123" -> {
-                                    val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
-                                    //login success
-                                    UserPreference.instance.editUser(gson.fromJson(QueryData().loginReturn, User::class.java))
-//                                    LogUtil.logD(TAG, gson.fromJson(QueryData().loginReturn2, User::class.java))
-//                                    LogUtil.logD(TAG, UserPreference.instance.queryUser())
-                                    UserPreference.instance.edit(UserKey.IS_LOGIN, true)
-                                    replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
+                        editAccount.text.toString() == "test" && editPassword.text.toString() == "abc123" -> {
+                            val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
+                            //login success
+                            UserPreference.instance.editUser(gson.fromJson(QueryData().loginReturn, User::class.java))
+                            GlobalScope.launch(Dispatchers.IO){
+                                QueryData().caseList.forEach {
+                                    CaseDatabase(context!!).getCaseCareDao().insert(
+                                        CaseEntity.CaseCareEntity(
+                                            it.caseNumber,
+                                            it.caseName,
+                                            it.caseGender,
+                                            it.SCDTID,
+                                            it.startTime,
+                                            false
+                                        )
+                                    )
                                 }
-                                else -> Toast.makeText(context, "Login failed.", Toast.LENGTH_LONG).show()
                             }
+
+//                            LogUtil.logD(TAG, gson.fromJson(QueryData().loginReturn2, User::class.java))
+//                            LogUtil.logD(TAG, UserPreference.instance.queryUser())
+                            UserPreference.instance.edit(UserKey.IS_LOGIN, true)
+                            replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
                         }
+                        editAccount.text.toString() == "test2" && editPassword.text.toString() == "abc123" -> {
+                            val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
+                            //login success
+                            UserPreference.instance.editUser(gson.fromJson(QueryData().loginReturn2, User::class.java))
+                            val sys = QueryData().loginReturn2.getAsJsonArray("system").toMutableList()
+                            GlobalScope.launch(Dispatchers.IO) {
+                                sys.forEach {
+                                    val ob = it.asJsonObject
+                                    when (ob.get("sysCode").asString) {
+                                        SysKey.DAILY_CARE_CODE -> {
+                                            QueryData().caseList.forEach {
+                                                CaseDatabase(context!!).getCaseCareDao().insert(
+                                                    CaseEntity.CaseCareEntity(
+                                                        it.caseNumber,
+                                                        it.caseName,
+                                                        it.caseGender,
+                                                        it.SCDTID,
+                                                        it.startTime,
+                                                        false
+                                                    )
+                                                )
+                                            }
+                                        }
+                                        SysKey.DAILY_NURSING_CODE -> {
+                                            QueryData().caseList2.forEach {
+                                                CaseDatabase(context!!).getCaseNursingDao().insert(
+                                                    CaseEntity.CaseNursingEntity(
+                                                        it.caseNumber,
+                                                        it.caseName,
+                                                        it.caseGender,
+                                                        it.SCDTID,
+                                                        it.startTime,
+                                                        false
+                                                    )
+                                                )
+                                            }
+                                            //todo, load history data
+                                        }
+                                        SysKey.DAILY_STATION_CODE -> {
+                                            QueryData().caseList.forEach {
+                                                CaseDatabase(context!!).getCaseStationDao().insert(
+                                                    CaseEntity.CaseStationEntity(
+                                                        it.caseNumber,
+                                                        it.caseName,
+                                                        it.caseGender,
+                                                        it.SCDTID,
+                                                        it.startTime,
+                                                        false
+                                                    )
+                                                )
+                                            }
+                                        }
+                                        SysKey.DAILY_HOME_CARE_CODE -> {
+                                            QueryData().caseList2.forEach {
+                                                CaseDatabase(context!!).getCaseHomeCareDao().insert(
+                                                    CaseEntity.CaseHomeCareEntity(
+                                                        it.caseNumber,
+                                                        it.caseName,
+                                                        it.caseGender,
+                                                        it.SCDTID,
+                                                        it.startTime,
+                                                        false
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }
+                                    }
+                            }
+
+
+
+                            UserPreference.instance.edit(UserKey.IS_LOGIN, true)
+                            replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
+                        }
+                        else -> Toast.makeText(context, "Login failed.", Toast.LENGTH_LONG).show()
                     }
                 }
-
             }
-        )
+        }
     }
 
 }

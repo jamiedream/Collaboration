@@ -9,17 +9,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.SysKey
-import com.viwave.collaborationproject.FakeData.QueryData
+import com.viwave.collaborationproject.DB.remote.CaseDatabase
+import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioViewModel
-import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.data.cases.CaseViewModel
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.adapter.CaseListAdapter
 import com.viwave.collaborationproject.utils.LogUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
@@ -70,19 +74,39 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
             setToolbarTitle(
                 when(it?.sysName){
                     SysKey.DAILY_CARE_NAME -> {
-                        caseList(QueryData().caseList)
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val caseList = CaseDatabase(context!!).getCaseCareDao().getAll()
+                            withContext(Dispatchers.Main){
+                                caseListView(caseList)
+                            }
+                        }
                         getString(R.string.sys_daily_care)
                     }
                     SysKey.DAILY_NURSING_NAME -> {
-                        caseList(QueryData().caseList2)
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val caseList = CaseDatabase(context!!).getCaseNursingDao().getAll()
+                            withContext(Dispatchers.Main){
+                                caseListView(caseList)
+                            }
+                        }
                         getString(R.string.sys_daily_nursing)
                     }
                     SysKey.DAILY_STATION_NAME -> {
-                        caseList(QueryData().caseList)
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val caseList = CaseDatabase(context!!).getCaseStationDao().getAll()
+                            withContext(Dispatchers.Main){
+                                caseListView(caseList)
+                            }
+                        }
                         getString(R.string.sys_station)
                     }
                     SysKey.DAILY_HOME_CARE_NAME -> {
-                        caseList(QueryData().caseList2)
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val caseList = CaseDatabase(context!!).getCaseHomeCareDao().getAll()
+                            withContext(Dispatchers.Main){
+                                caseListView(caseList)
+                            }
+                        }
                         getString(R.string.sys_home_service)
                     }
                     else -> getString(R.string.sys_daily_care)
@@ -96,7 +120,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         generalViewModel.getSelectedSubSys().observe(this, subSysObserver)
     }
 
-    private fun caseList(caseList: MutableList<Case>){
+    private fun caseListView(caseList: MutableList<out CaseEntity>){
         val caseListAdapter = CaseListAdapter(caseList, this)
         val recyclerView = view?.findViewById<RecyclerView>(R.id.cmn_recycler)
         recyclerView?.apply {
@@ -111,7 +135,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         }
     }
 
-    override fun whichCase(case: Case) {
+    override fun whichCase(case: CaseEntity) {
         caseViewModel.getSelectedCase().value = case
         replaceFragment(this,
             MeasurementDashboardFragment(), getString(R.string.tag_case_dashboard))

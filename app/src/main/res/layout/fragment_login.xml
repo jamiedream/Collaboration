@@ -57,6 +57,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/login_account"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/login_password"
                 android:inputType="textPassword"
+                android:imeOptions="actionDone"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 

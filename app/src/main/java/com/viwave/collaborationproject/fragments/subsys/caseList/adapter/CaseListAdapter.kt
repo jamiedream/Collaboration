@@ -3,11 +3,11 @@ package com.viwave.collaborationproject.fragments.subsys.caseList.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.R
-import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.fragments.subsys.caseList.ICaseClicked
 
-class CaseListAdapter(private val caseList: MutableList<Case>, private val whichCaseClicked: ICaseClicked): RecyclerView.Adapter<CaseListViewHolder>() {
+class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private val whichCaseClicked: ICaseClicked): RecyclerView.Adapter<CaseListViewHolder>() {
 
     private val TAG = this::class.java.simpleName
 
@@ -21,8 +21,8 @@ class CaseListAdapter(private val caseList: MutableList<Case>, private val which
 
     override fun onBindViewHolder(holder: CaseListViewHolder, position: Int) {
 
-        holder.caseNumber.text = caseList[position].caseNumber
-        holder.caseName.text = caseList[position].caseName
+        holder.caseNumber.text = caseList[position].getCaseNumber
+        holder.caseName.text = caseList[position].getCaseName
         holder.itemView.setOnClickListener { whichCaseClicked.whichCase(caseList[position]) }
 
     }
