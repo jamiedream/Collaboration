@@ -9,15 +9,14 @@
     >
     <TextView
         android:id="@+id/title_measurement"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/temperature"
         android:textSize="@dimen/sp_24"
         android:textColor="@color/silver_light"
-        android:layout_marginStart="@dimen/dp_10"
         android:gravity="center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/value_measurement"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/value_measurement"
         />
@@ -35,9 +34,9 @@
         android:imeOptions="actionDone"
         android:textIsSelectable="false"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".6"
+        app:layout_constraintWidth_percent=".8"
         app:layout_constraintStart_toStartOf="@id/title_measurement"
-        app:layout_constraintEnd_toStartOf="@id/unit_measurement"
+        app:layout_constraintEnd_toEndOf="@id/title_measurement"
         app:layout_constraintTop_toBottomOf="@id/title_measurement"
         />
     <TextView
@@ -48,8 +47,9 @@
         android:textSize="@dimen/sp_16"
         android:layout_marginStart="@dimen/dp_4"
         android:textColor="@color/silver_light"
-        app:layout_constraintStart_toEndOf="@id/value_measurement"
-        app:layout_constraintBottom_toBottomOf="@id/value_measurement"
+        app:layout_constraintStart_toStartOf="@id/value_measurement"
+        app:layout_constraintEnd_toEndOf="@id/value_measurement"
+        app:layout_constraintTop_toBottomOf="@id/value_measurement"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

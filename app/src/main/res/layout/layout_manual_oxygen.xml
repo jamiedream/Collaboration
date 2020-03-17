@@ -31,7 +31,7 @@
         app:manualInputEditIme="imeNext"
         app:manualInputEditType="typeNumber"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".6"
+        app:layout_constraintWidth_percent=".4"
         app:layout_constraintVertical_bias=".2"
         app:layout_constraintStart_toEndOf="@id/icon_measurement"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,21 +39,22 @@
         app:layout_constraintBottom_toBottomOf="@id/icon_measurement"
         />
 
-    <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
-        android:id="@+id/manual_oxygen_pulse"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_12"
-        app:manualInputTitle="@string/pulse"
-        app:manualInputUnit="@string/unit_pulse"
-        app:manualInputEditIme="imeDone"
-        app:manualInputEditType="typeNumber"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".6"
-        app:layout_constraintVertical_bias=".2"
-        app:layout_constraintStart_toEndOf="@id/icon_measurement"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manual_oxygen"
-        />
+<!--    <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout-->
+<!--        android:id="@+id/manual_oxygen_pulse"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/dp_12"-->
+<!--        android:visibility="gone"-->
+<!--        app:manualInputTitle="@string/pulse"-->
+<!--        app:manualInputUnit="@string/unit_pulse"-->
+<!--        app:manualInputEditIme="imeDone"-->
+<!--        app:manualInputEditType="typeNumber"-->
+<!--        app:layout_constraintWidth_default="percent"-->
+<!--        app:layout_constraintWidth_percent=".4"-->
+<!--        app:layout_constraintVertical_bias=".2"-->
+<!--        app:layout_constraintStart_toEndOf="@id/icon_measurement"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/manual_oxygen"-->
+<!--        />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

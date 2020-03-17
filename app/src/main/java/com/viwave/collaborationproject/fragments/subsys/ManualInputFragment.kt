@@ -80,10 +80,10 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
 
     private lateinit var systolicEditText: EditText
     private lateinit var diastolicEditText: EditText
-    private lateinit var bpPulseEditText: EditText
+//    private lateinit var bpPulseEditText: EditText
 
     private lateinit var oxygenEditText: EditText
-    private lateinit var oxygenPulseEditText: EditText
+//    private lateinit var oxygenPulseEditText: EditText
 
     private lateinit var caseNo: String
     private lateinit var SCDID: String
@@ -131,13 +131,13 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 systolicEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_sys).findViewById(R.id.value_measurement)
                 diastolicEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_dia).findViewById(R.id.value_measurement)
                 view!!.findViewById<ManualInputLayout>(R.id.manual_bp_dia).enableEdit(false)
-                bpPulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_pulse).findViewById(R.id.value_measurement)
+//                bpPulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_bp_pulse).findViewById(R.id.value_measurement)
                 systolicEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 diastolicEditText.filters = arrayOf(InputFilter.LengthFilter(3))
-                bpPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+//                bpPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 systolicEditText.requestFocus()
 
-                view!!.findViewById<ManualInputLayout>(R.id.manual_bp_pulse).setIMECallback(
+                view!!.findViewById<ManualInputLayout>(R.id.manual_bp_dia).setIMECallback(
                     object: IUploadListener{
                         override fun upload() {
                             uploadBP()
@@ -231,11 +231,11 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
             }
             BioLiveData.Companion.BioType.Oxygen -> {
                 oxygenEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen).findViewById(R.id.value_measurement)
-                oxygenPulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen_pulse).findViewById(R.id.value_measurement)
+//                oxygenPulseEditText = view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen_pulse).findViewById(R.id.value_measurement)
                 oxygenEditText.filters = arrayOf(InputFilter.LengthFilter(3))
-                oxygenPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
+//                oxygenPulseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 oxygenEditText.requestFocus()
-                view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen_pulse).setIMECallback(
+                view!!.findViewById<ManualInputLayout>(R.id.manual_oxygen).setIMECallback(
                     object: IUploadListener{
                         override fun upload() {
                             uploadOxygen()
@@ -361,31 +361,23 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
 
     private fun uploadBP(){
         when {
-            systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
+            systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() ->
                 Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-            systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && !bpPulseEditText.text.isNullOrEmpty() ->
-                Toast.makeText(context, "Warning! Systolic and diastolic data is empty.", Toast.LENGTH_LONG).show()
-            systolicEditText.text.isNullOrEmpty() && !diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
-                Toast.makeText(context, "Warning! Systolic and pulse data is empty.", Toast.LENGTH_LONG).show()
-            !systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
-                Toast.makeText(context, "Warning! Diastolic and pulse data is empty.", Toast.LENGTH_LONG).show()
-            !systolicEditText.text.isNullOrEmpty() && !diastolicEditText.text.isNullOrEmpty() && bpPulseEditText.text.isNullOrEmpty() ->
-                Toast.makeText(context, "Warning! Pulse data is empty.", Toast.LENGTH_LONG).show()
-            !systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() && !bpPulseEditText.text.isNullOrEmpty() ->
-                Toast.makeText(context, "Warning! Diastolic data is empty.", Toast.LENGTH_LONG).show()
-            systolicEditText.text.isNullOrEmpty() && !diastolicEditText.text.isNullOrEmpty() && !bpPulseEditText.text.isNullOrEmpty() ->
+            systolicEditText.text.isNullOrEmpty() && !diastolicEditText.text.isNullOrEmpty() ->
                 Toast.makeText(context, "Warning! Systolic data is empty.", Toast.LENGTH_LONG).show()
+            !systolicEditText.text.isNullOrEmpty() && diastolicEditText.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Warning! Diastolic data is empty.", Toast.LENGTH_LONG).show()
             else -> {
                 //30..260
                 val valueSys = systolicEditText.text.toString().toInt()
                 val valueDia = diastolicEditText.text.toString().toInt()
-                val valuePulse = bpPulseEditText.text.toString().toInt()
+//                val valuePulse = bpPulseEditText.text.toString().toInt()
                 when(valueSys){
                     in 30..260 -> {
                         when(valueDia){
                             in 30..260 -> {
-                                when(valuePulse){
-                                    in 40..199 -> {
+//                                when(valuePulse){
+//                                    in 40..199 -> {
                                         val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
                                         val bpUploadData =
                                             BioUpload(
@@ -398,22 +390,22 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                                                 "${valueSys}/${valueDia}",
                                                 ""
                                             )
-                                        val bpPulseUploadData =
-                                            BioUpload(
-                                                caseNo,
-                                                staffId,
-                                                SCDID,
-                                                sysCode,
-                                                getString(R.string.pulse),
-                                                takenAt,
-                                                "$valuePulse",
-                                                ""
-                                            )
+//                                        val bpPulseUploadData =
+//                                            BioUpload(
+//                                                caseNo,
+//                                                staffId,
+//                                                SCDID,
+//                                                sysCode,
+//                                                getString(R.string.pulse),
+//                                                takenAt,
+//                                                "$valuePulse",
+//                                                ""
+//                                            )
                                         onBackPressed()
-                                    }
-                                    else ->
-                                        Toast.makeText(context, "Warning! Pulse is not save since exceed regular range.", Toast.LENGTH_LONG).show()
-                                }
+//                                    }
+//                                    else ->
+//                                        Toast.makeText(context, "Warning! Pulse is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+//                                }
                             }
                             else ->
                                 Toast.makeText(context, "Warning! Diastolic is not save since exceed regular range.", Toast.LENGTH_LONG).show()
@@ -508,21 +500,17 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
 
     private fun uploadOxygen(){
         when{
-            oxygenEditText.text.isNullOrEmpty() && oxygenPulseEditText.text.isNullOrEmpty() ->
-                Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
-            oxygenEditText.text.isNullOrEmpty() && !oxygenPulseEditText.text.isNullOrEmpty() ->
+            oxygenEditText.text.isNullOrEmpty() ->
                 Toast.makeText(context, "Warning! Oxygen data is empty.", Toast.LENGTH_LONG).show()
-            !oxygenEditText.text.isNullOrEmpty() && oxygenPulseEditText.text.isNullOrEmpty() ->
-                Toast.makeText(context, "Warning! Pulse data is empty.", Toast.LENGTH_LONG).show()
             else -> {
                 //35~100
                 val oxygenValue = oxygenEditText.text.toString().toInt()
                 //40~199
-                val pulseValue = oxygenPulseEditText.text.toString().toInt()
+//                val pulseValue = oxygenPulseEditText.text.toString().toInt()
                 when(oxygenValue) {
                     in 35..100 -> {
-                        when(pulseValue){
-                            in 40..199 -> {
+//                        when(pulseValue){
+//                            in 40..199 -> {
                                 val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
                                 val oxygenUploadData =
                                     BioUpload(
@@ -535,30 +523,30 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                                         "$oxygenValue",
                                         ""
                                     )
-                                val oxygenPulseUploadData =
-                                    BioUpload(
-                                        caseNo,
-                                        staffId,
-                                        SCDID,
-                                        sysCode,
-                                        getString(R.string.pulse),
-                                        takenAt,
-                                        "$pulseValue",
-                                        ""
-                                    )
+//                                val oxygenPulseUploadData =
+//                                    BioUpload(
+//                                        caseNo,
+//                                        staffId,
+//                                        SCDID,
+//                                        sysCode,
+//                                        getString(R.string.pulse),
+//                                        takenAt,
+//                                        "$pulseValue",
+//                                        ""
+//                                    )
                                 onBackPressed()
-                            }
-                            else ->
-                                Toast.makeText(context, "Warning! Pulse data exceed regular range.", Toast.LENGTH_LONG).show()
-                        }
+//                            }
+//                            else ->
+//                                Toast.makeText(context, "Warning! Pulse data exceed regular range.", Toast.LENGTH_LONG).show()
+//                        }
                     }
                     else -> {
-                        when(pulseValue){
-                            in 40..199 ->
+//                        when(pulseValue){
+//                            in 40..199 ->
                                 Toast.makeText(context, "Warning! Oxygen data exceed regular range.", Toast.LENGTH_LONG).show()
-                            else ->
-                                Toast.makeText(context, "Warning! Oxygen and pulse data exceed regular range.", Toast.LENGTH_LONG).show()
-                        }
+//                            else ->
+//                                Toast.makeText(context, "Warning! Oxygen and pulse data exceed regular range.", Toast.LENGTH_LONG).show()
+//                        }
                     }
                 }
             }
