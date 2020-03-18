@@ -18,9 +18,11 @@
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_20">20sp</dimen>
     <dimen name="sp_24">24sp</dimen>
+    <dimen name="sp_32">32sp</dimen>
 
     <dimen name="border_radius">12dp</dimen>
     <dimen name="border_width">1dp</dimen>
     <dimen name="toggle_border_radius">14dp</dimen>
+    <dimen name="toggle_height">24dp</dimen>
 
 </resources>
