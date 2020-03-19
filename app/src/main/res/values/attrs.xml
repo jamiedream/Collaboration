@@ -20,6 +20,12 @@
         <attr name="measureItemValue" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="MarkerInfo">
+        <attr name="markerInfoTitle" format="string" />
+        <attr name="markerInfoUnit" format="string" />
+        <attr name="markerInfoValue" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="AutoFitRecyclerView">
         <attr name="autoFitItemPaddingWidth" format="integer" />
         <attr name="autoFitItemColumnCount" format="integer" />
