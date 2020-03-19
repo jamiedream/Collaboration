@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.viwave.collaborationproject.fragments.widgets.AutoFitRecyclerView
-        android:id="@+id/temp_auto_fit"
+    <com.viwave.collaborationproject.fragments.widgets.TabView
+        android:id="@+id/chart_auto_fit"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/btn_toggle"
         android:padding="@dimen/border_width"
-        app:autoFitItemColumnCount="3"
+        app:autoFitTabFirst="@string/day"
+        app:autoFitTabSecond="@string/week"
+        app:autoFitTabThird="@string/month"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="720:86"
         />
 
     <androidx.cardview.widget.CardView
@@ -23,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@+id/temp_auto_fit"
+        app:layout_constraintTop_toBottomOf="@+id/chart_auto_fit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="720:812"
@@ -66,7 +67,7 @@
             android:layout_gravity="center"
             >
             <TextView
-                android:id="@+id/temp_marker_time"
+                android:id="@+id/marker_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

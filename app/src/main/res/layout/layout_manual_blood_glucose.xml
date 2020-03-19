@@ -39,14 +39,16 @@
         app:layout_constraintBottom_toBottomOf="@id/icon_measurement"
         />
 
-    <com.viwave.collaborationproject.fragments.widgets.AutoFitRecyclerView
+    <com.viwave.collaborationproject.fragments.widgets.TabView
         android:id="@+id/view_auto_fit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_24"
         android:background="@drawable/btn_toggle"
         android:padding="@dimen/border_width"
-        app:autoFitItemColumnCount="3"
+        app:autoFitTabFirst="@string/fasting"
+        app:autoFitTabSecond="@string/before_meal"
+        app:autoFitTabThird="@string/after_meal"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".6"
         app:layout_constraintTop_toBottomOf="@id/manual_glucose"

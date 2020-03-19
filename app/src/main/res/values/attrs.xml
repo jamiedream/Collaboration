@@ -26,9 +26,10 @@
         <attr name="markerInfoValue" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="AutoFitRecyclerView">
-        <attr name="autoFitItemPaddingWidth" format="integer" />
-        <attr name="autoFitItemColumnCount" format="integer" />
+    <declare-styleable name="TabView">
+        <attr name="autoFitTabFirst" format="string" />
+        <attr name="autoFitTabSecond" format="string" />
+        <attr name="autoFitTabThird" format="string" />
     </declare-styleable>
 
 </resources>

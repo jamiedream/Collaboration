@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
-import android.util.SparseArray
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
@@ -19,13 +18,12 @@ import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFrag
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment.Companion.MEASURE_STAFF_ID
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment.Companion.MEASURE_SYS_CODE
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
-import com.viwave.collaborationproject.fragments.widgets.AutoFitRecyclerView
 import com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
-import com.viwave.collaborationproject.fragments.widgets.adapter.GridViewAdapter
+import com.viwave.collaborationproject.fragments.widgets.TabView
 import com.viwave.collaborationproject.utils.*
 import java.lang.ref.WeakReference
 
-class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressedListener {
+class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
 
     override fun onBackPressed(): Boolean {
         fragmentManager?.popBackStack()
@@ -109,15 +107,16 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
                 glucoseEditText.filters = arrayOf(InputFilter.LengthFilter(3))
                 glucoseEditText.requestFocus()
 
-                val autoFitView = view!!.findViewById<AutoFitRecyclerView>(R.id.view_auto_fit)
-                val listItem = SparseArray<String>()
-                listItem.append(0, context?.getString(R.string.fasting))
-                listItem.append(1, context?.getString(R.string.before_meal))
-                listItem.append(2, context?.getString(R.string.after_meal))
-                val gridAdapter = GridViewAdapter(listItem, this)
-                autoFitView.adapter = gridAdapter
-
-                note = listItem[listItem.size() - 1]
+                val autoFitView = view!!.findViewById<TabView>(R.id.view_auto_fit)
+                note = context?.getString(R.string.after_meal)?: ""
+                autoFitView.setToggleListener(
+                    object : ITogglePressedListener{
+                        override fun pressedToggle(toggleName: String) {
+                            note = toggleName
+                            LogUtil.logD(TAG, toggleName)
+                        }
+                    }
+                )
 
                 view!!.findViewById<ManualInputLayout>(R.id.manual_glucose).setIMECallback(
                     object: IUploadListener{
@@ -296,11 +295,6 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate, ITogglePressed
 
         //show keyboard
         InputControlUtil.showKeyboard(WeakReference(activity))
-    }
-
-    override fun pressedToggle(toggleName: String) {
-        note = toggleName
-        LogUtil.logD(TAG, toggleName)
     }
 
     private fun uploadBG(){
