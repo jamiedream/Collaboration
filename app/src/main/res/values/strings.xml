@@ -35,6 +35,9 @@
     <string name="height">身高</string>
     <string name="unit_height">公分</string>
 
+    <string name="month">月</string>
+    <string name="week">週</string>
+    <string name="day">天</string>
 
     <string name="menu_case_list">我的照顧清單</string>
     <string name="menu_unupload_data">未上傳資料</string>

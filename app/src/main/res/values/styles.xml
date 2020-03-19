@@ -21,4 +21,10 @@
     <style name="MenuTextStyle">
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
+
+    <!--Chart-->
+    <style name="ChartLightText">
+        <item name="android:textColor">@color/silver_light</item>
+        <item name="android:textSize">@dimen/sp_10</item>
+    </style>
 </resources>
