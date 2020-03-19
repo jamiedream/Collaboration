@@ -31,6 +31,59 @@ open class BioViewModel: ViewModel() {
         return selectedTypeManualLayout
     }
 
+    private var selectedTypeHistoryTitle = MutableLiveData<Int>()
+    fun getSelectedTypeHistoryTitle(): MutableLiveData<Int> {
+        selectedTypeHistoryTitle.value =
+            when(selectedType?.value){
+                BioLiveData.Companion.BioType.BloodGlucose -> R.string.blood_glucose
+                BioLiveData.Companion.BioType.Temperature -> R.string.temperature
+                BioLiveData.Companion.BioType.Weight -> R.string.weight
+                BioLiveData.Companion.BioType.Respire -> R.string.respire
+                BioLiveData.Companion.BioType.Height -> R.string.height
+                BioLiveData.Companion.BioType.Pulse -> R.string.pulse
+                BioLiveData.Companion.BioType.BloodPressure -> R.string.blood_pressure
+                BioLiveData.Companion.BioType.Oxygen -> R.string.oxygen
+                else -> 0
+            }
+        return selectedTypeHistoryTitle
+    }
+
+    private var selectedTypeHistoryLayout = MutableLiveData<Int>()
+    fun getSelectedTypeHistoryLayout(): MutableLiveData<Int> {
+        selectedTypeHistoryLayout.value =
+            when(selectedType?.value){
+                BioLiveData.Companion.BioType.BloodGlucose -> R.layout.layout_history_glucose_chart
+                BioLiveData.Companion.BioType.Temperature -> R.layout.layout_history_temperature_chart
+                BioLiveData.Companion.BioType.Weight -> R.layout.layout_history_weight_chart
+                BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_respire_chart
+                BioLiveData.Companion.BioType.Height -> R.layout.layout_history_height_chart
+                BioLiveData.Companion.BioType.Pulse -> R.layout.layout_history_pulse_chart
+                BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_history_blood_pressure_chart
+                BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_oxygen_chart
+                else -> 0
+            }
+        return selectedTypeHistoryLayout
+    }
+
+    /**
+     * Temperature
+     * */
+    private var tempListData: MutableLiveData<MutableList<Bio.Temperature>>? = null
+    fun getTempListData(): MutableLiveData<MutableList<Bio.Temperature>>{
+        if(tempListData == null){
+            tempListData = BioLiveData().getTempListData()
+        }
+        return tempListData!!
+    }
+
+    private var tempLastData: MutableLiveData<Bio.Temperature>? = null
+    fun getTempLastData(): MutableLiveData<Bio.Temperature>{
+        if(tempLastData == null){
+            tempLastData = BioLiveData().getTempLastData()
+        }
+        return tempLastData!!
+    }
+
 //    private var demoTempData: MutableLiveData<Float>? = null
 //    fun getDemoTempData(): MutableLiveData<Float> {
 //        if(demoTempData == null){

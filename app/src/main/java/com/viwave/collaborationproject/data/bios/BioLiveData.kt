@@ -15,6 +15,19 @@ class BioLiveData {
         return selectedType
     }
 
+    /**
+     * Temperature
+     * */
+    private val tempListData = MutableLiveData<MutableList<Bio.Temperature>>()
+    internal fun getTempListData(): MutableLiveData<MutableList<Bio.Temperature>>? {
+        return tempListData
+    }
+
+    private val tempLastData = MutableLiveData<Bio.Temperature>()
+    internal fun getTempLastData(): MutableLiveData<Bio.Temperature>? {
+        return tempLastData
+    }
+
 //    private val tempData = MutableLiveData<Float>()
 //    internal fun demoTempData(): MutableLiveData<Float> {
 //        return tempData

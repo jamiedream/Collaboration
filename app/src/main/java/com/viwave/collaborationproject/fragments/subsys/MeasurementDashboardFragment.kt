@@ -11,11 +11,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
+import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
+import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.DataSort
+import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.bios.BioUpload
 import com.viwave.collaborationproject.fragments.BaseFragment
@@ -459,12 +465,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initTempView(view: View){
 
         view.findViewById<ImageView>(R.id.add_temp).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Temperature
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.Temperature)
         }
 
         view.findViewById<CardView>(R.id.block_temp).setOnClickListener {
-            //todo, to data(diagram or list)
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.Temperature)
         }
 
     }
@@ -472,8 +477,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initBloodGlucose(view: View){
 
         view.findViewById<ImageView>(R.id.add_blood_glucose).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.BloodGlucose
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.BloodGlucose)
+        }
+
+        view.findViewById<CardView>(R.id.block_blood_glucose).setOnClickListener {
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.BloodGlucose)
         }
 
     }
@@ -481,8 +489,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initWeight(view: View){
 
         view.findViewById<ImageView>(R.id.add_weight).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Weight
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.Weight)
+        }
+
+        view.findViewById<CardView>(R.id.block_weight).setOnClickListener {
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.Weight)
         }
 
     }
@@ -490,8 +501,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initRespire(view: View){
 
         view.findViewById<ImageView>(R.id.add_respire).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Respire
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.Respire)
+        }
+
+        view.findViewById<CardView>(R.id.block_respire).setOnClickListener {
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.Respire)
         }
 
     }
@@ -499,8 +513,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initHeight(view: View){
 
         view.findViewById<ImageView>(R.id.add_height).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Height
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.Height)
+        }
+
+        view.findViewById<CardView>(R.id.block_height).setOnClickListener {
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.Height)
         }
 
     }
@@ -508,8 +525,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initPulse(view: View){
 
         view.findViewById<ImageView>(R.id.add_pulse).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Pulse
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.Pulse)
+        }
+
+        view.findViewById<CardView>(R.id.block_pulse).setOnClickListener {
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.Pulse)
         }
 
     }
@@ -517,8 +537,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initBloodPressure(view: View){
 
         view.findViewById<ImageView>(R.id.add_blood_pressure).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.BloodPressure
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.BloodPressure)
+        }
+
+        view.findViewById<CardView>(R.id.block_blood_pressure).setOnClickListener {
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.BloodPressure)
         }
 
     }
@@ -526,8 +549,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private fun initOxygen(view: View){
 
         view.findViewById<ImageView>(R.id.add_oxygen).setOnClickListener {
-            bioViewModel.getSelectedType().value = BioLiveData.Companion.BioType.Oxygen
-            intentToManualInput()
+            intentToManualInput(BioLiveData.Companion.BioType.Oxygen)
+        }
+
+        view.findViewById<CardView>(R.id.block_oxygen).setOnClickListener {
+            intentToHistoryDiagram(BioLiveData.Companion.BioType.Oxygen)
         }
 
     }
@@ -539,7 +565,10 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
         const val MEASURE_SYS_CODE = "MEASURE_SYS_CODE"
     }
 
-    private fun intentToManualInput(){
+    private fun intentToManualInput(bioType: BioLiveData.Companion.BioType){
+
+        bioViewModel.getSelectedType().value = bioType
+
         val bundle = Bundle()
         bundle.putString(MEASURE_CASE_NO, caseNo)
         bundle.putString(MEASURE_STAFF_ID, staffId)
@@ -548,5 +577,28 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
         val fragment = ManualInputFragment()
         fragment.arguments = bundle
         replaceFragment(this@MeasurementDashboardFragment, fragment, getString(R.string.tag_case_manual))
+    }
+
+    private fun intentToHistoryDiagram(bioType: BioLiveData.Companion.BioType){
+
+        if(sysCode == SysKey.DAILY_NURSING_CODE){
+
+            bioViewModel.getSelectedType().value = bioType
+
+            when(bioType){
+                BioLiveData.Companion.BioType.Temperature -> {
+                    val gson = GsonBuilder().registerTypeAdapter(object: TypeToken<MutableList<Bio.Temperature>> (){}.type, DataSort.temperatureList).create()
+                    bioViewModel.getTempListData().value = gson.fromJson(QueryData().tempData, object: TypeToken<MutableList<Bio.Temperature>> (){}.type)
+                }
+            }
+
+            replaceFragment(
+                this@MeasurementDashboardFragment,
+                HistoryFragment(),
+                getString(R.string.tag_case_history_diagram)
+            )
+        }
+
+
     }
 }

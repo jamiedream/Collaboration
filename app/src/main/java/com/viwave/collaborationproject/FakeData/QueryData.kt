@@ -47,7 +47,7 @@ class QueryData {
         JsonObject().apply {
             this.addProperty("res", "1")
             this.addProperty("msg", "1")
-            this.addProperty("token", "MDAwMDAxLkphbWllLjE1ODMzMDQyMDQ=")
+            this.addProperty("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InAwMDAxMiIsIm5hbWUiOiLnsKFPTyIsIkxvZ2luVGltZSI6IjIwMjAtMDMtMTggMTA6NDYifQ.l7UH2QuunhY-CsOhrlPJBwTqw8sU5cyw0Jw1qQVociQ=")
             this.add("system", sysArray as JsonElement)
         }
 
@@ -78,6 +78,31 @@ class QueryData {
             Case("3333333", "臼個案", "M", null, null),
             Case("4444444", "辛個案", "M", null, null)
         )
+
+    val tempData =
+        JsonArray().apply {
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1584343726")
+                    this.addProperty("temperature", "36.8")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583998126")
+                    this.addProperty("temperature", "37.1")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583911726")
+                    this.addProperty("temperature", "36.6")
+                }
+            )
+        }
+
 
     val data =
         "{\n" +
