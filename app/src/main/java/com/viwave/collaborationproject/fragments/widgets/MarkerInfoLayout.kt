@@ -42,8 +42,10 @@ class MarkerInfoLayout: ConstraintLayout {
     }
 
     fun setValue(value: String?){
-        value?.let {
+        if(value == null)
+            txtValue.text = "--"
+        else
             txtValue.text = value
-        }
+
     }
 }

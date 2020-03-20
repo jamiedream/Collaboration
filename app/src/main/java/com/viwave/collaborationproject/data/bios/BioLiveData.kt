@@ -16,6 +16,14 @@ class BioLiveData {
     }
 
     /**
+     * Marker
+     * */
+    private val markerData = MutableLiveData<Bio>()
+    internal fun getMarkerData(): MutableLiveData<Bio>?{
+        return markerData
+    }
+
+    /**
      * Temperature
      * */
     private val tempListData = MutableLiveData<MutableList<Bio.Temperature>>()

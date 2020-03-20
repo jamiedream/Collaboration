@@ -63,7 +63,7 @@ class QueryData {
         JsonObject().apply {
             this.addProperty("res", "1")
             this.addProperty("msg", "1")
-            this.addProperty("token", "MDAwMDAyLkx1Y3kuMjU4MzMwNDIwNA==")
+            this.addProperty("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InAwMDAxMiIsIm5hbWUiOiLnsKFPTyIsIkxvZ2luVGltZSI6IjIwMjAtMDMtMTggMTA6NDYifQ.l7UH2QuunhY-CsOhrlPJBwTqw8sU5cyw0Jw1qQVociQ=")
             this.add("system", sysArray2 as JsonElement)
         }
 

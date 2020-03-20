@@ -27,6 +27,7 @@ import com.viwave.collaborationproject.data.bios.BioUpload
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
+import com.viwave.collaborationproject.fragments.subsys.history.HistoryFragment
 import com.viwave.collaborationproject.fragments.widgets.MeasurementItemLayout
 import com.viwave.collaborationproject.utils.DateUtil
 import com.viwave.collaborationproject.utils.LogUtil
@@ -589,6 +590,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 BioLiveData.Companion.BioType.Temperature -> {
                     val gson = GsonBuilder().registerTypeAdapter(object: TypeToken<MutableList<Bio.Temperature>> (){}.type, DataSort.temperatureList).create()
                     bioViewModel.getTempListData().value = gson.fromJson(QueryData().tempData, object: TypeToken<MutableList<Bio.Temperature>> (){}.type)
+                    bioViewModel.getTempListData().value?.sortBy { it.takenAt }
                 }
             }
 

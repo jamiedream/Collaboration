@@ -48,7 +48,6 @@ class TabView: ConstraintLayout {
                 tabFirst.text = first
                 tabSecond.text = second
                 tabThird.text = third
-                tabThird.isPressed = true
                 recycle()
             }
         }}
@@ -89,6 +88,16 @@ class TabView: ConstraintLayout {
                 tabThird.isPressed = true
             }
         }
+    }
+
+    fun setSelectedTab(tabText: String) {
+        val selectedTextView =
+            when(tabText){
+                tabFirst.text.toString() -> tabFirst
+                tabSecond.text.toString() -> tabSecond
+                else -> tabThird
+            }
+        switchTabStatus(selectedTextView)
     }
 
 

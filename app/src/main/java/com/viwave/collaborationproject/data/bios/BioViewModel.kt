@@ -1,8 +1,12 @@
 package com.viwave.collaborationproject.data.bios
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.fragments.subsys.diagram.DiagramView
+import com.viwave.collaborationproject.fragments.subsys.diagram.TemperatureDiagram
+import java.lang.ref.WeakReference
 
 open class BioViewModel: ViewModel() {
 
@@ -31,6 +35,7 @@ open class BioViewModel: ViewModel() {
         return selectedTypeManualLayout
     }
 
+    /**Chart*/
     private var selectedTypeHistoryTitle = MutableLiveData<Int>()
     fun getSelectedTypeHistoryTitle(): MutableLiveData<Int> {
         selectedTypeHistoryTitle.value =
@@ -63,6 +68,28 @@ open class BioViewModel: ViewModel() {
                 else -> 0
             }
         return selectedTypeHistoryLayout
+    }
+
+    fun selectedHistoryDiagram(fragment: WeakReference<Fragment>): DiagramView {
+        return when(selectedType?.value){
+//            BioLiveData.Companion.BioType.BloodGlucose -> R.layout.layout_history_glucose_chart
+            BioLiveData.Companion.BioType.Temperature -> TemperatureDiagram(fragment)
+//            BioLiveData.Companion.BioType.Weight -> R.layout.layout_history_weight_chart
+//            BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_respire_chart
+//            BioLiveData.Companion.BioType.Height -> R.layout.layout_history_height_chart
+//            BioLiveData.Companion.BioType.Pulse -> R.layout.layout_history_pulse_chart
+//            BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_history_blood_pressure_chart
+//            BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_oxygen_chart
+            else -> TemperatureDiagram(fragment)
+        }
+    }
+
+    private var markerData: MutableLiveData<Bio>? = null
+    fun getMarkerData(): MutableLiveData<Bio>{
+        if(markerData == null){
+            markerData = BioLiveData().getMarkerData()
+        }
+        return markerData!!
     }
 
     /**

@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.collaborationproject.CollaborationApplication
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
@@ -27,9 +28,9 @@ object JLineData {
         if(entries.isNotEmpty()) entries.clear()
 
         tempList?.forEach {
-            val xVal = it.takenAt //todo, index
+            val xVal = calXIndex(it.takenAt)
             val yVal = it.temperature
-//            entries.add(Entry(xVal, yVal))
+            entries.add(Entry(xVal, yVal))
         }
 
         return LineData(lineDataTempStyle(entries))

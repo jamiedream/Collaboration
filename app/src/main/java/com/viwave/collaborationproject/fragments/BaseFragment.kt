@@ -47,6 +47,13 @@ abstract class BaseFragment: Fragment() {
             commit()
     }
 
+    fun replacePartialFragment(nowFragment: Fragment, replaceFragment: Fragment, replaceLayout: Int, tag: String){
+        nowFragment.fragmentManager?.
+            beginTransaction()?.
+            replace(replaceLayout, replaceFragment, tag)?.
+            commit()
+    }
+
     protected var isShowToolBar = true
 
     override fun onResume() {
