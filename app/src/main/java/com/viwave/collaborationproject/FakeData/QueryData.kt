@@ -103,6 +103,30 @@ class QueryData {
             )
         }
 
+    val pulseData =
+        JsonArray().apply {
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1584343726")
+                    this.addProperty("pulse", "82")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583998126")
+                    this.addProperty("pulse", "103")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583911726")
+                    this.addProperty("pulse", "91")
+                }
+            )
+        }
+
 
     val data =
         "{\n" +

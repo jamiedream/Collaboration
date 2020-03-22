@@ -111,6 +111,26 @@ open class BioViewModel: ViewModel() {
         return tempLastData!!
     }
 
+    /**
+     * Pulse
+     * */
+    private var pulseListData: MutableLiveData<MutableList<Bio.Pulse>>? = null
+    fun getPulseListData(): MutableLiveData<MutableList<Bio.Pulse>>{
+        if(pulseListData == null){
+            pulseListData = BioLiveData().getPulseListData()
+        }
+        return pulseListData!!
+    }
+
+    private var pulseLastData: MutableLiveData<Bio.Pulse>? = null
+    fun getPulseLastData(): MutableLiveData<Bio.Pulse>{
+        if(pulseLastData == null){
+            pulseLastData = BioLiveData().getPulseLastData()
+        }
+        return pulseLastData!!
+    }
+
+
 //    private var demoTempData: MutableLiveData<Float>? = null
 //    fun getDemoTempData(): MutableLiveData<Float> {
 //        if(demoTempData == null){

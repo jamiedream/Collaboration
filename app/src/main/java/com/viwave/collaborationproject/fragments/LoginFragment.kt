@@ -9,6 +9,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonDeserializer
+import com.google.gson.reflect.TypeToken
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
@@ -173,6 +176,13 @@ class LoginFragment: BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun <T> sortBioData(deserializer: JsonDeserializer<MutableList<T>>, data: JsonArray): MutableList<T>{
+        return GsonBuilder()
+            .registerTypeAdapter(object: TypeToken<MutableList<T>>(){}.type, deserializer)
+            .create()
+            .fromJson(data, object: TypeToken<MutableList<T>>(){}.type)
     }
 
 }

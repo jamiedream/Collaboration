@@ -6,7 +6,6 @@ class BioLiveData {
 
     companion object{
         enum class BioType{BloodPressure, BloodGlucose, Temperature, Weight, Pulse, Oxygen, Respire, Height}
-        enum class BloodPressure{Sys, Dia, Pulse}
         enum class Oxygen{OxygenHigh, OxygenLow, PulseHigh, PulseLow}
     }
 
@@ -34,6 +33,19 @@ class BioLiveData {
     private val tempLastData = MutableLiveData<Bio.Temperature>()
     internal fun getTempLastData(): MutableLiveData<Bio.Temperature>? {
         return tempLastData
+    }
+
+    /**
+     * Pulse
+     * */
+    private val pulseListData = MutableLiveData<MutableList<Bio.Pulse>>()
+    internal fun getPulseListData(): MutableLiveData<MutableList<Bio.Pulse>>? {
+        return pulseListData
+    }
+
+    private val pulseLastData = MutableLiveData<Bio.Pulse>()
+    internal fun getPulseLastData(): MutableLiveData<Bio.Pulse>? {
+        return pulseLastData
     }
 
 //    private val tempData = MutableLiveData<Float>()

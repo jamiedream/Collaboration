@@ -34,6 +34,8 @@ sealed class Bio {
         @SerializedName("takenAt") val takenAt: Long,
         @SerializedName("temperature") val temperature: Float
     ): Bio(){
+
+        companion object{}
         override fun toString(): String {
             return "Temperature(takenAt='$takenAt', temperature='$temperature')"
         }
@@ -57,6 +59,7 @@ sealed class Bio {
         @SerializedName("takenAt") val takenAt: Long,
         @SerializedName("pulse") val pulse: Int
     ): Bio(){
+        companion object{}
         override fun toString(): String {
             return "Pulse(takenAt='$takenAt', pulse='$pulse')"
         }

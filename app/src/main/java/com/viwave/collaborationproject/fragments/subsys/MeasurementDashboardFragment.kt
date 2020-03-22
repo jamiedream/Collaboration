@@ -11,17 +11,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
-import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
-import com.viwave.collaborationproject.data.DataSort
-import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.bios.BioUpload
 import com.viwave.collaborationproject.fragments.BaseFragment
@@ -586,21 +581,12 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
 
             bioViewModel.getSelectedType().value = bioType
 
-            when(bioType){
-                BioLiveData.Companion.BioType.Temperature -> {
-                    val gson = GsonBuilder().registerTypeAdapter(object: TypeToken<MutableList<Bio.Temperature>> (){}.type, DataSort.temperatureList).create()
-                    bioViewModel.getTempListData().value = gson.fromJson(QueryData().tempData, object: TypeToken<MutableList<Bio.Temperature>> (){}.type)
-                    bioViewModel.getTempListData().value?.sortBy { it.takenAt }
-                }
-            }
-
             replaceFragment(
                 this@MeasurementDashboardFragment,
                 HistoryFragment(),
                 getString(R.string.tag_case_history_diagram)
             )
         }
-
-
     }
+
 }

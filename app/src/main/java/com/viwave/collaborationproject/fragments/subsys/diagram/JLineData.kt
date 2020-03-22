@@ -36,11 +36,23 @@ object JLineData {
         return LineData(lineDataTempStyle(entries))
     }
 
+    fun getPulseLineData(pulseList: MutableList<Bio.Pulse>?): LineData {
+
+        if(entries.isNotEmpty()) entries.clear()
+
+        pulseList?.forEach {
+            val xVal = calXIndex(it.takenAt)
+            val yVal = it.pulse.toFloat()
+            entries.add(Entry(xVal, yVal))
+        }
+
+        return LineData(lineDataPulseStyle(entries))
+    }
+
 
     /**
      * Line Chart Style
      * */
-
     private fun lineDataTempStyle(data: MutableList<Entry>): LineDataSet {
         val set = LineDataSet(data, "Temperature Data set")
         set.setCircleColor(ContextCompat.getColor(context, R.color.egg_blue))
@@ -51,6 +63,18 @@ object JLineData {
         set.color = ContextCompat.getColor(context, R.color.egg_blue)
         set.lineWidth = 2f
         set.setDrawValues(false)
+        return set
+    }
+
+    private fun lineDataPulseStyle(data: MutableList<Entry>): LineDataSet {
+        val set = LineDataSet(data, "Pulse Data set")
+        set.setCircleColor(ContextCompat.getColor(context, R.color.salmon_pink))
+        set.setDrawCircleHole(false)
+        set.circleRadius = 6f
+        set.color = ContextCompat.getColor(context, R.color.salmon_pink)
+        set.lineWidth = 2f
+        set.setDrawValues(false)
+        set.isHighlightEnabled = false
         return set
     }
 
