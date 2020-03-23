@@ -151,6 +151,33 @@ class QueryData {
             )
         }
 
+    val glucoseData =
+        JsonArray().apply {
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1584343726")
+                    this.addProperty("bloodGlucose", "90")
+                    this.addProperty("meal", "空腹")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583998126")
+                    this.addProperty("bloodGlucose", "118")
+                    this.addProperty("meal", "餐後")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583911726")
+                    this.addProperty("bloodGlucose", "103")
+                    this.addProperty("meal", "空腹")
+                }
+            )
+        }
+
 
     val data =
         "{\n" +

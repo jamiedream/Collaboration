@@ -131,6 +131,25 @@ open class BioViewModel: ViewModel() {
         return weightLastData!!
     }
 
+    /**
+     * Glucose
+     * */
+    private var glucoseListData: MutableLiveData<MutableList<Bio.BloodGlucose>>? = null
+    fun getGlucoseListData(): MutableLiveData<MutableList<Bio.BloodGlucose>>{
+        if(glucoseListData == null){
+            glucoseListData = BioLiveData().getGlucoseListData()
+        }
+        return glucoseListData!!
+    }
+
+    private var glucoseLastData: MutableLiveData<Bio.BloodGlucose>? = null
+    fun getGlucoseLastData(): MutableLiveData<Bio.BloodGlucose>{
+        if(glucoseLastData == null){
+            glucoseLastData = BioLiveData().getGlucoseLastData()
+        }
+        return glucoseLastData!!
+    }
+
 
 //    private var demoTempData: MutableLiveData<Float>? = null
 //    fun getDemoTempData(): MutableLiveData<Float> {

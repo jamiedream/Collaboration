@@ -62,6 +62,46 @@ object JLineData {
         return LineData(lineDataWeightStyle(entries))
     }
 
+    fun getGlucoseLineData(glucoseList: MutableList<Bio.BloodGlucose>?): LineData {
+
+        val fasting = mutableListOf<Bio.BloodGlucose>()
+        val before = mutableListOf<Bio.BloodGlucose>()
+        val after = mutableListOf<Bio.BloodGlucose>()
+        glucoseList?.forEach {
+            when(it.meal){
+                context.getString(R.string.fasting) -> fasting.add(it)
+                context.getString(R.string.before_meal) -> before.add(it)
+                context.getString(R.string.after_meal) -> after.add(it)
+            }
+        }
+
+        //fasting
+        val fastingEntries = ArrayList<Entry>()
+        fasting.forEach {
+            val xVal = calXIndex(it.takenAt)
+            val yVal = it.glucose.toFloat()
+            fastingEntries.add(Entry(xVal, yVal))
+        }
+
+        //before
+        val beforeEntries = ArrayList<Entry>()
+        before.forEach {
+            val xVal = calXIndex(it.takenAt)
+            val yVal = it.glucose.toFloat()
+            beforeEntries.add(Entry(xVal, yVal))
+        }
+
+        //after
+        val afterEntries = ArrayList<Entry>()
+        after.forEach {
+            val xVal = calXIndex(it.takenAt)
+            val yVal = it.glucose.toFloat()
+            afterEntries.add(Entry(xVal, yVal))
+        }
+
+        return LineData(lineDataGlucoseFastingStyle(fastingEntries), lineDataGlucoseBeforeStyle(beforeEntries), lineDataGlucoseAfterStyle(afterEntries))
+    }
+
 
     /**
      * Line Chart Style
@@ -97,6 +137,39 @@ object JLineData {
         set.circleRadius = 6f
         set.lineWidth = 2f
         set.color = ContextCompat.getColor(context, R.color.supernova)
+        set.setDrawValues(false)
+        return set
+    }
+
+    private fun lineDataGlucoseFastingStyle(data: MutableList<Entry>): LineDataSet {
+        val set = LineDataSet(data, "GlucoseFasting Data set")
+        set.setCircleColor(ContextCompat.getColor(context, R.color.turbo))
+        set.setDrawCircleHole(false)
+        set.circleRadius = 6f
+        set.lineWidth = 0f
+        set.color = ContextCompat.getColor(context, android.R.color.transparent)
+        set.setDrawValues(false)
+        return set
+    }
+
+    private fun lineDataGlucoseBeforeStyle(data: MutableList<Entry>): LineDataSet {
+        val set = LineDataSet(data, "GlucoseBefore Data set")
+        set.setCircleColor(ContextCompat.getColor(context, R.color.lucky))
+        set.setDrawCircleHole(false)
+        set.circleRadius = 6f
+        set.lineWidth = 0f
+        set.color = ContextCompat.getColor(context, android.R.color.transparent)
+        set.setDrawValues(false)
+        return set
+    }
+
+    private fun lineDataGlucoseAfterStyle(data: MutableList<Entry>): LineDataSet {
+        val set = LineDataSet(data, "GlucoseAfter Data set")
+        set.setCircleColor(ContextCompat.getColor(context, R.color.orange))
+        set.setDrawCircleHole(false)
+        set.circleRadius = 6f
+        set.lineWidth = 0f
+        set.color = ContextCompat.getColor(context, android.R.color.transparent)
         set.setDrawValues(false)
         return set
     }

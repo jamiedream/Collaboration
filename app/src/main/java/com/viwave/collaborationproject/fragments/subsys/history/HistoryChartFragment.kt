@@ -10,10 +10,7 @@ import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
-import com.viwave.collaborationproject.fragments.subsys.diagram.DiagramView
-import com.viwave.collaborationproject.fragments.subsys.diagram.PulseDiagram
-import com.viwave.collaborationproject.fragments.subsys.diagram.TemperatureDiagram
-import com.viwave.collaborationproject.fragments.subsys.diagram.WeightDiagram
+import com.viwave.collaborationproject.fragments.subsys.diagram.*
 import java.lang.ref.WeakReference
 
 class HistoryChartFragment: BaseFragment() {
@@ -34,7 +31,7 @@ class HistoryChartFragment: BaseFragment() {
         val fragment = WeakReference(this)
         diagramView =
             when( bioViewModel.getSelectedType().value){
-//            BioLiveData.Companion.BioType.BloodGlucose -> R.layout.layout_history_glucose_chart
+            BioLiveData.Companion.BioType.BloodGlucose -> GlucoseDiagram(fragment)
                 BioLiveData.Companion.BioType.Temperature -> TemperatureDiagram(fragment)
                 BioLiveData.Companion.BioType.Weight -> WeightDiagram(fragment)
 //            BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_respire_chart

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#4ABBA7</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
@@ -13,5 +13,7 @@
     <color name="cornflower_blue">#80BFFFFB</color>
     <color name="salmon_pink">#FF8B9A</color>
     <color name="supernova">#FFC700</color>
-
+    <color name="turbo">#FFE600</color>
+    <color name="lucky">#97A014</color>
+    <color name="orange">#FF5B27</color>
 </resources>

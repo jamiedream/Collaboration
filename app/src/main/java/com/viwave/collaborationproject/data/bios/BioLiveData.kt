@@ -61,6 +61,19 @@ class BioLiveData {
         return weightLastData
     }
 
+    /**
+     * Glucose
+     * */
+    private val glucoseListData = MutableLiveData<MutableList<Bio.BloodGlucose>>()
+    internal fun getGlucoseListData(): MutableLiveData<MutableList<Bio.BloodGlucose>>? {
+        return glucoseListData
+    }
+
+    private val glucoseLastData = MutableLiveData<Bio.BloodGlucose>()
+    internal fun getGlucoseLastData(): MutableLiveData<Bio.BloodGlucose>? {
+        return glucoseLastData
+    }
+
 //    private val tempData = MutableLiveData<Float>()
 //    internal fun demoTempData(): MutableLiveData<Float> {
 //        return tempData

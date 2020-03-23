@@ -69,6 +69,14 @@ class JMarkdown(context: Context?, layoutResource: Int) : MarkerView(context, la
                         }
                     }
                 }
+                BioLiveData.Companion.BioType.BloodGlucose -> {
+                    bioViewModel.getGlucoseListData().value?.forEach {
+                        if(calXIndex(it.takenAt) == x && it.glucose.toFloat() == y){
+                            bioViewModel.getMarkerData().value = it
+                            return
+                        }
+                    }
+                }
                 else -> {}
             }
         }
