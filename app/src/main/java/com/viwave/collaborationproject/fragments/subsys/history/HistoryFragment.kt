@@ -72,6 +72,11 @@ class HistoryFragment: BaseFragment(){
                     bioViewModel.getPulseListData().value = sortBioData(DataSort.pulseList, QueryData().pulseData)
                     bioViewModel.getPulseListData().value?.sortBy { it.takenAt }
                 }
+
+                BioLiveData.Companion.BioType.Weight -> {
+                    bioViewModel.getWeightListData().value = sortBioData(DataSort.weightList, QueryData().weightData)
+                    bioViewModel.getWeightListData().value?.sortBy { it.takenAt }
+                }
             }
 
             when(imgDiagramChartList.tag){

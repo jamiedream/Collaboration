@@ -49,6 +49,19 @@ object JLineData {
         return LineData(lineDataPulseStyle(entries))
     }
 
+    fun getWeightLineData(weightList: MutableList<Bio.Weight>?): LineData {
+
+        if(entries.isNotEmpty()) entries.clear()
+
+        weightList?.forEach {
+            val xVal = calXIndex(it.takenAt)
+            val yVal = it.weight
+            entries.add(Entry(xVal, yVal))
+        }
+
+        return LineData(lineDataWeightStyle(entries))
+    }
+
 
     /**
      * Line Chart Style
@@ -74,7 +87,17 @@ object JLineData {
         set.color = ContextCompat.getColor(context, R.color.salmon_pink)
         set.lineWidth = 2f
         set.setDrawValues(false)
-        set.isHighlightEnabled = false
+        return set
+    }
+
+    private fun lineDataWeightStyle(data: MutableList<Entry>): LineDataSet {
+        val set = LineDataSet(data, "Weight Data set")
+        set.setCircleColor(ContextCompat.getColor(context, R.color.supernova))
+        set.setDrawCircleHole(false)
+        set.circleRadius = 6f
+        set.lineWidth = 2f
+        set.color = ContextCompat.getColor(context, R.color.supernova)
+        set.setDrawValues(false)
         return set
     }
 

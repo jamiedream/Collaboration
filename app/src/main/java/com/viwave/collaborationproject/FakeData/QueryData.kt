@@ -127,6 +127,30 @@ class QueryData {
             )
         }
 
+    val weightData =
+        JsonArray().apply {
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1584343726")
+                    this.addProperty("weight", "66.8")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583998126")
+                    this.addProperty("weight", "166.8")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583911726")
+                    this.addProperty("weight", "76.8")
+                }
+            )
+        }
+
 
     val data =
         "{\n" +

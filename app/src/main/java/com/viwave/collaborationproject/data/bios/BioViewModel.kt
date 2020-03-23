@@ -112,6 +112,25 @@ open class BioViewModel: ViewModel() {
         return pulseLastData!!
     }
 
+    /**
+     * Weight
+     * */
+    private var weightListData: MutableLiveData<MutableList<Bio.Weight>>? = null
+    fun getWeightListData(): MutableLiveData<MutableList<Bio.Weight>>{
+        if(weightListData == null){
+            weightListData = BioLiveData().getWeightListData()
+        }
+        return weightListData!!
+    }
+
+    private var weightLastData: MutableLiveData<Bio.Weight>? = null
+    fun getWeightLastData(): MutableLiveData<Bio.Weight>{
+        if(weightLastData == null){
+            weightLastData = BioLiveData().getWeightLastData()
+        }
+        return weightLastData!!
+    }
+
 
 //    private var demoTempData: MutableLiveData<Float>? = null
 //    fun getDemoTempData(): MutableLiveData<Float> {

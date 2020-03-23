@@ -44,12 +44,12 @@ sealed class Bio {
     data class Weight (
         @SerializedName("takenAt") val takenAt: Long,
         @SerializedName("weight") val weight: Float,
-        @SerializedName("bmi") val bmi: Float,
-        @SerializedName("bmr") val bmr: Int,
-        @SerializedName("bodyFat") val bodyFat: Float,
-        @SerializedName("bodyWater") val bodyWater: Int,
-        @SerializedName("muscleMass") val muscleMass: Float,
-        @SerializedName("visceralFat") val visceralFat: Int
+        @SerializedName("bmi") val bmi: Float?,
+        @SerializedName("bmr") val bmr: Int?,
+        @SerializedName("bodyFat") val bodyFat: Float?,
+        @SerializedName("bodyWater") val bodyWater: Int?,
+        @SerializedName("muscleMass") val muscleMass: Float?,
+        @SerializedName("visceralFat") val visceralFat: Int?
     ): Bio(){
         override fun toString(): String {
             return "Weight(takenAt='$takenAt', weight='$weight, , bmi='$bmi, bmr='$bmr, bodyFat='$bodyFat, bodyWater='$bodyWater, muscleMass='$muscleMass, visceralFat='$visceralFat')"

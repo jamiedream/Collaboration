@@ -48,6 +48,19 @@ class BioLiveData {
         return pulseLastData
     }
 
+    /**
+     * Weight
+     * */
+    private val weightListData = MutableLiveData<MutableList<Bio.Weight>>()
+    internal fun getWeightListData(): MutableLiveData<MutableList<Bio.Weight>>? {
+        return weightListData
+    }
+
+    private val weightLastData = MutableLiveData<Bio.Weight>()
+    internal fun getWeightLastData(): MutableLiveData<Bio.Weight>? {
+        return weightLastData
+    }
+
 //    private val tempData = MutableLiveData<Float>()
 //    internal fun demoTempData(): MutableLiveData<Float> {
 //        return tempData

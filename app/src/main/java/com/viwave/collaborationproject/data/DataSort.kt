@@ -176,12 +176,12 @@ object DataSort{
                                 Bio.Weight(
                                     data.asJsonObject.get("takenAt").asLong,
                                     data.asJsonObject.get("weight").asFloat,
-                                    data.asJsonObject.get("bmi").asFloat,
-                                    data.asJsonObject.get("bmr").asInt,
-                                    data.asJsonObject.get("bodyFat").asFloat,
-                                    data.asJsonObject.get("bodyWater").asInt,
-                                    data.asJsonObject.get("muscleMass").asFloat,
-                                    data.asJsonObject.get("visceralFat").asInt
+                                    data.asJsonObject.get("bmi")?.asFloat,
+                                    data.asJsonObject.get("bmr")?.asInt,
+                                    data.asJsonObject.get("bodyFat")?.asFloat,
+                                    data.asJsonObject.get("bodyWater")?.asInt,
+                                    data.asJsonObject.get("muscleMass")?.asFloat,
+                                    data.asJsonObject.get("visceralFat")?.asInt
                                 )
                             )
 
@@ -192,12 +192,12 @@ object DataSort{
                             Bio.Weight(
                                 json.asJsonObject.get("takenAt").asLong,
                                 json.asJsonObject.get("weight").asFloat,
-                                json.asJsonObject.get("bmi").asFloat,
-                                json.asJsonObject.get("bmr").asInt,
-                                json.asJsonObject.get("bodyFat").asFloat,
-                                json.asJsonObject.get("bodyWater").asInt,
-                                json.asJsonObject.get("muscleMass").asFloat,
-                                json.asJsonObject.get("visceralFat").asInt
+                                json.asJsonObject.get("bmi")?.asFloat,
+                                json.asJsonObject.get("bmr")?.asInt,
+                                json.asJsonObject.get("bodyFat")?.asFloat,
+                                json.asJsonObject.get("bodyWater")?.asInt,
+                                json.asJsonObject.get("muscleMass")?.asFloat,
+                                json.asJsonObject.get("visceralFat")?.asInt
                             )
                         )
                     }
