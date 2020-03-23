@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private val userObserver =
         Observer<User?>{
-            navDrawerName.text = it?.name
+            navDrawerName.text = String.format(getString(R.string.login_hi_2), it?.name)
             val authSys = it?.sysList
             authSys?.let { sysList -> navDrawSubSys(sysList) }
             navDrawerLogout.setOnClickListener {
