@@ -75,7 +75,7 @@ class UserPreference private constructor(){
         return userPreferences.getBoolean(key, default)
     }
 
-    fun queryUser(): User?{
+    fun queryUser(): User{
         val json = userPreferences.getString(UserKey.USER, "")
         Log.d("queryUser", json)
         return Gson().fromJson(json, User::class.java)

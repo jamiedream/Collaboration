@@ -39,7 +39,7 @@ class SysListFragment: BaseFragment() {
         super.onResume()
         setToolbarLeftIcon(false)
 
-        UserPreference.instance.queryUser()?.run {
+        UserPreference.instance.queryUser().run {
             generalViewModel.getLoginUser().value = this
             val sysList = this.sysList
             sysList.forEach {

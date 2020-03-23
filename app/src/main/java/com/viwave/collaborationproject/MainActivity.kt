@@ -87,6 +87,48 @@ class MainActivity : AppCompatActivity() {
             val authSys = it?.sysList
             authSys?.let { sysList -> navDrawSubSys(sysList) }
             navDrawerLogout.setOnClickListener {
+
+//                HttpManager.client.
+//                    create(IHttp::class.java).
+//                    logout(UserPreference.instance.queryUser().token).
+//                    enqueue(
+//                        object: Callback<Logout>{
+//                            override fun onFailure(call: Call<Logout>, t: Throwable) {
+//                                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+//                            }
+//
+//                            override fun onResponse(
+//                                call: Call<Logout>,
+//                                response: Response<Logout>
+//                            ) {
+//                                val res = response.body()
+//                                val resCode = res?.res?.toInt()
+//                                val msg = res?.msg
+//                                if(response.isSuccessful){
+//                                    when(resCode){
+//                                        1 -> {
+//                                            //dialog: deal with data upload
+//                                            GlobalScope.launch(Dispatchers.IO) {
+//                                                authSys?.forEach { subSys ->
+//                                                    when(subSys.sysCode){
+//                                                        SysKey.DAILY_CARE_CODE -> CaseDatabase(applicationContext).getCaseCareDao().deleteAll()
+//                                                        SysKey.DAILY_NURSING_CODE -> CaseDatabase(applicationContext).getCaseNursingDao().deleteAll()
+//                                                        SysKey.DAILY_STATION_CODE -> CaseDatabase(applicationContext).getCaseStationDao().deleteAll()
+//                                                        SysKey.DAILY_HOME_CARE_CODE -> CaseDatabase(applicationContext).getCaseHomeCareDao().deleteAll()
+//                                                    }
+//                                                }
+//                                            }
+//                                            UserPreference.instance.clear()
+//                                            switchFragmentToTop(LoginFragment())
+//                                        }
+//                                        else -> Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+//                                    }
+//
+//                                }else Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+//                            }
+//
+//                        }
+//                    )
                 //dialog: deal with data upload
                 GlobalScope.launch(Dispatchers.IO) {
                     authSys?.forEach { subSys ->

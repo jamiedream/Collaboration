@@ -21,7 +21,6 @@ import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.DataSort
-import com.viwave.collaborationproject.data.UploadData
 import com.viwave.collaborationproject.data.general.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -70,8 +69,37 @@ class LoginFragment: BaseFragment() {
                 !editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
                     Toast.makeText(context, "Password is empty.", Toast.LENGTH_LONG).show()
                 else ->{
-                    //account: test, pwd: abc123
-                    val loginObject = UploadData.uploadLoginInfo(editAccount.text.toString(), editPassword.text.toString())
+//                    //account: p00012, pwd: st13579
+//                    val loginObject = UploadData.uploadLoginInfo(editAccount.text.toString(), editPassword.text.toString())
+//                    HttpManager.client.
+//                        create(IHttp::class.java).
+//                        login(loginObject).
+//                        enqueue(object : Callback<Login> {
+//                            override fun onFailure(call: Call<Login>, t: Throwable) {
+//                                textError.text = t.message
+//                            }
+//
+//                            override fun onResponse(call: Call<Login>, response: Response<Login>) {
+//                                val res = response.body()
+//                                val resCode = res?.res?.toInt()
+//                                val msg = res?.msg
+//                                LogUtil.logD(TAG, "$resCode $msg")
+//                                if(response.isSuccessful){
+//                                    when(resCode){
+//                                        1 -> {
+//                                            //login success
+//                                            UserPreference.instance.editUser(DataSort.staff(res))
+////                                            LogUtil.logD(TAG, "$resCode $msg")
+//
+//                                            UserPreference.instance.edit(UserKey.IS_LOGIN, true)
+//                                            replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
+//                                        }
+//                                        else -> textError.text = msg
+//                                    }
+//                                }else textError.text = msg
+//                            }
+//                        })
+
                     when{
                         editAccount.text.toString() == "test" && editPassword.text.toString() == "abc123" -> {
                             val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()

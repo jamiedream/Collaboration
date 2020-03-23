@@ -4,6 +4,7 @@ import com.google.gson.*
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.remote.DataCount
 import com.viwave.collaborationproject.data.bios.Bio
+import com.viwave.collaborationproject.data.general.Login
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.data.general.User
 import com.viwave.collaborationproject.utils.ConvertUtil
@@ -13,6 +14,31 @@ import java.lang.reflect.Type
 object DataSort{
 
     //login
+    fun staff(login: Login): User{
+        val token = login.token
+        val tokenArray = token.split(".")
+        val payload = JSONObject(ConvertUtil.fromBase64(tokenArray[1]))
+        val id = payload["id"].toString()
+        val name = payload["name"].toString()
+        val loginTime = payload["LoginTime"].toString()
+        val sysArray = login.system
+        val sysList = mutableListOf<SubSys>()
+        sysArray.forEach {subSys ->
+            subSys.sysCode.apply {
+                sysList.add(
+                    when(this){
+                        SysKey.DAILY_CARE_CODE -> SysKey.DailyCare
+                        SysKey.DAILY_NURSING_CODE -> SysKey.DailyNursing
+                        SysKey.DAILY_STATION_CODE -> SysKey.Station
+                        SysKey.DAILY_HOME_CARE_CODE -> SysKey.HomeCare
+                        else -> SysKey.DailyCare
+                    }
+                )
+            }
+        }
+        return User(id, name, loginTime, token, sysList)
+    }
+
     val staffInfo =
         object: JsonDeserializer<User>{
             override fun deserialize(
