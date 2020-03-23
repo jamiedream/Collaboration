@@ -11,6 +11,8 @@ import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.diagram.DiagramView
+import com.viwave.collaborationproject.fragments.subsys.diagram.PulseDiagram
+import com.viwave.collaborationproject.fragments.subsys.diagram.TemperatureDiagram
 import java.lang.ref.WeakReference
 
 class HistoryChartFragment: BaseFragment() {
@@ -26,33 +28,37 @@ class HistoryChartFragment: BaseFragment() {
         return inflater.inflate(bioViewModel.getSelectedTypeHistoryLayout().value?: R.layout.layout_history_temperature_chart, container, false)
     }
 
-    private val selectedTypeObserver =
-        Observer<BioLiveData.Companion.BioType>{
-            diagramView = bioViewModel.selectedHistoryDiagram(WeakReference(this))
-            diagramView.initView()
-        }
-
-
-    private val markerDataObserver =
-        Observer<Bio>{
-            diagramView.setMarkerData(it)
-        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bioViewModel.getSelectedType().observe(this, selectedTypeObserver)
+        val fragment = WeakReference(this)
+        diagramView =
+            when( bioViewModel.getSelectedType().value){
+//            BioLiveData.Companion.BioType.BloodGlucose -> R.layout.layout_history_glucose_chart
+                BioLiveData.Companion.BioType.Temperature -> TemperatureDiagram(fragment)
+//            BioLiveData.Companion.BioType.Weight -> R.layout.layout_history_weight_chart
+//            BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_respire_chart
+//            BioLiveData.Companion.BioType.Height -> R.layout.layout_history_height_chart
+                BioLiveData.Companion.BioType.Pulse -> PulseDiagram(fragment)
+//            BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_history_blood_pressure_chart
+//            BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_oxygen_chart
+                else -> PulseDiagram(fragment)
+            }
+
+        val markerDataObserver =
+            Observer<Bio>{
+                diagramView.setMarkerData(it)
+            }
+        bioViewModel.getMarkerData().observe(this, markerDataObserver)
+
     }
 
     override fun onResume() {
         super.onResume()
-        bioViewModel.getMarkerData().observe(this, markerDataObserver)
         diagramView.initView()
     }
 
     override fun onStop() {
         bioViewModel.getMarkerData().value = null
-        bioViewModel.getSelectedType().removeObserver(selectedTypeObserver)
-        bioViewModel.getMarkerData().removeObserver(markerDataObserver)
         super.onStop()
     }
 

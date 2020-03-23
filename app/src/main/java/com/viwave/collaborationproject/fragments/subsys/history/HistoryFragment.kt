@@ -7,8 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonDeserializer
+import com.google.gson.reflect.TypeToken
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
+import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.DataSort
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
@@ -22,6 +28,7 @@ class HistoryFragment: BaseFragment(){
     private val imgDiagramMenu by lazy { view!!.findViewById<ImageView>(R.id.diagram_menu) }
     private val imgDiagramChartList by lazy { view!!.findViewById<ImageView>(R.id.diagram_chart_list) }
     private val contentLayout by lazy { view!!.findViewById<FrameLayout>(R.id.content_history) }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,16 +61,54 @@ class HistoryFragment: BaseFragment(){
     private val selectedTypeObserver =
         Observer<BioLiveData.Companion.BioType>{
             textDiagramType.text = getString(bioViewModel.getSelectedTypeHistoryTitle().value?: R.string.temperature)
+
+            when(it){
+                BioLiveData.Companion.BioType.Temperature -> {
+                    bioViewModel.getTempListData().value = sortBioData(DataSort.temperatureList, QueryData().tempData)
+                    bioViewModel.getTempListData().value?.sortBy { it.takenAt }
+                }
+
+                BioLiveData.Companion.BioType.Pulse -> {
+                    bioViewModel.getPulseListData().value = sortBioData(DataSort.pulseList, QueryData().pulseData)
+                    bioViewModel.getPulseListData().value?.sortBy { it.takenAt }
+                }
+            }
+
+            when(imgDiagramChartList.tag){
+                getString(R.string.tag_list) -> replacePartialFragment(this, HistoryListFragment(), R.id.content_history, getString(R.string.tag_list))
+                getString(R.string.tag_chart) -> replacePartialFragment(this, HistoryChartFragment(), R.id.content_history, getString(R.string.tag_chart))
+            }
+
+
         }
 
+    private fun <T> sortBioData(deserializer: JsonDeserializer<MutableList<T>>, data: JsonArray): MutableList<T>{
+        return GsonBuilder()
+            .registerTypeAdapter(object: TypeToken<MutableList<T>>(){}.type, deserializer)
+            .create()
+            .fromJson(data, object: TypeToken<MutableList<T>>(){}.type)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        caseViewModel.getSelectedCase().observe(this, selectedCaseObserver)
+
+        //init
+        replacePartialFragment(this,
+            HistoryListFragment(), R.id.content_history, getString(R.string.tag_list))
+
+        bioViewModel.getSelectedType().observe(this, selectedTypeObserver)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         //switch popup menu
         imgDiagramMenu.setOnClickListener {
 
-            PopupMenu(view.context, it).apply {
+            PopupMenu(view!!.context, it).apply {
                 this.menuInflater.inflate(R.menu.menu_chart, menu)
                 this.show()
                 this.setOnMenuItemClickListener { item ->
@@ -85,13 +130,6 @@ class HistoryFragment: BaseFragment(){
             }
         }
 
-        caseViewModel.getSelectedCase().observe(this, selectedCaseObserver)
-        bioViewModel.getSelectedType().observe(this, selectedTypeObserver)
-
-        //init
-        replacePartialFragment(this,
-            HistoryListFragment(), R.id.content_history, getString(R.string.tag_list))
-
         //switch chart and list
         imgDiagramChartList.setOnClickListener {
             when(imgDiagramChartList.tag){
@@ -111,12 +149,9 @@ class HistoryFragment: BaseFragment(){
                 }
             }
         }
-
     }
 
     override fun onStop() {
-        caseViewModel.getSelectedCase().removeObserver(selectedCaseObserver)
-        bioViewModel.getSelectedType().removeObserver(selectedTypeObserver)
         super.onStop()
     }
 
