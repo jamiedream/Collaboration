@@ -59,7 +59,7 @@ class TemperatureDiagram(fragment: WeakReference<HistoryChartFragment>): Diagram
     }
 
     override fun initPeriod() {
-        tabPeriod?.setToggleListener(this)
+        tabPeriod.setToggleListener(this)
     }
 
     override fun setData() {

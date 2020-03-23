@@ -12,11 +12,10 @@ import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.MONTH
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
-import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.widgets.TabView
 import java.lang.ref.WeakReference
 
-abstract class DiagramView(fragment: WeakReference<Fragment>) {
+abstract class DiagramView(fragment: WeakReference<out Fragment>) {
 
     val TAG = this::class.java.simpleName
     val view by lazy { fragment.get()?.view!! }
@@ -52,7 +51,7 @@ abstract class DiagramView(fragment: WeakReference<Fragment>) {
 
         xAxis.updateXAxis()
         updateYAxis()
-        mv.setModel(bioViewModel)
+
         chart.onChartGestureListener = customOnChartGestureListener
     }
 
@@ -60,9 +59,6 @@ abstract class DiagramView(fragment: WeakReference<Fragment>) {
     abstract fun initPeriod()
     abstract fun setData()
 
-    fun getMV(): JMarkdown{
-        return mv
-    }
 
     /**
      * Safe area

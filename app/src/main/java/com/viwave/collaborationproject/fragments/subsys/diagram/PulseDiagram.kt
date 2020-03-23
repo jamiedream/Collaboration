@@ -56,7 +56,7 @@ class PulseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
     }
 
     override fun initPeriod() {
-        tabPeriod?.setToggleListener(this)
+        tabPeriod.setToggleListener(this)
     }
 
     override fun setData() {
