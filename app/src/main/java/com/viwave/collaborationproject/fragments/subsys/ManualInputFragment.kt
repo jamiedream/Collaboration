@@ -94,6 +94,8 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
         SCDID = this.arguments?.getString(MEASURE_SCDID)?: ""
         staffId = this.arguments?.getString(MEASURE_STAFF_ID)?: ""
         sysCode = this.arguments?.getString(MEASURE_SYS_CODE)?: ""
+
+        note = context?.getString(R.string.after_meal)?: ""
     }
     override fun onResume() {
         super.onResume()
@@ -108,7 +110,7 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
                 glucoseEditText.requestFocus()
 
                 val autoFitView = view!!.findViewById<TabView>(R.id.view_auto_fit)
-                note = context?.getString(R.string.after_meal)?: ""
+                autoFitView.setSelectedTab(note)
                 autoFitView.setToggleListener(
                     object : ITogglePressedListener{
                         override fun pressedToggle(toggleName: String) {
