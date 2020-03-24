@@ -1,5 +1,12 @@
+/*
+ * Copyright (c) viWave 2020.
+ * Create by J.Y Yen 23/ 3/ 2020.
+ * Last modified 3/23/20 4:39 PM
+ */
+
 package com.viwave.collaborationproject.fragments.subsys.diagram
 
+import android.widget.TextView
 import com.github.mikephil.charting.data.CombinedData
 import com.viwave.RossmaxConnect.Measurement.chart.JLineData
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.DAY
@@ -8,27 +15,23 @@ import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.WEEK
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
-import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisWeight
+import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisGlucose
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
 import com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
-import com.viwave.collaborationproject.utils.DataFormatUtil
 import com.viwave.collaborationproject.utils.DateUtil
-import com.viwave.collaborationproject.utils.LogUtil
 import java.lang.ref.WeakReference
 
-class WeightDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment), ITogglePressedListener {
+class DiagramGlucose(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment), ITogglePressedListener {
 
-    private val yAxis by lazy { YAxisWeight(chart) }
+    private val yAxis by lazy { YAxisGlucose(chart) }
 
-    private val markerWeightValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.weight_marker_value) }
-
-//    //setting safe area
-//    private val weightSafeLow = 80f
-//    private val weightSafeHigh = 100f
+    private val markerGlucoseValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.glucose_marker_value) }
+    private val markerGlucoseMealValue by lazy { view.findViewById<TextView>(R.id.glucose_meal) }
 
     override fun pressedToggle(toggleName: String) {
 
@@ -40,7 +43,7 @@ class WeightDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(
             xAxis.setPreLocX(chart.lowestVisibleX, chart.highestVisibleX)
 
             (bioViewModel.getMarkerData().value)?.let {
-                it as Bio.Weight
+                it as Bio.BloodGlucose
                 xAxis.setMarkerDataX(calXIndex(it.takenAt))
             }
 
@@ -66,20 +69,21 @@ class WeightDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(
     override fun setData() {
 
         val combineData = CombinedData()
-        combineData.setData(JLineData.getWeightLineData(bioViewModel.getWeightListData().value))
+        combineData.setData(JLineData.getGlucoseLineData(bioViewModel.getGlucoseListData().value))
         chart.data = combineData
         chart.invalidate()
 
     }
 
     override fun setMarkerData(data: Bio?) {
-        data as Bio.Weight?
+        data as Bio.BloodGlucose?
         when (data == null) {
             false -> {
                 //date
                 markerTime.text = DateUtil.getMeasurementTime(data.takenAt * 1000L)
                 //marker data
-                markerWeightValue.setValue(DataFormatUtil.formatString(data.weight))
+                markerGlucoseValue.setValue(data.glucose.toString())
+                markerGlucoseMealValue.text = data.meal
             }
         }
     }
@@ -91,27 +95,14 @@ class WeightDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(
     override fun updateYAxis() {
         val newX = getScaledHighLow(xAxis.getBackXValue())
         val dynamicY = getYMinMax(newX[0], newX[1])
-        LogUtil.logD(TAG, dynamicY[0])
-        LogUtil.logD(TAG, dynamicY[1])
         yAxis.setYMax(dynamicY[0])
-        yAxis.setYMin(dynamicY[1])
         yAxis.updateYAxis()
-
-//        setSafeAreaGrid(
-//            !(weightSafeHigh < yAxis.minY || weightSafeLow > yAxis.maxY),
-//            if(weightSafeLow < yAxis.minY) yAxis.minY else weightSafeLow,
-//            if(weightSafeHigh > yAxis.maxY) yAxis.maxY else weightSafeHigh,
-//            yAxis.minY,
-//            yAxis.minY,
-//            yAxis.maxY,
-//            R.color.cornflower_blue
-//        )
     }
 
     private fun getYMinMax(start: Float, end: Float): MutableList<Float>{
 
-        val inRangeList = mutableListOf<Bio.Weight>()
-        bioViewModel.getWeightListData().value?.forEach {
+        val inRangeList = mutableListOf<Bio.BloodGlucose>()
+        bioViewModel.getGlucoseListData().value?.forEach {
             val index = calXIndex(it.takenAt)
             if(index in start..end){
                 inRangeList.add(it)
@@ -119,27 +110,26 @@ class WeightDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(
 
         }
 
-        var weightHigh = yAxis.defaultMax
-        var weightLow = yAxis.defaultMin
-        if(inRangeList.isEmpty()) return mutableListOf(weightHigh, weightLow)
+        var glucoseHigh = 0f
+        val glucoseLow = 0f
+        if(inRangeList.isEmpty()) return mutableListOf(glucoseHigh, glucoseLow)
         for(num in 0 until inRangeList.size){
-            val dateTemp = inRangeList[num].weight
-            weightHigh = Math.max(weightHigh, dateTemp)
-            weightLow = Math.min(weightLow, dateTemp)
+            glucoseHigh = Math.max(glucoseHigh, inRangeList[num].glucose.toFloat())
         }
 
-        return mutableListOf(weightHigh, weightLow)
+        return mutableListOf(glucoseHigh, glucoseLow)
     }
 
     override fun emptyMarker() {
-        bioViewModel.getMarkerData().value = null
+        CaseListFragment.bioViewModel.getMarkerData().value = null
         chart.highlightValue(null)
         initTopData()
     }
 
     private fun initTopData() {
         markerTime.text = "--"
-        markerWeightValue.setValue(null)
+        markerGlucoseValue.setValue(null)
+        markerGlucoseMealValue.text = "--"
     }
 
     override fun updateTranslateData() {

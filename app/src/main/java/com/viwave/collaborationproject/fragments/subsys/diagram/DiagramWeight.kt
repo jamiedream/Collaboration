@@ -2,33 +2,36 @@ package com.viwave.collaborationproject.fragments.subsys.diagram
 
 import com.github.mikephil.charting.data.CombinedData
 import com.viwave.RossmaxConnect.Measurement.chart.JLineData
-import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.DAY
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.MONTH
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.WEEK
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
+import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisWeight
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
-import com.viwave.collaborationproject.fragments.subsys.diagram.yaxis.YAxisPulse
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
 import com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
+import com.viwave.collaborationproject.utils.DataFormatUtil
 import com.viwave.collaborationproject.utils.DateUtil
 import java.lang.ref.WeakReference
 
-class PulseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment), ITogglePressedListener {
+class DiagramWeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment), ITogglePressedListener {
 
-    private val yAxis by lazy { YAxisPulse(chart) }
+    private val yAxis by lazy { YAxisWeight(chart) }
 
-    private val markerPulseValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.pulse_marker_value) }
+    private val markerWeightValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.weight_marker_value) }
 
-    //setting safe area
-    private val pulseSafeLow = 80f
-    private val pulseSafeHigh = 100f
+//    //setting safe area
+//    private val weightSafeLow = 80f
+//    private val weightSafeHigh = 100f
 
     override fun pressedToggle(toggleName: String) {
 
-        (toggleName != togglePeriod).let {
+        (toggleName != togglePeriod).let{
 
             togglePeriod = toggleName
 
@@ -36,14 +39,14 @@ class PulseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
             xAxis.setPreLocX(chart.lowestVisibleX, chart.highestVisibleX)
 
             (bioViewModel.getMarkerData().value)?.let {
-                it as Bio.Pulse
+                it as Bio.Weight
                 xAxis.setMarkerDataX(calXIndex(it.takenAt))
             }
 
-            when (toggleName) {
-                view.context.getString(R.string.month) -> switchPress(JTimeSwitcher.MONTH)
-                view.context.getString(R.string.week) -> switchPress(JTimeSwitcher.WEEK)
-                view.context.getString(R.string.day) -> switchPress(JTimeSwitcher.DAY)
+            when(toggleName){
+                view.context.getString(R.string.month) -> switchPress(MONTH)
+                view.context.getString(R.string.week) -> switchPress(WEEK)
+                view.context.getString(R.string.day) -> switchPress(DAY)
             }
 
             xAxis.updateXAxis()
@@ -62,20 +65,20 @@ class PulseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
     override fun setData() {
 
         val combineData = CombinedData()
-        combineData.setData(JLineData.getPulseLineData(bioViewModel.getPulseListData().value))
+        combineData.setData(JLineData.getWeightLineData(bioViewModel.getWeightListData().value))
         chart.data = combineData
         chart.invalidate()
 
     }
 
     override fun setMarkerData(data: Bio?) {
-        data as Bio.Pulse?
+        data as Bio.Weight?
         when (data == null) {
             false -> {
                 //date
                 markerTime.text = DateUtil.getMeasurementTime(data.takenAt * 1000L)
                 //marker data
-                markerPulseValue.setValue(data.pulse.toString())
+                markerWeightValue.setValue(DataFormatUtil.formatString(data.weight))
             }
         }
     }
@@ -91,38 +94,38 @@ class PulseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
         yAxis.setYMin(dynamicY[1])
         yAxis.updateYAxis()
 
-        setSafeAreaGrid(
-            !(pulseSafeHigh < yAxis.minY || pulseSafeLow > yAxis.maxY),
-            if (pulseSafeLow < yAxis.minY) yAxis.minY else pulseSafeLow,
-            if (pulseSafeHigh > yAxis.maxY) yAxis.maxY else pulseSafeHigh,
-            yAxis.minY,
-            yAxis.minY,
-            yAxis.maxY,
-            R.color.cornflower_blue
-        )
+//        setSafeAreaGrid(
+//            !(weightSafeHigh < yAxis.minY || weightSafeLow > yAxis.maxY),
+//            if(weightSafeLow < yAxis.minY) yAxis.minY else weightSafeLow,
+//            if(weightSafeHigh > yAxis.maxY) yAxis.maxY else weightSafeHigh,
+//            yAxis.minY,
+//            yAxis.minY,
+//            yAxis.maxY,
+//            R.color.cornflower_blue
+//        )
     }
 
-    private fun getYMinMax(start: Float, end: Float): MutableList<Float> {
+    private fun getYMinMax(start: Float, end: Float): MutableList<Float>{
 
-        val inRangeList = mutableListOf<Bio.Pulse>()
-        bioViewModel.getPulseListData().value?.forEach {
+        val inRangeList = mutableListOf<Bio.Weight>()
+        bioViewModel.getWeightListData().value?.forEach {
             val index = calXIndex(it.takenAt)
-            if (index in start..end) {
+            if(index in start..end){
                 inRangeList.add(it)
             }
 
         }
 
-        var pulseHigh = yAxis.defaultMax
-        var pulseLow = yAxis.defaultMin
-        if (inRangeList.isEmpty()) return mutableListOf(pulseHigh, pulseLow)
-        for (num in 0 until inRangeList.size) {
-            val dateTemp = inRangeList[num].pulse.toFloat()
-            pulseHigh = Math.max(pulseHigh, dateTemp)
-            pulseLow = Math.min(pulseLow, dateTemp)
+        var weightHigh = yAxis.defaultMax
+        var weightLow = yAxis.defaultMin
+        if(inRangeList.isEmpty()) return mutableListOf(weightHigh, weightLow)
+        for(num in 0 until inRangeList.size){
+            val dateTemp = inRangeList[num].weight
+            weightHigh = Math.max(weightHigh, dateTemp)
+            weightLow = Math.min(weightLow, dateTemp)
         }
 
-        return mutableListOf(pulseHigh, pulseLow)
+        return mutableListOf(weightHigh, weightLow)
     }
 
     override fun emptyMarker() {
@@ -133,7 +136,7 @@ class PulseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
 
     private fun initTopData() {
         markerTime.text = "--"
-        markerPulseValue.setValue(null)
+        markerWeightValue.setValue(null)
     }
 
     override fun updateTranslateData() {
@@ -142,5 +145,6 @@ class PulseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
         updateYAxis()
 
     }
+
 
 }

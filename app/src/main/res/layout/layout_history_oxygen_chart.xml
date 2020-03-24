@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.viwave.collaborationproject.fragments.widgets.TabView
-        android:id="@+id/oxygen_auto_fit"
+        android:id="@+id/chart_auto_fit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_toggle"
@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@+id/oxygen_auto_fit"
+        app:layout_constraintTop_toBottomOf="@+id/chart_auto_fit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="720:812"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/oxygen_chart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="720:200"
+        app:layout_constraintDimensionRatio="720:240"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
             android:layout_gravity="center"
             >
             <TextView
-                android:id="@+id/oxygen_marker_time"
+                android:id="@+id/marker_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

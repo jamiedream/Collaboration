@@ -1,12 +1,5 @@
-/*
- * Copyright (c) viWave 2020.
- * Create by J.Y Yen 23/ 3/ 2020.
- * Last modified 3/23/20 4:39 PM
- */
-
 package com.viwave.collaborationproject.fragments.subsys.diagram
 
-import android.widget.TextView
 import com.github.mikephil.charting.data.CombinedData
 import com.viwave.RossmaxConnect.Measurement.chart.JLineData
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.DAY
@@ -15,23 +8,26 @@ import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.WEEK
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
-import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisGlucose
+import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisTemperature
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
-import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
 import com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
+import com.viwave.collaborationproject.utils.DataFormatUtil
 import com.viwave.collaborationproject.utils.DateUtil
 import java.lang.ref.WeakReference
 
-class GlucoseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment), ITogglePressedListener {
+class DiagramTemperature(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment), ITogglePressedListener {
 
-    private val yAxis by lazy { YAxisGlucose(chart) }
+    private val yAxis by lazy { YAxisTemperature(chart) }
 
-    private val markerGlucoseValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.glucose_marker_value) }
-    private val markerGlucoseMealValue by lazy { view.findViewById<TextView>(R.id.glucose_meal) }
+    private val markerTempValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.temp_marker_value) }
+
+    //setting safe area
+    private val tempSafeLow = 36f
+    private val tempSafeHigh = 37f
 
     override fun pressedToggle(toggleName: String) {
 
@@ -43,7 +39,7 @@ class GlucoseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView
             xAxis.setPreLocX(chart.lowestVisibleX, chart.highestVisibleX)
 
             (bioViewModel.getMarkerData().value)?.let {
-                it as Bio.BloodGlucose
+                it as Bio.Temperature
                 xAxis.setMarkerDataX(calXIndex(it.takenAt))
             }
 
@@ -69,21 +65,20 @@ class GlucoseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView
     override fun setData() {
 
         val combineData = CombinedData()
-        combineData.setData(JLineData.getGlucoseLineData(bioViewModel.getGlucoseListData().value))
+        combineData.setData(JLineData.getTempLineData(bioViewModel.getTempListData().value))
         chart.data = combineData
         chart.invalidate()
 
     }
 
     override fun setMarkerData(data: Bio?) {
-        data as Bio.BloodGlucose?
+        data as Bio.Temperature?
         when (data == null) {
             false -> {
                 //date
                 markerTime.text = DateUtil.getMeasurementTime(data.takenAt * 1000L)
                 //marker data
-                markerGlucoseValue.setValue(data.glucose.toString())
-                markerGlucoseMealValue.text = data.meal
+                markerTempValue.setValue(DataFormatUtil.formatString(data.temperature))
             }
         }
     }
@@ -96,13 +91,24 @@ class GlucoseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView
         val newX = getScaledHighLow(xAxis.getBackXValue())
         val dynamicY = getYMinMax(newX[0], newX[1])
         yAxis.setYMax(dynamicY[0])
+        yAxis.setYMin(dynamicY[1])
         yAxis.updateYAxis()
+
+        setSafeAreaGrid(
+            !(tempSafeHigh < yAxis.minY || tempSafeLow > yAxis.maxY),
+            if(tempSafeLow < yAxis.minY) yAxis.minY else tempSafeLow,
+            if(tempSafeHigh > yAxis.maxY) yAxis.maxY else tempSafeHigh,
+            yAxis.minY,
+            yAxis.minY,
+            yAxis.maxY,
+            R.color.cornflower_blue
+        )
     }
 
     private fun getYMinMax(start: Float, end: Float): MutableList<Float>{
 
-        val inRangeList = mutableListOf<Bio.BloodGlucose>()
-        bioViewModel.getGlucoseListData().value?.forEach {
+        val inRangeList = mutableListOf<Bio.Temperature>()
+        bioViewModel.getTempListData().value?.forEach {
             val index = calXIndex(it.takenAt)
             if(index in start..end){
                 inRangeList.add(it)
@@ -110,26 +116,27 @@ class GlucoseDiagram(fragment: WeakReference<HistoryChartFragment>): DiagramView
 
         }
 
-        var glucoseHigh = 0f
-        val glucoseLow = 0f
-        if(inRangeList.isEmpty()) return mutableListOf(glucoseHigh, glucoseLow)
+        var tempHigh = yAxis.defaultMax
+        var tempLow = yAxis.defaultMin
+        if(inRangeList.isEmpty()) return mutableListOf(tempHigh, tempLow)
         for(num in 0 until inRangeList.size){
-            glucoseHigh = Math.max(glucoseHigh, inRangeList[num].glucose.toFloat())
+            val dateTemp = inRangeList[num].temperature
+            tempHigh = Math.max(tempHigh, dateTemp)
+            tempLow = Math.min(tempLow, dateTemp)
         }
 
-        return mutableListOf(glucoseHigh, glucoseLow)
+        return mutableListOf(tempHigh, tempLow)
     }
 
     override fun emptyMarker() {
-        CaseListFragment.bioViewModel.getMarkerData().value = null
+        bioViewModel.getMarkerData().value = null
         chart.highlightValue(null)
         initTopData()
     }
 
     private fun initTopData() {
         markerTime.text = "--"
-        markerGlucoseValue.setValue(null)
-        markerGlucoseMealValue.text = "--"
+        markerTempValue.setValue(null)
     }
 
     override fun updateTranslateData() {
