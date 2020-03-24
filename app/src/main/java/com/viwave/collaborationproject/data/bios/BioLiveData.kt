@@ -74,6 +74,19 @@ class BioLiveData {
         return glucoseLastData
     }
 
+    /**
+     * BloodPressure
+     * */
+    private val bpListData = MutableLiveData<MutableList<Bio.BloodPressure>>()
+    internal fun getBPListData(): MutableLiveData<MutableList<Bio.BloodPressure>>? {
+        return bpListData
+    }
+
+    private val bpLastData = MutableLiveData<Bio.BloodPressure>()
+    internal fun getBPLastData(): MutableLiveData<Bio.BloodPressure>? {
+        return bpLastData
+    }
+
 //    private val tempData = MutableLiveData<Float>()
 //    internal fun demoTempData(): MutableLiveData<Float> {
 //        return tempData

@@ -150,6 +150,25 @@ open class BioViewModel: ViewModel() {
         return glucoseLastData!!
     }
 
+    /**
+     * BloodPressure
+     * */
+    private var bpListData: MutableLiveData<MutableList<Bio.BloodPressure>>? = null
+    fun getBPListData(): MutableLiveData<MutableList<Bio.BloodPressure>>{
+        if(bpListData == null){
+            bpListData = BioLiveData().getBPListData()
+        }
+        return bpListData!!
+    }
+
+    private var bpLastData: MutableLiveData<Bio.BloodPressure>? = null
+    fun getBPLastData(): MutableLiveData<Bio.BloodPressure>{
+        if(bpLastData == null){
+            bpLastData = BioLiveData().getBPLastData()
+        }
+        return bpLastData!!
+    }
+
 
 //    private var demoTempData: MutableLiveData<Float>? = null
 //    fun getDemoTempData(): MutableLiveData<Float> {

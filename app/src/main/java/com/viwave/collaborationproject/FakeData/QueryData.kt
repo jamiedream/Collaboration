@@ -178,6 +178,33 @@ class QueryData {
             )
         }
 
+    val bpData =
+        JsonArray().apply {
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1584343726")
+                    this.addProperty("systolic", "218")
+                    this.addProperty("diastolic", "133")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583998126")
+                    this.addProperty("systolic", "121")
+                    this.addProperty("diastolic", "80")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583911726")
+                    this.addProperty("systolic", "132")
+                    this.addProperty("diastolic", "91")
+                }
+            )
+        }
+
 
     val data =
         "{\n" +

@@ -7,12 +7,12 @@ sealed class Bio {
         @SerializedName("takenAt") val takenAt: Long,
         @SerializedName("systolic") val sys: Int,
         @SerializedName("diastolic") val dia: Int,
-        @SerializedName("pulse") val pulse: Int,
-        @SerializedName("scene") val note: String,
-        @SerializedName("ARR") val arr: Boolean,
-        @SerializedName("Afib") val afib: Boolean,
-        @SerializedName("PC") val pc: Boolean,
-        @SerializedName("IHB") val ihb: Boolean
+        @SerializedName("pulse") val pulse: Int?,
+        @SerializedName("scene") val note: String?,
+        @SerializedName("ARR") val arr: Boolean?,
+        @SerializedName("Afib") val afib: Boolean?,
+        @SerializedName("PC") val pc: Boolean?,
+        @SerializedName("IHB") val ihb: Boolean?
     ): Bio()
     {
         override fun toString(): String {

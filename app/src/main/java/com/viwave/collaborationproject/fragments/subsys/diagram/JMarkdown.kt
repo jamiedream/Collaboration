@@ -77,6 +77,14 @@ class JMarkdown(context: Context?, layoutResource: Int) : MarkerView(context, la
                         }
                     }
                 }
+                BioLiveData.Companion.BioType.BloodPressure -> {
+                    bioViewModel.getBPListData().value?.forEach {
+                        if(calXIndex(it.takenAt) == x && it.sys.toFloat() == y){
+                            bioViewModel.getMarkerData().value = it
+                            return
+                        }
+                    }
+                }
                 else -> {}
             }
         }

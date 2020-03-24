@@ -31,15 +31,15 @@ class HistoryChartFragment: BaseFragment() {
         val fragment = WeakReference(this)
         diagramView =
             when( bioViewModel.getSelectedType().value){
-            BioLiveData.Companion.BioType.BloodGlucose -> GlucoseDiagram(fragment)
-                BioLiveData.Companion.BioType.Temperature -> TemperatureDiagram(fragment)
-                BioLiveData.Companion.BioType.Weight -> WeightDiagram(fragment)
+                BioLiveData.Companion.BioType.BloodGlucose -> DiagramGlucose(fragment)
+                BioLiveData.Companion.BioType.Temperature -> DiagramTemperature(fragment)
+                BioLiveData.Companion.BioType.Weight -> DiagramWeight(fragment)
 //            BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_respire_chart
 //            BioLiveData.Companion.BioType.Height -> R.layout.layout_history_height_chart
-                BioLiveData.Companion.BioType.Pulse -> PulseDiagram(fragment)
-//            BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_history_blood_pressure_chart
+                BioLiveData.Companion.BioType.Pulse -> DiagramPulse(fragment)
+                BioLiveData.Companion.BioType.BloodPressure -> DiagramBloodPressure(fragment)
 //            BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_oxygen_chart
-                else -> PulseDiagram(fragment)
+                else -> DiagramPulse(fragment)
             }
 
         val markerDataObserver =

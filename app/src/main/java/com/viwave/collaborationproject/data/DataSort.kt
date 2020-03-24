@@ -70,12 +70,12 @@ object DataSort{
                                     data.asJsonObject.get("takenAt").asLong,
                                     data.asJsonObject.get("systolic").asInt,
                                     data.asJsonObject.get("diastolic").asInt,
-                                    data.asJsonObject.get("pulse").asInt,
-                                    data.asJsonObject.get("scene").asString,
-                                    data.asJsonObject.get("ARR").asBoolean,
-                                    data.asJsonObject.get("Afib").asBoolean,
-                                    data.asJsonObject.get("PC").asBoolean,
-                                    data.asJsonObject.get("IHB").asBoolean
+                                    data.asJsonObject.get("pulse")?.asInt,
+                                    data.asJsonObject.get("scene")?.asString,
+                                    data.asJsonObject.get("ARR")?.asBoolean,
+                                    data.asJsonObject.get("Afib")?.asBoolean,
+                                    data.asJsonObject.get("PC")?.asBoolean,
+                                    data.asJsonObject.get("IHB")?.asBoolean
                                 )
                             )
 
@@ -87,12 +87,12 @@ object DataSort{
                                 json.asJsonObject.get("takenAt").asLong,
                                 json.asJsonObject.get("systolic").asInt,
                                 json.asJsonObject.get("diastolic").asInt,
-                                json.asJsonObject.get("pulse").asInt,
-                                json.asJsonObject.get("scene").asString,
-                                json.asJsonObject.get("ARR").asBoolean,
-                                json.asJsonObject.get("Afib").asBoolean,
-                                json.asJsonObject.get("PC").asBoolean,
-                                json.asJsonObject.get("IHB").asBoolean
+                                json.asJsonObject.get("pulse")?.asInt,
+                                json.asJsonObject.get("scene")?.asString,
+                                json.asJsonObject.get("ARR")?.asBoolean,
+                                json.asJsonObject.get("Afib")?.asBoolean,
+                                json.asJsonObject.get("PC")?.asBoolean,
+                                json.asJsonObject.get("IHB")?.asBoolean
                             )
                         )
                     }

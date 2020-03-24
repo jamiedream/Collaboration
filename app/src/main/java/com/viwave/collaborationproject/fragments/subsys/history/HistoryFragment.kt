@@ -82,6 +82,11 @@ class HistoryFragment: BaseFragment(){
                     bioViewModel.getGlucoseListData().value = sortBioData(DataSort.glucoseList, QueryData().glucoseData)
                     bioViewModel.getGlucoseListData().value?.sortBy { it.takenAt }
                 }
+
+                BioLiveData.Companion.BioType.BloodPressure -> {
+                    bioViewModel.getBPListData().value = sortBioData(DataSort.bloodPressureList, QueryData().bpData)
+                    bioViewModel.getBPListData().value?.sortBy { it.takenAt }
+                }
             }
 
             when(imgDiagramChartList.tag){

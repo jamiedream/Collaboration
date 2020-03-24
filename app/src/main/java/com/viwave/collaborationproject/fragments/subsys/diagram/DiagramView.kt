@@ -17,17 +17,17 @@ import java.lang.ref.WeakReference
 
 abstract class DiagramView(fragment: WeakReference<out Fragment>) {
 
-    val TAG = this::class.java.simpleName
-    val view by lazy { fragment.get()?.view!! }
+    protected val TAG = this::class.java.simpleName
+    protected val view by lazy { fragment.get()?.view!! }
 
-    var togglePeriod: String = "月"
-    val tabPeriod by lazy { view.findViewById<TabView>(R.id.chart_auto_fit) }
+    protected var togglePeriod: String
+    protected val tabPeriod by lazy { view.findViewById<TabView>(R.id.chart_auto_fit) }
 
-    val chart by lazy { view.findViewById<JCustomCombinedChart>(R.id.combine_chart) }
-    val xAxis by lazy { JCustomXAxis(chart) }
-    val mv by lazy {  JMarkdown(view.context, R.layout.view_triangle) }
+    protected val chart by lazy { view.findViewById<JCustomCombinedChart>(R.id.combine_chart) }
+    protected val xAxis by lazy { JCustomXAxis(chart) }
+    private val mv by lazy {  JMarkdown(view.context, R.layout.view_triangle) }
 
-    val markerTime by lazy { view.findViewById<TextView>(R.id.marker_time) }
+    protected val markerTime by lazy { view.findViewById<TextView>(R.id.marker_time) }
 
     init {
         togglePeriod = view.context.getString(R.string.month)
