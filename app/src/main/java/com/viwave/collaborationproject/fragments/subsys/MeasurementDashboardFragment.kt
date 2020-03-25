@@ -20,6 +20,8 @@ import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.bios.BioUpload
 import com.viwave.collaborationproject.fragments.BaseFragment
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.FEMALE
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.MALE
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryFragment
@@ -41,6 +43,10 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     }
 
     private val TAG = this::class.java.simpleName
+
+    private val caseGender by lazy { view!!.findViewById<ImageView>(R.id.case_gender) }
+    private val caseName by lazy { view!!.findViewById<TextView>(R.id.case_name) }
+    private val caseNumber by lazy { view!!.findViewById<TextView>(R.id.case_number) }
 
     private val borderTemp by lazy { view!!.findViewById<FrameLayout>(R.id.border_temp) }
     private val borderBP by lazy { view!!.findViewById<FrameLayout>(R.id.border_blood_pressure) }
@@ -117,6 +123,14 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
 
     private val selectedCaseObserver =
         Observer<CaseEntity>{
+            caseName.text = it.getCaseName
+            caseNumber.text = it.getCaseNumber
+            caseGender.setImageResource(
+                    when(it.getCaseGender){
+                        FEMALE -> R.drawable.ic_gender_female
+                        else -> R.drawable.ic_gender_male
+                    }
+            )
             caseNo = it.getCaseNumber
             SCDID = it.getSCDID?: ""
             setToolbarTitle(it.getCaseName)

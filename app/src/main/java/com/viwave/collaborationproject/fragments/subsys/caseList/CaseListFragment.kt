@@ -34,6 +34,8 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
     companion object{
         lateinit var caseViewModel: CaseViewModel
         lateinit var bioViewModel: BioViewModel
+        const val FEMALE = "女"
+        const val MALE = "男"
     }
 
     private val TAG = this::class.java.simpleName
