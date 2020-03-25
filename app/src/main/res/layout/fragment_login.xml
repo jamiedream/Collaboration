@@ -7,112 +7,121 @@
     android:layout_gravity="center_vertical"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_40"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="400:190"
         >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow"
-            />
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:src="@drawable/ic_arrow"-->
+<!--            />-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_60"
             android:text="@string/st_mary"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_22"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
             />
-    </LinearLayout>
+    </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_40"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".8"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent=".9"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="400:460"
         >
 
         <TextView
             android:id="@+id/login_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/toggle_oval_width"
+            android:layout_height="@dimen/toggle_oval_height"
             android:text="@string/login_nursing"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="@dimen/dp_24"
+            android:layout_marginTop="200dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/login_account"
             />
 
         <EditText
             android:id="@+id/login_account"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/toggle_oval_width"
+            android:layout_height="@dimen/toggle_oval_height"
             android:hint="@string/login_account"
+            android:textSize="@dimen/sp_18"
             android:imeOptions="actionNext"
             android:singleLine="true"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="1"
+            android:background="@drawable/bg_login_edit"
+            android:layout_marginTop="@dimen/dp_24"
+            android:paddingStart="@dimen/dp_16"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_title"
-            app:layout_constraintBottom_toTopOf="@id/login_password_textinputlayout"
             />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_password_textinputlayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/toggle_oval_width"
+            android:layout_height="@dimen/toggle_oval_height"
+            android:layout_marginTop="@dimen/dp_24"
+            android:background="@drawable/bg_login_edit"
             app:passwordToggleEnabled="true"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="1"
+            app:hintEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_account"
-            app:layout_constraintBottom_toTopOf="@id/login_error_msg"
             >
             <EditText
                 android:id="@+id/login_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/toggle_oval_width"
+                android:layout_height="match_parent"
                 android:hint="@string/login_password"
+                android:paddingStart="@dimen/dp_16"
+                android:textSize="@dimen/sp_18"
                 android:inputType="textPassword"
                 android:imeOptions="actionDone"
+                android:background="@android:color/transparent"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/login_error_msg"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/toggle_oval_width"
+            android:layout_height="@dimen/toggle_oval_height"
             android:gravity="center"
             android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".8"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".16"
+            android:layout_marginTop="@dimen/dp_24"
             app:layout_constraintTop_toBottomOf="@id/login_password_textinputlayout"
-            app:layout_constraintBottom_toTopOf="@id/btn_login"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             />
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/toggle_oval_width"
+            android:layout_height="@dimen/toggle_oval_height"
+            android:layout_marginBottom="@dimen/dp_140"
             android:text="@string/login"
-            app:layout_constraintWidth_default="wrap"
-            app:layout_constraintHeight_default="wrap"
-            app:layout_constraintTop_toBottomOf="@id/login_error_msg"
+            style="@style/ToggleOvalBtn"
+            android:background="@drawable/bg_oval"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

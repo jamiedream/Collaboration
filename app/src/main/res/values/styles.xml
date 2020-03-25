@@ -14,12 +14,18 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="actionMenuTextColor">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
         <item name="actionMenuTextAppearance">@style/MenuTextStyle</item>
     </style>
 
     <style name="MenuTextStyle">
         <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="ToggleOvalBtn">
+        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_oval_toggle</item>
     </style>
 
     <!--Chart-->

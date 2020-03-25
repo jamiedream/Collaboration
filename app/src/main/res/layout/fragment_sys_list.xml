@@ -7,132 +7,152 @@
     android:layout_gravity="center_vertical"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_40"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="400:190"
         >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow"
-            />
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:src="@drawable/ic_arrow"-->
+<!--            />-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_60"
             android:text="@string/st_mary"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_22"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
             />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/hi_name"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_16"
-        android:gravity="center_horizontal"
-        android:text="xxx 你好 \n請選擇登入系統"
-        android:textSize="@dimen/sp_16"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/hi_name"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="@dimen/dp_16"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="@string/login_hi"-->
+<!--        android:textSize="@dimen/sp_16"-->
+<!--        android:textColor="@color/sienna"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/header"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_16"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".9"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent=".6"
-        app:layout_constraintTop_toBottomOf="@id/hi_name"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="400:460"
         >
 
         <TextView
+            android:id="@+id/hi_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_80"
+            android:gravity="center_horizontal"
+            android:text="@string/login_hi"
+            android:textSize="@dimen/sp_20"
+            android:textColor="@color/sienna"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/title_subsys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_select_sys"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/dp_80"
+            android:layout_marginBottom="@dimen/dp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".3"
+            app:layout_constraintTop_toBottomOf="@id/hi_name"
+            />
+
+
+        <TextView
             android:id="@+id/item_daily_care"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/toggle_subsys_width"
+            android:layout_height="@dimen/toggle_subsys_height"
             android:text="@string/sys_daily_care"
             android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
             android:textColor="@color/color_sys_list"
             android:background="@drawable/bg_sys_block"
             android:gravity="center"
             android:enabled="false"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".46"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/item_station"
-            app:layout_constraintBottom_toTopOf="@id/item_daily_nursing"
+            android:layout_marginTop="@dimen/dp_16"
+            app:layout_constraintTop_toBottomOf="@id/title_subsys"
+            app:layout_constraintStart_toStartOf="@id/title_subsys"
             />
 
         <TextView
             android:id="@+id/item_station"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/toggle_subsys_width"
+            android:layout_height="@dimen/toggle_subsys_height"
             android:text="@string/sys_station"
             android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
             android:textColor="@color/color_sys_list"
             android:background="@drawable/bg_sys_block"
             android:gravity="center"
             android:enabled="false"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".46"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".4"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginStart="@dimen/dp_20"
+            app:layout_constraintTop_toBottomOf="@id/title_subsys"
             app:layout_constraintStart_toEndOf="@id/item_daily_care"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/item_home_service"
             />
 
         <TextView
             android:id="@+id/item_daily_nursing"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/toggle_subsys_width"
+            android:layout_height="@dimen/toggle_subsys_height"
             android:text="@string/sys_daily_nursing"
             android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
             android:textColor="@color/color_sys_list"
             android:background="@drawable/bg_sys_block"
             android:gravity="center"
             android:enabled="false"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".46"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".4"
+            android:layout_marginTop="@dimen/dp_28"
             app:layout_constraintTop_toBottomOf="@id/item_daily_care"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/item_home_service"
+            app:layout_constraintStart_toStartOf="@id/title_subsys"
             />
 
         <TextView
             android:id="@+id/item_home_service"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/toggle_subsys_width"
+            android:layout_height="@dimen/toggle_subsys_height"
             android:text="@string/sys_home_service"
             android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
             android:textColor="@color/color_sys_list"
             android:background="@drawable/bg_sys_block"
             android:gravity="center"
             android:enabled="false"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".46"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".4"
+            android:layout_marginTop="@dimen/dp_28"
+            android:layout_marginStart="@dimen/dp_20"
             app:layout_constraintTop_toBottomOf="@id/item_station"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_daily_nursing"
-            app:layout_constraintEnd_toEndOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

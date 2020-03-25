@@ -53,8 +53,9 @@
     <string name="login_account">帳號</string>
     <string name="login_password">密碼</string>
     <string name="login">登入</string>
-    <string name="login_hi">%s 你好 \n請選擇登入系統</string>
+    <string name="login_hi">%s, 你好</string>
     <string name="login_hi_2">你好, %s</string>
+    <string name="login_select_sys">請選擇登入系統</string>
     <string name="logout">登出</string>
 
     <string name="two_dash">--</string>

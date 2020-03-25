@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4ABBA7</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryDark">#828282</color>
     <color name="colorAccent">#03DAC5</color>
 
     <color name="nandor">#555755</color>
     <color name="nandor_70">#B3555755</color>
     <color name="silver_light">#FFFFFA</color>
     <color name="silver">#C6C6C6</color>
+    <color name="mercury">#E5E5E5</color>
     <color name="humming_bird">#D2F1EC</color>
     <color name="egg_blue">#04DACD</color>
     <color name="cornflower_blue">#80BFFFFB</color>
@@ -19,4 +20,6 @@
     <color name="mexican_red_70">#B3A32326</color>
     <color name="picton_70">#B345CAE8</color>
     <color name="selective_yellow_70">#B3FFB600</color>
+    <color name="tango">#F08718</color>
+    <color name="sienna">#EB6D58</color>
 </resources>

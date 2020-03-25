@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 24/ 3/ 2020.
+  ~ Last modified 3/24/20 3:14 PM
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/tango"/>
+            <stroke android:color="@color/tango" android:width="@dimen/border_width"/>
+            <corners android:radius="@dimen/toggle_oval_border_radius" />
+        </shape>
+    </item>
+
+    <item android:state_enabled="true" android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/>
+            <stroke android:color="@color/tango" android:width="@dimen/border_width"/>
+            <corners android:radius="@dimen/toggle_oval_border_radius" />
+        </shape>
+    </item>
+
+    <item android:state_enabled="true" android:state_pressed="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/tango"/>
+            <stroke android:color="@color/tango" android:width="@dimen/border_width"/>
+            <corners android:radius="@dimen/toggle_oval_border_radius" />
+        </shape>
+    </item>
+</selector>

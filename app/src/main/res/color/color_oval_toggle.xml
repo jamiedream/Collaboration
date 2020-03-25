@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 24/ 3/ 2020.
+  ~ Last modified 3/24/20 3:56 PM
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true" android:state_pressed="true" android:color="@color/tango"/>
+    <item android:state_enabled="true" android:state_pressed="false" android:color="@android:color/white"/>
+</selector>
