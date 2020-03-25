@@ -205,6 +205,32 @@ class QueryData {
             )
         }
 
+    val oxygenData =
+            JsonArray().apply {
+                this.add(
+                        JsonObject().apply {
+                            this.addProperty("takenAt", "1584343726")
+                            this.addProperty("spo2Highest", "100")
+                            this.addProperty("spo2Lowest", "100")
+                        }
+                )
+
+                this.add(
+                        JsonObject().apply {
+                            this.addProperty("takenAt", "1583998126")
+                            this.addProperty("spo2Highest", "99")
+                            this.addProperty("spo2Lowest", "99")
+                        }
+                )
+
+                this.add(
+                        JsonObject().apply {
+                            this.addProperty("takenAt", "1583911726")
+                            this.addProperty("spo2Highest", "100")
+                            this.addProperty("spo2Lowest", "100")
+                        }
+                )
+            }
 
     val data =
         "{\n" +

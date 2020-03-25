@@ -169,61 +169,23 @@ open class BioViewModel: ViewModel() {
         return bpLastData!!
     }
 
+    /**
+     * Oxygen
+     * */
+    private var oxygenListData: MutableLiveData<MutableList<Bio.Oxygen>>? = null
+    fun getOxygenListData(): MutableLiveData<MutableList<Bio.Oxygen>>{
+        if(oxygenListData == null){
+            oxygenListData = BioLiveData().getOxygenListData()
+        }
+        return oxygenListData!!
+    }
 
-//    private var demoTempData: MutableLiveData<Float>? = null
-//    fun getDemoTempData(): MutableLiveData<Float> {
-//        if(demoTempData == null){
-//            demoTempData = BioLiveData().demoTempData()
-//        }
-//        return demoTempData!!
-//    }
-//
-//    private var demoGlucoseData: MutableLiveData<Int>? = null
-//    fun getDemoGlucoseData(): MutableLiveData<Int> {
-//        if(demoGlucoseData == null){
-//            demoGlucoseData = BioLiveData().demoGlucoseData()
-//        }
-//        return demoGlucoseData!!
-//    }
-//
-//    private var demoGlucoseNoteData: MutableLiveData<String>? = null
-//    fun getDemoGlucoseNoteData(): MutableLiveData<String> {
-//        if(demoGlucoseNoteData == null){
-//            demoGlucoseNoteData = BioLiveData().demoGlucoseNoteData()
-//        }
-//        return demoGlucoseNoteData!!
-//    }
-//
-//    private var demoWeightData: MutableLiveData<Float>? = null
-//    fun getDemoWeightData(): MutableLiveData<Float> {
-//        if(demoWeightData == null){
-//            demoWeightData = BioLiveData().demoWeightData()
-//        }
-//        return demoWeightData!!
-//    }
-//
-//    private var demoRespireData: MutableLiveData<Int>? = null
-//    fun getDemoRespireData(): MutableLiveData<Int> {
-//        if(demoRespireData == null){
-//            demoRespireData = BioLiveData().demoRespireData()
-//        }
-//        return demoRespireData!!
-//    }
-//
-//    private var demoHeightData: MutableLiveData<Float>? = null
-//    fun getDemoHeightData(): MutableLiveData<Float> {
-//        if(demoHeightData == null){
-//            demoHeightData = BioLiveData().demoHeightData()
-//        }
-//        return demoHeightData!!
-//    }
-//
-//    private var demoPulseData: MutableLiveData<Int>? = null
-//    fun getDemoPulseData(): MutableLiveData<Int> {
-//        if(demoPulseData == null){
-//            demoPulseData = BioLiveData().demoPulseData()
-//        }
-//        return demoPulseData!!
-//    }
+    private var oxygenLastData: MutableLiveData<Bio.Oxygen>? = null
+    fun getOxygenLastData(): MutableLiveData<Bio.Oxygen>{
+        if(oxygenLastData == null){
+            oxygenLastData = BioLiveData().getOxygenLastData()
+        }
+        return oxygenLastData!!
+    }
 
 }

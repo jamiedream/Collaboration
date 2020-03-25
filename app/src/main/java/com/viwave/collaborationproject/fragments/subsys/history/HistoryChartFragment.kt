@@ -38,7 +38,7 @@ class HistoryChartFragment: BaseFragment() {
 //            BioLiveData.Companion.BioType.Height -> R.layout.layout_history_height_chart
                 BioLiveData.Companion.BioType.Pulse -> DiagramPulse(fragment)
                 BioLiveData.Companion.BioType.BloodPressure -> DiagramBloodPressure(fragment)
-//            BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_oxygen_chart
+                BioLiveData.Companion.BioType.Oxygen -> DiagramOxygen(fragment)
                 else -> DiagramPulse(fragment)
             }
 

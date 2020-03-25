@@ -249,10 +249,10 @@ object DataSort{
                                     data.asJsonObject.get("takenAt").asLong,
                                     data.asJsonObject.get("spo2Highest").asInt,
                                     data.asJsonObject.get("spo2Lowest").asInt,
-                                    data.asJsonObject.get("pulseHighest").asInt,
-                                    data.asJsonObject.get("pulseLowest").asInt,
-                                    data.asJsonObject.get("actHighest").asInt,
-                                    data.asJsonObject.get("duration").asInt
+                                    data.asJsonObject.get("pulseHighest")?.asInt,
+                                    data.asJsonObject.get("pulseLowest")?.asInt,
+                                    data.asJsonObject.get("actHighest")?.asInt,
+                                    data.asJsonObject.get("duration")?.asInt
                                 )
                             )
 
@@ -264,10 +264,10 @@ object DataSort{
                                 json.asJsonObject.get("takenAt").asLong,
                                 json.asJsonObject.get("spo2Highest").asInt,
                                 json.asJsonObject.get("spo2Lowest").asInt,
-                                json.asJsonObject.get("pulseHighest").asInt,
-                                json.asJsonObject.get("pulseLowest").asInt,
-                                json.asJsonObject.get("actHighest").asInt,
-                                json.asJsonObject.get("duration").asInt
+                                json.asJsonObject.get("pulseHighest")?.asInt,
+                                json.asJsonObject.get("pulseLowest")?.asInt,
+                                json.asJsonObject.get("actHighest")?.asInt,
+                                json.asJsonObject.get("duration")?.asInt
                             )
                         )
                     }

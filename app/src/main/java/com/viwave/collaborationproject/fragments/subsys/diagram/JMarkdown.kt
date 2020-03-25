@@ -85,6 +85,20 @@ class JMarkdown(context: Context?, layoutResource: Int) : MarkerView(context, la
                         }
                     }
                 }
+                BioLiveData.Companion.BioType.Oxygen -> {
+                    bioViewModel.getOxygenListData().value?.forEach {
+                        val xIndex =
+                                when(JTimeSwitcher.timeFormat) {
+                                    JTimeSwitcher.DAY -> (.5f / 24)
+                                    JTimeSwitcher.HOUR -> (.5f / 24 / 12)
+                                    else -> .5f
+                                }
+                        if(calXIndex(it.takenAt).plus(xIndex) == x && it.spo2Highest.toFloat().plus(.3f) == y){
+                            bioViewModel.getMarkerData().value = it
+                            return
+                        }
+                    }
+                }
                 else -> {}
             }
         }

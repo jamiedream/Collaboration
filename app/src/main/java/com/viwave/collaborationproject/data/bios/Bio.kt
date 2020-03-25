@@ -65,13 +65,13 @@ sealed class Bio {
         }
     }
     data class Oxygen (
-        @SerializedName("takenAt") val takenAt: Long,
-        @SerializedName("spo2Highest") val spo2Highest: Int,
-        @SerializedName("spo2Lowest") val spo2Lowest: Int,
-        @SerializedName("pulseHighest") val pulseHighest: Int,
-        @SerializedName("pulseLowest") val pulseLowest: Int,
-        @SerializedName("actHighest") val actHighest: Int,
-        @SerializedName("duration") val duration: Int
+            @SerializedName("takenAt") val takenAt: Long,
+            @SerializedName("spo2Highest") val spo2Highest: Int,
+            @SerializedName("spo2Lowest") val spo2Lowest: Int,
+            @SerializedName("pulseHighest") val pulseHighest: Int?,
+            @SerializedName("pulseLowest") val pulseLowest: Int?,
+            @SerializedName("actHighest") val actHighest: Int?,
+            @SerializedName("duration") val duration: Int?
     ): Bio(){
         override fun toString(): String {
             return "Oxygen(takenAt='$takenAt', spo2Highest='$spo2Highest', spo2Lowest='$spo2Lowest', pulseHighest='$pulseHighest', pulseLowest='$pulseLowest', actHighest='$actHighest', duration='$duration')"

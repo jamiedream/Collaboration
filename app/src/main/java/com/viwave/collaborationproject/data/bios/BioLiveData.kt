@@ -87,38 +87,16 @@ class BioLiveData {
         return bpLastData
     }
 
-//    private val tempData = MutableLiveData<Float>()
-//    internal fun demoTempData(): MutableLiveData<Float> {
-//        return tempData
-//    }
-//
-//    private val glucoseData = MutableLiveData<Int>()
-//    internal fun demoGlucoseData(): MutableLiveData<Int> {
-//        return glucoseData
-//    }
-//
-//    private val glucoseNoteData = MutableLiveData<String>()
-//    internal fun demoGlucoseNoteData(): MutableLiveData<String> {
-//        return glucoseNoteData
-//    }
-//
-//    private val weightData = MutableLiveData<Float>()
-//    internal fun demoWeightData(): MutableLiveData<Float> {
-//        return weightData
-//    }
-//
-//    private val respireData = MutableLiveData<Int>()
-//    internal fun demoRespireData(): MutableLiveData<Int> {
-//        return respireData
-//    }
-//
-//    private val heightData = MutableLiveData<Float>()
-//    internal fun demoHeightData(): MutableLiveData<Float> {
-//        return heightData
-//    }
-//
-//    private val pulseData = MutableLiveData<Int>()
-//    internal fun demoPulseData(): MutableLiveData<Int> {
-//        return pulseData
-//    }
+    /**
+     * Oxygen
+     * */
+    private val oxygenListData = MutableLiveData<MutableList<Bio.Oxygen>>()
+    internal fun getOxygenListData(): MutableLiveData<MutableList<Bio.Oxygen>>? {
+        return oxygenListData
+    }
+
+    private val oxygenLastData = MutableLiveData<Bio.Oxygen>()
+    internal fun getOxygenLastData(): MutableLiveData<Bio.Oxygen>? {
+        return oxygenLastData
+    }
 }
