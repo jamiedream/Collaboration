@@ -82,6 +82,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                                 caseListView(caseList)
                             }
                         }
+                        this.setMenuVisibility(false)
                         getString(R.string.sys_daily_care)
                     }
                     SysKey.DAILY_NURSING_NAME -> {
@@ -91,6 +92,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                                 caseListView(caseList)
                             }
                         }
+                        this.setMenuVisibility(true)
                         getString(R.string.sys_daily_nursing)
                     }
                     SysKey.DAILY_STATION_NAME -> {
@@ -100,6 +102,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                                 caseListView(caseList)
                             }
                         }
+                        this.setMenuVisibility(false)
                         getString(R.string.sys_station)
                     }
                     SysKey.DAILY_HOME_CARE_NAME -> {
@@ -109,6 +112,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                                 caseListView(caseList)
                             }
                         }
+                        this.setMenuVisibility(true)
                         getString(R.string.sys_home_service)
                     }
                     else -> getString(R.string.sys_daily_care)

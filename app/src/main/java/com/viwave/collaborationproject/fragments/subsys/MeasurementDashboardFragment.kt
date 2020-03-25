@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.DB.cache.SysKey
+import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_NURSING_CODE
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
@@ -47,6 +48,11 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private val caseGender by lazy { view!!.findViewById<ImageView>(R.id.case_gender) }
     private val caseName by lazy { view!!.findViewById<TextView>(R.id.case_name) }
     private val caseNumber by lazy { view!!.findViewById<TextView>(R.id.case_number) }
+
+    private val cardRespire by lazy { view!!.findViewById<CardView>(R.id.block_respire) }
+    private val cardHeight by lazy { view!!.findViewById<CardView>(R.id.block_height) }
+    private val cardOxygen by lazy { view!!.findViewById<CardView>(R.id.block_oxygen) }
+    private val cardWeight by lazy { view!!.findViewById<CardView>(R.id.block_weight) }
 
     private val borderTemp by lazy { view!!.findViewById<FrameLayout>(R.id.border_temp) }
     private val borderBP by lazy { view!!.findViewById<FrameLayout>(R.id.border_blood_pressure) }
@@ -88,19 +94,6 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
         return view
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val item = menu.findItem(R.id.dashboard_no)
-        caseViewModel.getSelectedCase().value?.let {
-            item.setTitle(it.getCaseNumber)
-        }
-        super.onPrepareOptionsMenu(menu)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_dashboard_no, menu)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -133,8 +126,6 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
             )
             caseNo = it.getCaseNumber
             SCDID = it.getSCDID?: ""
-            setToolbarTitle(it.getCaseName)
-            setToolbarLeftIcon(false)
         }
 
     override fun onPause() {
@@ -153,7 +144,16 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
         caseViewModel.getSelectedCase().observe(this, selectedCaseObserver)
         staffId = generalViewModel.getLoginUser().value?.id?: ""
         sysCode = generalViewModel.getSelectedSubSys().value?.sysCode?: ""
+        setToolbarTitle(generalViewModel.getSelectedSubSys().value?.sysName?: "")
+        setToolbarLeftIcon(false)
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        if(sysCode != DAILY_NURSING_CODE){
+            cardRespire.visibility = View.GONE
+            cardHeight.visibility = View.GONE
+            cardWeight.visibility = View.GONE
+            cardOxygen.visibility = View.GONE
+        }
 
         if(!VUBleManager.getInstance().isEnabled) {
             //is bluetooth enable?

@@ -53,6 +53,7 @@ sealed class CaseEntity {
         @ColumnInfo val startTime: String?,
         @ColumnInfo var isSupport: Boolean?
     ): CaseEntity() {
+        companion object{}
         override var getCaseNumber: String
             get() = caseNumber
             set(value) {}
