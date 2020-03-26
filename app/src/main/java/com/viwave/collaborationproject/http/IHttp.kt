@@ -1,13 +1,11 @@
 package com.viwave.collaborationproject.http
 
 import com.google.gson.JsonObject
+import com.viwave.collaborationproject.data.general.GetList
 import com.viwave.collaborationproject.data.general.Login
 import com.viwave.collaborationproject.data.general.Logout
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface IHttp {
 
@@ -16,5 +14,8 @@ interface IHttp {
 
     @GET(HttpManager.API_LOGOUT)
     fun logout(@Header("AUTHORIZATION") token: String): Call<Logout>
+
+    @GET("${HttpManager.API_CASE} + /{sysCode}")
+    fun getList(@Header("AUTHORIZATION") token: String, @Path(value = "sysCode", encoded = true) sysCode: String): Call<GetList>
 
 }

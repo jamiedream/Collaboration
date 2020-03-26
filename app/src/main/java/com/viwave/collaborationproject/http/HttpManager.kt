@@ -15,6 +15,7 @@ class HttpManager {
             get() = manager.retrofit
         const val API_LOGIN = "/api/Auth"
         const val API_LOGOUT = "/api/Auth/LogOut"
+        const val API_CASE = "/api/GetList"
     }
 
     private val retrofit: Retrofit
