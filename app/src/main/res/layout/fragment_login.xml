@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="400:460"
+        app:layout_constraintDimensionRatio="400:488"
         >
 
         <TextView
@@ -104,6 +104,7 @@
             android:layout_width="@dimen/toggle_oval_width"
             android:layout_height="@dimen/toggle_oval_height"
             android:gravity="center"
+            android:text="@string/login_select_sys"
             android:textColor="@android:color/holo_red_dark"
             android:layout_marginTop="@dimen/dp_24"
             app:layout_constraintTop_toBottomOf="@id/login_password_textinputlayout"
@@ -115,10 +116,10 @@
             android:id="@+id/btn_login"
             android:layout_width="@dimen/toggle_oval_width"
             android:layout_height="@dimen/toggle_oval_height"
-            android:layout_marginBottom="@dimen/dp_140"
             android:text="@string/login"
             style="@style/ToggleOvalBtn"
             android:background="@drawable/bg_oval"
+            app:layout_constraintTop_toBottomOf="@id/login_error_msg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
