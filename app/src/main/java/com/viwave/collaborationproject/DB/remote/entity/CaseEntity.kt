@@ -14,7 +14,6 @@ sealed class CaseEntity {
     abstract var getSCDID: String?
     abstract var getStartTime: String?
     abstract var getIsSupport: Boolean?
-    abstract var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
 
     @Entity(tableName = CaseDatabase.tableCareCase)
     data class CaseCareEntity(
@@ -23,8 +22,7 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?,
-        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
+        @ColumnInfo var isSupport: Boolean?
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
@@ -53,8 +51,7 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?,
-        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
+        @ColumnInfo var isSupport: Boolean?
     ): CaseEntity() {
         companion object{}
         override var getCaseNumber: String
@@ -84,8 +81,7 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?,
-        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
+        @ColumnInfo var isSupport: Boolean?
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
@@ -115,8 +111,7 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?,
-        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
+        @ColumnInfo var isSupport: Boolean?
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
