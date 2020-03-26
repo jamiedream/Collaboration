@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.viwave.collaborationproject.DB.remote.CaseDatabase
+import com.viwave.collaborationproject.data.bios.BioLiveData
 
 sealed class CaseEntity {
 
@@ -13,6 +14,7 @@ sealed class CaseEntity {
     abstract var getSCDID: String?
     abstract var getStartTime: String?
     abstract var getIsSupport: Boolean?
+    abstract var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
 
     @Entity(tableName = CaseDatabase.tableCareCase)
     data class CaseCareEntity(
@@ -21,7 +23,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
@@ -41,7 +44,6 @@ sealed class CaseEntity {
         override var getIsSupport: Boolean?
             get() = isSupport
             set(value) {}
-
     }
 
     @Entity(tableName = CaseDatabase.tableNursingCase)
@@ -51,7 +53,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
     ): CaseEntity() {
         companion object{}
         override var getCaseNumber: String
@@ -81,7 +84,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
@@ -111,7 +115,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo override var dataCount: HashMap<BioLiveData.Companion.BioType, Int>?
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
