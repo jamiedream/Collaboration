@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.viwave.collaborationproject.DB.remote.DataCountAction.getListFromStr
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.DataSort
 import com.viwave.collaborationproject.fragments.subsys.caseList.ICaseClicked
 
 class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private val whichCaseClicked: ICaseClicked): RecyclerView.Adapter<CaseListViewHolder>() {
@@ -33,9 +35,23 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
             holder.oxygenCountLayout.visibility = View.GONE
         }
 
-        holder.caseNumber.text = caseList[position].getCaseNumber
-        holder.caseName.text = caseList[position].getCaseName
-        holder.itemView.setOnClickListener { whichCaseClicked.whichCase(caseList[position]) }
+        caseList[position].apply {
+
+            holder.caseNumber.text = this.getCaseNumber
+            holder.caseName.text = this.getCaseName
+            holder.itemView.setOnClickListener { whichCaseClicked.whichCase(this) }
+            val datacountList = getListFromStr(this.getDataCount)
+            holder.tempCount.text = datacountList.find { it.type == DataSort.Temperature }?.count?.toString()
+            holder.pulseCount.text = datacountList.find { it.type == DataSort.Pulse }?.count?.toString()
+            holder.respireCount.text = datacountList.find { it.type == DataSort.Respire }?.count?.toString()
+            holder.bgCount.text = datacountList.find { it.type == DataSort.BloodGlucose }?.count?.toString()
+            holder.bpCount.text = datacountList.find { it.type == DataSort.BloodPressure }?.count?.toString()
+            holder.oxygenCount.text = datacountList.find { it.type == DataSort.Oxygen }?.count?.toString()
+            holder.heightCount.text = datacountList.find { it.type == DataSort.Height }?.count?.toString()
+            holder.weightCount.text = datacountList.find { it.type == DataSort.Weight }?.count?.toString()
+        }
+
+
 
     }
 }

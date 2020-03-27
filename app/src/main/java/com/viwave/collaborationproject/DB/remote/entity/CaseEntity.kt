@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.viwave.collaborationproject.DB.remote.CaseDatabase
-import com.viwave.collaborationproject.data.bios.BioLiveData
 
 sealed class CaseEntity {
 
@@ -14,6 +13,7 @@ sealed class CaseEntity {
     abstract var getSCDID: String?
     abstract var getStartTime: String?
     abstract var getIsSupport: Boolean?
+    abstract var getDataCount: String
 
     @Entity(tableName = CaseDatabase.tableCareCase)
     data class CaseCareEntity(
@@ -22,7 +22,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo var dataCount: String
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
@@ -42,6 +43,9 @@ sealed class CaseEntity {
         override var getIsSupport: Boolean?
             get() = isSupport
             set(value) {}
+        override var getDataCount: String
+            get() = dataCount
+            set(value) {}
     }
 
     @Entity(tableName = CaseDatabase.tableNursingCase)
@@ -51,7 +55,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo var dataCount: String
     ): CaseEntity() {
         companion object{}
         override var getCaseNumber: String
@@ -72,6 +77,9 @@ sealed class CaseEntity {
         override var getIsSupport: Boolean?
             get() = isSupport
             set(value) {}
+        override var getDataCount: String
+            get() = dataCount
+            set(value) {}
     }
 
     @Entity(tableName = CaseDatabase.tableStationCase)
@@ -81,7 +89,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo var dataCount: String
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
@@ -100,6 +109,9 @@ sealed class CaseEntity {
             set(value) {}
         override var getIsSupport: Boolean?
             get() = isSupport
+            set(value) {}
+        override var getDataCount: String
+            get() = dataCount
             set(value) {}
 
     }
@@ -111,7 +123,8 @@ sealed class CaseEntity {
         @ColumnInfo val caseGender: String,
         @ColumnInfo val SCDID: String?,
         @ColumnInfo val startTime: String?,
-        @ColumnInfo var isSupport: Boolean?
+        @ColumnInfo var isSupport: Boolean?,
+        @ColumnInfo var dataCount: String
     ): CaseEntity(){
         override var getCaseNumber: String
             get() = caseNumber
@@ -130,6 +143,9 @@ sealed class CaseEntity {
             set(value) {}
         override var getIsSupport: Boolean?
             get() = isSupport
+            set(value) {}
+        override var getDataCount: String
+            get() = dataCount
             set(value) {}
 
     }

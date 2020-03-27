@@ -9,6 +9,12 @@ import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 @Dao
 interface CaseStationDao: BasicDao<CaseEntity.CaseStationEntity> {
 
+    @Query("SELECT dataCount FROM ${CaseDatabase.tableStationCase} WHERE caseNumber = :caseNumber")
+    fun getDataCountStr(caseNumber: String): String
+
+    @Query("UPDATE ${CaseDatabase.tableStationCase} SET dataCount = :new WHERE caseNumber = :caseNumber")
+    fun updateDataCount(caseNumber: String, new: String)
+
     @Query("SELECT * FROM ${CaseDatabase.tableStationCase}")
     override fun getAll(): MutableList<CaseEntity.CaseStationEntity>
 

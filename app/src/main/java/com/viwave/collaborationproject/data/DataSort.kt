@@ -2,6 +2,7 @@ package com.viwave.collaborationproject.data
 
 import com.google.gson.*
 import com.viwave.collaborationproject.DB.cache.SysKey
+import com.viwave.collaborationproject.DB.remote.DataCount
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.data.general.User
@@ -56,6 +57,30 @@ object DataSort{
                 src.toString()
             )
         }
+
+    //count
+    const val Temperature = "Temperature"
+    const val Pulse = "Pulse"
+    const val Respire = "Respire"
+    const val BloodPressure = "BloodPressure"
+    const val BloodGlucose = "BloodGlucose"
+    const val Oxygen = "Oxygen"
+    const val Height = "Height"
+    const val Weight = "Weight"
+    val dataCountList =
+        JsonDeserializer<MutableList<DataCount>> { json, _, _ ->
+            val list = mutableListOf<DataCount>()
+            json.asJsonArray.forEach {data ->
+                list.add(
+                    DataCount(
+                        data.asJsonObject.get("type").asString,
+                        data.asJsonObject.get("count").asInt
+                        )
+                )
+            }
+            list
+        }
+
 
     //query
     val bloodPressureList =

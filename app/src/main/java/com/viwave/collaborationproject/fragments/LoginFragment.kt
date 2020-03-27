@@ -16,6 +16,7 @@ import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
 import com.viwave.collaborationproject.DB.remote.CaseDatabase
+import com.viwave.collaborationproject.DB.remote.DataCountAction.initDataCount
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
@@ -85,7 +86,8 @@ class LoginFragment: BaseFragment() {
                                             it.caseGender,
                                             it.SCDTID,
                                             it.startTime,
-                                            false
+                                            false,
+                                            initDataCount
                                         )
                                     )
                                 }
@@ -114,7 +116,8 @@ class LoginFragment: BaseFragment() {
                                                         it.caseGender,
                                                         it.SCDTID,
                                                         it.startTime,
-                                                        false
+                                                        false,
+                                                        initDataCount
                                                     )
                                                 )
                                             }
@@ -128,11 +131,13 @@ class LoginFragment: BaseFragment() {
                                                         it.caseGender,
                                                         it.SCDTID,
                                                         it.startTime,
-                                                        false
+                                                        false,
+                                                        initDataCount
                                                     )
                                                 )
                                             }
                                             //todo, load history data
+//                                            LogUtil.logD(TAG, CaseDatabase(context!!).getCaseNursingDao().getDataCountStr("3333333"))
                                         }
                                         SysKey.DAILY_STATION_CODE -> {
                                             QueryData().caseList.forEach {
@@ -143,7 +148,8 @@ class LoginFragment: BaseFragment() {
                                                         it.caseGender,
                                                         it.SCDTID,
                                                         it.startTime,
-                                                        false
+                                                        false,
+                                                        initDataCount
                                                     )
                                                 )
                                             }
@@ -157,7 +163,8 @@ class LoginFragment: BaseFragment() {
                                                         it.caseGender,
                                                         it.SCDTID,
                                                         it.startTime,
-                                                        false
+                                                        false,
+                                                        initDataCount
                                                     )
                                                 )
                                             }
