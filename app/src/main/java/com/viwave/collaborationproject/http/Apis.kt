@@ -24,7 +24,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Apis {
+object Apis {
 
     private val TAG = this::class.java.simpleName
     private val httpManager = HttpManager.client.create(IHttp::class.java)
@@ -165,5 +165,5 @@ class Apis {
             })
 
     }
-    
+
 }

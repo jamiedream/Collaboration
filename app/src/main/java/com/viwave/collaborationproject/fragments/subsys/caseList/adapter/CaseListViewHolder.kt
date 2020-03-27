@@ -17,9 +17,6 @@ class CaseListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     //support?
     val caseState by lazy { itemView.findViewById<TextView>(R.id.txt_state) }
 
-    //vis-> value
-    val caseSchedule by lazy { itemView.findViewById<TextView>(R.id.txt_schedule) }
-
     val tempCountLayout by lazy { itemView.findViewById<LinearLayout>(R.id.temp_measurement_count) }
     val pulseCountLayout by lazy { itemView.findViewById<LinearLayout>(R.id.pulse_measurement_count) }
     val respireCountLayout by lazy { itemView.findViewById<LinearLayout>(R.id.respire_measurement_count) }

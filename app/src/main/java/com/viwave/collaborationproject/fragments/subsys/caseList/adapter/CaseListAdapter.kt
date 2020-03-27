@@ -3,11 +3,13 @@ package com.viwave.collaborationproject.fragments.subsys.caseList.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.viwave.collaborationproject.DB.remote.DataCountAction.getListFromStr
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.DataSort
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.FEMALE
 import com.viwave.collaborationproject.fragments.subsys.caseList.ICaseClicked
 
 class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private val whichCaseClicked: ICaseClicked): RecyclerView.Adapter<CaseListViewHolder>() {
@@ -36,7 +38,20 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
         }
 
         caseList[position].apply {
-
+            holder.imgGender.setImageResource(
+                when(this.getCaseGender == FEMALE){
+                    true -> R.drawable.ic_gender_female
+                    else -> R.drawable.ic_gender_male
+                }
+            )
+            holder.caseState.text = this.getStartTime
+            if(this.getIsSupport == true)
+                holder.caseState.
+                    setCompoundDrawables(
+                        null,
+                        null,
+                        ContextCompat.getDrawable(holder.itemView.context,R.drawable.ic_support),
+                        null)
             holder.caseNumber.text = this.getCaseNumber
             holder.caseName.text = this.getCaseName
             holder.itemView.setOnClickListener { whichCaseClicked.whichCase(this) }

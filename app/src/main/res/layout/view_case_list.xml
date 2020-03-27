@@ -216,7 +216,7 @@
         />
 
     <TextView
-        android:id="@+id/txt_schedule"
+        android:id="@+id/txt_state"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/two_dash"
@@ -227,20 +227,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/txt_case_id"
-        />
-
-    <TextView
-        android:id="@+id/txt_state"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/two_dash"
-        android:textSize="@dimen/sp_12"
-        android:gravity="center"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".12"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/txt_schedule"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

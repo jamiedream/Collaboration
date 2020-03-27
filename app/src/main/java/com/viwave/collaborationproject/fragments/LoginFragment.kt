@@ -60,7 +60,7 @@ class LoginFragment: BaseFragment() {
                 else ->{
                     //account: p00012, pwd: st13579
                     val loginObject = UploadData.uploadLoginInfo(editAccount.text.toString(), editPassword.text.toString())
-                    Apis().login(loginObject,
+                    Apis.login(loginObject,
                         object: IAPIResult{
                             override fun onSuccess() {
                                 UserPreference.instance.edit(UserKey.IS_LOGIN, true)
