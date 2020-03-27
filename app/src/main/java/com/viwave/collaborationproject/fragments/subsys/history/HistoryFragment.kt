@@ -7,10 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonDeserializer
-import com.google.gson.reflect.TypeToken
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
@@ -19,6 +15,7 @@ import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
+import com.viwave.collaborationproject.utils.ConvertUtil
 
 class HistoryFragment: BaseFragment(){
 
@@ -64,32 +61,38 @@ class HistoryFragment: BaseFragment(){
 
             when(it){
                 BioLiveData.Companion.BioType.Temperature -> {
-                    bioViewModel.getTempListData().value = sortBioData(DataSort.temperatureList, QueryData().tempData)
+                    bioViewModel.getTempListData().value =
+                        ConvertUtil.sortListData(DataSort.temperatureList, QueryData().tempData)
                     bioViewModel.getTempListData().value?.sortBy { it.takenAt }
                 }
 
                 BioLiveData.Companion.BioType.Pulse -> {
-                    bioViewModel.getPulseListData().value = sortBioData(DataSort.pulseList, QueryData().pulseData)
+                    bioViewModel.getPulseListData().value =
+                        ConvertUtil.sortListData(DataSort.pulseList, QueryData().pulseData)
                     bioViewModel.getPulseListData().value?.sortBy { it.takenAt }
                 }
 
                 BioLiveData.Companion.BioType.Weight -> {
-                    bioViewModel.getWeightListData().value = sortBioData(DataSort.weightList, QueryData().weightData)
+                    bioViewModel.getWeightListData().value =
+                        ConvertUtil.sortListData(DataSort.weightList, QueryData().weightData)
                     bioViewModel.getWeightListData().value?.sortBy { it.takenAt }
                 }
 
                 BioLiveData.Companion.BioType.BloodGlucose -> {
-                    bioViewModel.getGlucoseListData().value = sortBioData(DataSort.glucoseList, QueryData().glucoseData)
+                    bioViewModel.getGlucoseListData().value =
+                        ConvertUtil.sortListData(DataSort.glucoseList, QueryData().glucoseData)
                     bioViewModel.getGlucoseListData().value?.sortBy { it.takenAt }
                 }
 
                 BioLiveData.Companion.BioType.BloodPressure -> {
-                    bioViewModel.getBPListData().value = sortBioData(DataSort.bloodPressureList, QueryData().bpData)
+                    bioViewModel.getBPListData().value =
+                        ConvertUtil.sortListData(DataSort.bloodPressureList, QueryData().bpData)
                     bioViewModel.getBPListData().value?.sortBy { it.takenAt }
                 }
 
                 BioLiveData.Companion.BioType.Oxygen -> {
-                    bioViewModel.getOxygenListData().value = sortBioData(DataSort.oxygenList, QueryData().oxygenData)
+                    bioViewModel.getOxygenListData().value =
+                        ConvertUtil.sortListData(DataSort.oxygenList, QueryData().oxygenData)
                     bioViewModel.getOxygenListData().value?.sortBy { it.takenAt }
                 }
             }
@@ -101,13 +104,6 @@ class HistoryFragment: BaseFragment(){
 
 
         }
-
-    private fun <T> sortBioData(deserializer: JsonDeserializer<MutableList<T>>, data: JsonArray): MutableList<T>{
-        return GsonBuilder()
-            .registerTypeAdapter(object: TypeToken<MutableList<T>>(){}.type, deserializer)
-            .create()
-            .fromJson(data, object: TypeToken<MutableList<T>>(){}.type)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
