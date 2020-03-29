@@ -40,12 +40,18 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     private val TAG = this::class.java.simpleName
 
+    private var fragmentView: View? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if (fragmentView != null) {
+            return fragmentView
+        }
         val view = inflater.inflate(R.layout.view_cmn_recycler, container, false)
+        fragmentView = view
         setHasOptionsMenu(true)
         return view
     }
