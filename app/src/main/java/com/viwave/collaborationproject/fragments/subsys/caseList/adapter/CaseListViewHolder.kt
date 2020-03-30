@@ -14,9 +14,6 @@ class CaseListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     val caseNumber by lazy { itemView.findViewById<TextView>(R.id.txt_case_id) }
     val caseName by lazy { itemView.findViewById<TextView>(R.id.case_name) }
 
-    //support?
-    val caseState by lazy { itemView.findViewById<TextView>(R.id.txt_state) }
-
     //vis-> value
     val caseSchedule by lazy { itemView.findViewById<TextView>(R.id.txt_schedule) }
 
