@@ -1,5 +1,6 @@
 package com.viwave.collaborationproject.fragments.subsys
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -319,14 +320,17 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
                         )
                     onBackPressed()
                 }
-                else -> Toast.makeText(
-                    context,
-                    "Warning! Data is not save since exceed regular range.",
-                    Toast.LENGTH_LONG
-                ).show()
+                else -> {
+                    AlertDialog.Builder(this@ManualInputFragment.activity)
+                        .setTitle(getString(R.string.blood_glucose))
+                        .setIcon(R.drawable.ic_count_bg)
+                        .setMessage(String.format(getString(R.string.data_not_in_range), "$value ${getString(R.string.unit_blood_glucose)}"))
+                        .setPositiveButton(getString(R.string.ok)
+                        ) { dialog, _ -> dialog.dismiss()}
+                        .show()
+                }
             }
-        }else
-            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+        }else Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
     }
 
     private fun uploadTemp(){
@@ -349,10 +353,17 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
                         )
                     onBackPressed()
                 }
-                else -> Toast.makeText(context, "Warning! Data is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                else -> {
+                    AlertDialog.Builder(this@ManualInputFragment.activity)
+                        .setTitle(getString(R.string.temperature))
+                        .setIcon(R.drawable.ic_count_temp)
+                        .setMessage(String.format(getString(R.string.data_not_in_range), "$value ${getString(R.string.unit_celsius)}"))
+                        .setPositiveButton(getString(R.string.ok)
+                        ) { dialog, _ -> dialog.dismiss()}
+                        .show()
+                }
             }
-        }else
-            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+        }else Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
     }
 
     private fun uploadBP(){
@@ -403,12 +414,26 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
 //                                        Toast.makeText(context, "Warning! Pulse is not save since exceed regular range.", Toast.LENGTH_LONG).show()
 //                                }
                             }
-                            else ->
-                                Toast.makeText(context, "Warning! Diastolic is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                            else -> {
+                                AlertDialog.Builder(this@ManualInputFragment.activity)
+                                    .setTitle(getString(R.string.blood_pressure))
+                                    .setIcon(R.drawable.ic_count_bp)
+                                    .setMessage(String.format(getString(R.string.data_not_in_range), "${valueSys}/${valueDia} ${getString(R.string.unit_blood_pressure)}"))
+                                    .setPositiveButton(getString(R.string.ok)
+                                    ) { dialog, _ -> dialog.dismiss()}
+                                    .show()
+                            }
                         }
                     }
-                    else ->
-                        Toast.makeText(context, "Warning! Systolic is not save since exceed regular range.", Toast.LENGTH_LONG).show()
+                    else -> {
+                        AlertDialog.Builder(this@ManualInputFragment.activity)
+                            .setTitle(getString(R.string.blood_pressure))
+                            .setIcon(R.drawable.ic_count_bp)
+                            .setMessage(String.format(getString(R.string.data_not_in_range), "${valueSys}/${valueDia} ${getString(R.string.unit_blood_pressure)}"))
+                            .setPositiveButton(getString(R.string.ok)
+                            ) { dialog, _ -> dialog.dismiss()}
+                            .show()
+                    }
                 }
 
             }
@@ -435,34 +460,50 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
                         )
                     onBackPressed()
                 }
-                else -> Toast.makeText(
-                    context,
-                    "Warning! Data is not save since exceed regular range.",
-                    Toast.LENGTH_LONG
-                ).show()
+                else -> {
+                    AlertDialog.Builder(this@ManualInputFragment.activity)
+                        .setTitle(getString(R.string.pulse))
+                        .setIcon(R.drawable.ic_count_pulse)
+                        .setMessage(String.format(getString(R.string.data_not_in_range), "$value ${getString(R.string.unit_pulse)}"))
+                        .setPositiveButton(getString(R.string.ok)
+                        ) { dialog, _ -> dialog.dismiss()}
+                        .show()
+                }
             }
-        }else
-            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+        }else Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
     }
 
     private fun uploadRespire(){
         if(!respireEditText.text.isNullOrEmpty()) {
             val value = respireEditText.text.toString().toInt()
-            val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-            val respireUploadData =
-                BioUpload(
-                    caseNo,
-                    staffId,
-                    SCDID,
-                    sysCode,
-                    getString(R.string.respire),
-                    takenAt,
-                    "$value",
-                    ""
-                )
-            onBackPressed()
-        }else
-            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+            when (value) {
+                //todo, temp range
+                in 10..40 -> {
+                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                    val respireUploadData =
+                        BioUpload(
+                            caseNo,
+                            staffId,
+                            SCDID,
+                            sysCode,
+                            getString(R.string.respire),
+                            takenAt,
+                            "$value",
+                            ""
+                        )
+                    onBackPressed()
+                }
+                else -> {
+                    AlertDialog.Builder(this@ManualInputFragment.activity)
+                        .setTitle(getString(R.string.respire))
+                        .setIcon(R.drawable.ic_count_respire)
+                        .setMessage(String.format(getString(R.string.data_not_in_range), "$value ${getString(R.string.unit_respire)}"))
+                        .setPositiveButton(getString(R.string.ok)
+                        ) { dialog, _ -> dialog.dismiss()}
+                        .show()
+                }
+            }
+        }else Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
     }
 
     private fun uploadWeight(){
@@ -484,14 +525,17 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
                         )
                     onBackPressed()
                 }
-                else -> Toast.makeText(
-                    context,
-                    "Warning! Data is not save since exceed regular range.",
-                    Toast.LENGTH_LONG
-                ).show()
+                else -> {
+                    AlertDialog.Builder(this@ManualInputFragment.activity)
+                        .setTitle(getString(R.string.weight))
+                        .setIcon(R.drawable.ic_count_weight)
+                        .setMessage(String.format(getString(R.string.data_not_in_range), "$value ${getString(R.string.unit_weight)}"))
+                        .setPositiveButton(getString(R.string.ok)
+                        ) { dialog, _ -> dialog.dismiss()}
+                        .show()
+                }
             }
-        }else
-            Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
+        }else Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
     }
 
     private fun uploadOxygen(){
@@ -537,12 +581,20 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
 //                        }
                     }
                     else -> {
-//                        when(pulseValue){
-//                            in 40..199 ->
-                                Toast.makeText(context, "Warning! Oxygen data exceed regular range.", Toast.LENGTH_LONG).show()
-//                            else ->
-//                                Toast.makeText(context, "Warning! Oxygen and pulse data exceed regular range.", Toast.LENGTH_LONG).show()
-//                        }
+////                        when(pulseValue){
+////                            in 40..199 ->
+//                                Toast.makeText(context, "Warning! Oxygen data exceed regular range.", Toast.LENGTH_LONG).show()
+////                            else ->
+////                                Toast.makeText(context, "Warning! Oxygen and pulse data exceed regular range.", Toast.LENGTH_LONG).show()
+////                        }
+                        AlertDialog.Builder(this@ManualInputFragment.activity)
+                            .setTitle(getString(R.string.oxygen))
+                            .setIcon(R.drawable.ic_count_oxygen)
+                            .setMessage(String.format(getString(R.string.data_not_in_range), "$oxygenValue ${getString(R.string.percentage)}"))
+                            .setPositiveButton(getString(R.string.ok)
+                            ) { dialog, _ -> dialog.dismiss()}
+                            .show()
+
                     }
                 }
             }
@@ -552,19 +604,32 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
     private fun uploadHeight(){
         if(!heightEditText.text.isNullOrEmpty()) {
             val value = heightEditText.text.toString().replace(",", ".").toFloat()
-            val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-            val heightUploadData =
-                BioUpload(
-                    caseNo,
-                    staffId,
-                    SCDID,
-                    sysCode,
-                    getString(R.string.height),
-                    takenAt,
-                    DataFormatUtil.formatString(value),
-                    ""
-                )
-            onBackPressed()
+            when(value){
+                in 20f..200f -> {
+                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
+                    val heightUploadData =
+                        BioUpload(
+                            caseNo,
+                            staffId,
+                            SCDID,
+                            sysCode,
+                            getString(R.string.height),
+                            takenAt,
+                            DataFormatUtil.formatString(value),
+                            ""
+                        )
+                    onBackPressed()
+                }
+                else -> {
+                    AlertDialog.Builder(this@ManualInputFragment.activity)
+                        .setTitle(getString(R.string.height))
+                        .setIcon(R.drawable.ic_count_height)
+                        .setMessage(String.format(getString(R.string.data_not_in_range), "$value ${getString(R.string.unit_height)}"))
+                        .setPositiveButton(getString(R.string.ok)
+                        ) { dialog, _ -> dialog.dismiss()}
+                        .show()
+                }
+            }
         }else
             Toast.makeText(context, "Data is empty.", Toast.LENGTH_LONG).show()
     }

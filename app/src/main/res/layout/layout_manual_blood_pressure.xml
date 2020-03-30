@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         app:manualInputTitle="@string/diastolic"
         app:manualInputUnit="@string/unit_blood_pressure"
-        app:manualInputEditIme="imeNext"
+        app:manualInputEditIme="imeDone"
         app:manualInputEditType="typeNumber"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".4"

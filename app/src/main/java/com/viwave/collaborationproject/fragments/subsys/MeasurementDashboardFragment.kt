@@ -1,11 +1,15 @@
 package com.viwave.collaborationproject.fragments.subsys
 
+import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,7 +26,6 @@ import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.bios.BioUpload
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.FEMALE
-import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.MALE
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryFragment
@@ -35,6 +38,9 @@ import com.viwaveulife.vuioht.model.device_data.*
 import com.viwaveulife.vuioht.model.unit.VU_GLUCOSE_UNIT
 import com.viwaveulife.vuioht.model.unit.VU_PRESSURE_UNIT
 import com.viwaveulife.vuioht.model.unit.VU_TEMPERATURE_UNIT
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
 
@@ -381,21 +387,39 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                     true -> {
                         when(p1 == null){
                             false -> {
-                                val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                                val bgUploadData =
-                                    BioUpload(
-                                        caseNo,
-                                        staffId,
-                                        SCDID,
-                                        sysCode,
-                                        getString(R.string.blood_glucose),
-                                        takenAt,
-                                        "${p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl).toInt()}",
-                                        ""
-                                    )
+                                val mealSelectItems = arrayListOf(getString(R.string.fasting), getString(R.string.before_meal), getString(R.string.after_meal))
+                                GlobalScope.launch(Dispatchers.Main) {
+                                    AlertDialog.Builder(this@MeasurementDashboardFragment.activity)
+                                        .setTitle(getString(R.string.blood_glucose))
+                                        .setIcon(R.drawable.ic_count_bg)
+                                        .setSingleChoiceItems(
+                                            mealSelectItems.toTypedArray(),
+                                            0
+                                        ) { dialog, which ->
+                                            val note = mealSelectItems[which]
+                                            LogUtil.logD(TAG, mealSelectItems[which])
 
-                                LogUtil.logD(TAG, "glucose: ${p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl)}")
-                                LogUtil.logD(TAG, "takenAt: $takenAt")
+                                            val takenAt =
+                                                DateUtil.getNowTimestamp().div(1000L)
+                                                    .toString()
+                                            val bgUploadData =
+                                                BioUpload(
+                                                    caseNo,
+                                                    staffId,
+                                                    SCDID,
+                                                    sysCode,
+                                                    getString(R.string.blood_glucose),
+                                                    takenAt,
+                                                    "${p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl).toInt()}",
+                                                    note
+                                                )
+
+                                            LogUtil.logD(TAG, "glucose: ${p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl)}")
+                                            LogUtil.logD(TAG, "takenAt: $takenAt")
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                }
                             }
                         }
                     }
