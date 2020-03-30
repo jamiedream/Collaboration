@@ -22,6 +22,12 @@
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
+    <style name="DrawerMenuTextStyle">
+        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="ToggleOvalBtn">
         <item name="android:textSize">@dimen/sp_20</item>
         <item name="android:textStyle">bold</item>

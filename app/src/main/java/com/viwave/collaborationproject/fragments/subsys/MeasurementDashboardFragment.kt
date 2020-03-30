@@ -18,7 +18,6 @@ import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.DB.cache.SysKey
-import com.viwave.collaborationproject.DB.cache.SysKey.DAILY_NURSING_CODE
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
@@ -156,11 +155,18 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
         caseViewModel.getSelectedCase().observe(this, selectedCaseObserver)
         staffId = generalViewModel.getLoginUser().value?.id?: ""
         sysCode = generalViewModel.getSelectedSubSys().value?.sysCode?: ""
-        setToolbarTitle(generalViewModel.getSelectedSubSys().value?.sysName?: "")
+        setToolbarTitle(
+            when(sysCode){
+                SysKey.DAILY_CARE_CODE -> getString(R.string.sys_daily_care)
+                SysKey.DAILY_NURSING_CODE -> getString(R.string.sys_daily_nursing)
+                SysKey.DAILY_STATION_CODE -> getString(R.string.sys_station)
+                else -> getString(R.string.sys_home_service)
+            }
+        )
         setToolbarLeftIcon(false)
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        if(sysCode != DAILY_NURSING_CODE){
+        if(sysCode != SysKey.DAILY_NURSING_CODE){
             cardRespire.visibility = View.GONE
             cardHeight.visibility = View.GONE
             cardWeight.visibility = View.GONE

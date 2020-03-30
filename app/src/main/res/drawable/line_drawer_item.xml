@@ -2,10 +2,10 @@
 <!--
   ~ Copyright (c) viWave 2020.
   ~ Create by J.Y Yen 30/ 3/ 2020.
-  ~ Last modified 3/30/20 11:40 AM
+  ~ Last modified 3/30/20 3:03 PM
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <size android:height="1dp" />
-    <solid android:color="@color/sinbad" />
+    <solid android:color="@color/white_40" />
 </shape>

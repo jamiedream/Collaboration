@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 30/ 3/ 2020.
+  ~ Last modified 3/30/20 2:40 PM
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/keppel"/>
+        </shape>
+    </item>
+
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimary"/>
+        </shape>
+    </item>
+</selector>

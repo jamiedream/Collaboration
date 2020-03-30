@@ -51,16 +51,21 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@color/colorPrimary"
         app:headerLayout="@layout/layout_drawer_header"
+        app:itemTextAppearance="@style/DrawerMenuTextStyle"
+        app:itemBackground="@drawable/bg_menu"
         app:menu="@menu/drawer"
         >
         <Button
             android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_20"
+            android:layout_width="@dimen/toggle_oval_width"
+            android:layout_height="@dimen/toggle_oval_height"
             android:text="@string/logout"
             android:layout_gravity="bottom"
+            style="@style/ToggleOvalBtn"
+            android:background="@drawable/bg_oval"
+            android:layout_marginBottom="@dimen/dp_16"
             />
     </com.google.android.material.navigation.NavigationView>
 

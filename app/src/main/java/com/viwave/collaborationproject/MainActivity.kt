@@ -1,6 +1,7 @@
 package com.viwave.collaborationproject
 
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -15,6 +16,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.internal.NavigationMenuView
 import com.google.android.material.navigation.NavigationView
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserKey
@@ -72,7 +76,23 @@ class MainActivity : AppCompatActivity() {
             true -> switchFragmentToTop(CaseListFragment())
             false -> switchFragmentToTop(LoginFragment())
         }
+
         navDrawer.menu.getItem(0).isChecked = true
+        val decorator =
+            DividerItemDecoration(
+                applicationContext,
+                LinearLayoutManager(applicationContext).orientation
+            )
+        decorator.setDrawable(
+            InsetDrawable(
+                getDrawable(R.drawable.line_drawer_item),
+                resources.getDimensionPixelSize(R.dimen.dp_16),
+                0,
+                resources.getDimensionPixelSize(R.dimen.dp_16),
+                0
+            )
+        )
+        (navDrawer.getChildAt(0) as NavigationMenuView).addItemDecoration(decorator)
     }
 
     override fun onStop() {
@@ -83,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
     private val userObserver =
         Observer<User?>{
-            navDrawerName.text = String.format(getString(R.string.login_hi_2), it?.name)
+            navDrawerName.text = String.format(getString(R.string.login_hi), it?.name)
             val authSys = it?.sysList
             authSys?.let { sysList -> navDrawSubSys(sysList) }
             navDrawerLogout.setOnClickListener {
