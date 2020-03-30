@@ -1,0 +1,15 @@
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 30/ 3/ 2020.
+  ~ Last modified 3/30/20 11:19 AM
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="21dp"
+    android:height="19dp"
+    android:viewportWidth="21"
+    android:viewportHeight="19">
+  <path
+      android:pathData="M10.4968,1.9828C6.8028,-1.3383 1.2023,-0.6532 0.1594,5.2999C-0.9488,11.6014 3.8513,11.0796 10.4968,19C17.3742,10.9421 21.9433,11.4203 20.8343,5.2999C19.7587,-0.6447 14.1879,-1.3383 10.4968,1.9828Z"
+      android:fillColor="#B0D97D"/>
+</vector>

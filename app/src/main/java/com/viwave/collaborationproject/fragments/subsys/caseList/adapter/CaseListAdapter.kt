@@ -41,14 +41,38 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
             holder.caseName.text = this.getCaseName
             holder.itemView.setOnClickListener { whichCaseClicked.whichCase(this) }
             val datacountList = getListFromStr(this.getDataCount)
-            holder.tempCount.text = datacountList.find { it.type == DataSort.Temperature }?.count?.toString()
-            holder.pulseCount.text = datacountList.find { it.type == DataSort.Pulse }?.count?.toString()
-            holder.respireCount.text = datacountList.find { it.type == DataSort.Respire }?.count?.toString()
-            holder.bgCount.text = datacountList.find { it.type == DataSort.BloodGlucose }?.count?.toString()
-            holder.bpCount.text = datacountList.find { it.type == DataSort.BloodPressure }?.count?.toString()
-            holder.oxygenCount.text = datacountList.find { it.type == DataSort.Oxygen }?.count?.toString()
-            holder.heightCount.text = datacountList.find { it.type == DataSort.Height }?.count?.toString()
-            holder.weightCount.text = datacountList.find { it.type == DataSort.Weight }?.count?.toString()
+            holder.tempCount.text =
+                datacountList.find { it.type == DataSort.Temperature }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
+            holder.pulseCount.text =
+                datacountList.find { it.type == DataSort.Pulse }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
+            holder.respireCount.text =
+                datacountList.find { it.type == DataSort.Respire }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
+            holder.bgCount.text =
+                datacountList.find { it.type == DataSort.BloodGlucose }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
+            holder.bpCount.text =
+                datacountList.find { it.type == DataSort.BloodPressure }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
+            holder.oxygenCount.text =
+                datacountList.find { it.type == DataSort.Oxygen }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
+            holder.heightCount.text =
+                datacountList.find { it.type == DataSort.Height }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
+            holder.weightCount.text =
+                datacountList.find { it.type == DataSort.Weight }?.count?.let {
+                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                }
         }
 
 

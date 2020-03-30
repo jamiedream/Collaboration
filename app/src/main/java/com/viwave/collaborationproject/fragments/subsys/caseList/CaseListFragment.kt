@@ -138,12 +138,13 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         recyclerView?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = caseListAdapter
-            addItemDecoration(
+            val decorator =
                 DividerItemDecoration(
                     context,
                     LinearLayoutManager(context).orientation
                 )
-            )
+            decorator.setDrawable(resources.getDrawable(R.drawable.line_case_list, null))
+            addItemDecoration(decorator)
         }
     }
 
