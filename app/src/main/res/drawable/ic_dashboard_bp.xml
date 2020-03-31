@@ -1,0 +1,18 @@
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 31/ 3/ 2020.
+  ~ Last modified 3/31/20 3:08 PM
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp"
+    android:height="25dp"
+    android:viewportWidth="28"
+    android:viewportHeight="25">
+  <path
+      android:pathData="M18.4606,15.4845L17.5166,13.8277L15.535,20.8005L12.4794,9.6307L10.0259,18.4073L7.7322,15.5803H4.7355C7.1451,17.7082 10.5275,20.1896 14.3963,24.6C18.3811,20.1453 21.7585,17.6124 24.1304,15.4845H18.4606Z"
+      android:fillColor="#ffffff"/>
+  <path
+      android:pathData="M8.3498,14.2253L9.4385,15.5653L12.4944,4.6441L15.5578,15.8583L17.1115,10.4022L19.2236,14.1279H25.546C27.4625,12.1106 28.2971,10.1666 27.6582,6.8017C26.2793,-0.473 19.1367,-1.3201 14.3968,2.7372C9.6642,-1.3201 2.484,-0.4876 1.1429,6.8017C0.5114,10.2402 1.3896,12.2209 3.3056,14.2239L8.3498,14.2253Z"
+      android:fillColor="#ffffff"/>
+</vector>

@@ -5,26 +5,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="@dimen/dp_10"
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/dp_4"
-    app:cardCornerRadius="@dimen/dp_6">
+    app:cardCornerRadius="19dp">
 
     <FrameLayout
         android:id="@+id/border_temp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:elevation="@dimen/dp_4"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_4">
-
+        >
         <ImageView
             android:id="@+id/icon_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow"
+            android:src="@drawable/ic_dashboard_temp"
+            android:background="@drawable/bg_rect"
+            android:padding="@dimen/dp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,8 +37,10 @@
             android:layout_height="wrap_content"
             app:measureItemTitle="@string/temperature"
             app:measureItemUnit="@string/unit_celsius"
+            android:layout_marginStart="@dimen/dp_18"
             app:layout_constraintStart_toEndOf="@id/icon_temp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
         <TextView
@@ -45,8 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_6"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/value_temp"
             app:layout_constraintEnd_toStartOf="@id/add_temp"
             />
 
