@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -30,6 +31,7 @@ class ManualInputLayout: ConstraintLayout {
     private val titleMeasure by lazy { findViewById<TextView>(R.id.title_measurement) }
     private val unitMeasure by lazy { findViewById<TextView>(R.id.unit_measurement) }
     private val editMeasure by lazy { findViewById<EditText>(R.id.value_measurement) }
+    private val imgMeasure by lazy { findViewById<ImageView>(R.id.img_measurement) }
     private fun init(context: Context, attributesSet: AttributeSet?){
         View.inflate(context, R.layout.view_manual_input, this)
 
@@ -40,8 +42,10 @@ class ManualInputLayout: ConstraintLayout {
                 val unit = getString(R.styleable.ManualInput_manualInputUnit)
                 val ime = getInt(R.styleable.ManualInput_manualInputEditIme, 0)
                 val type = getInt(R.styleable.ManualInput_manualInputEditType, 0)
+                val img = getDrawable(R.styleable.ManualInput_manualInputImage)
                 titleMeasure.text = title
                 unitMeasure.text = unit
+                imgMeasure.setImageDrawable(img)
                 editMeasure.imeOptions = ime
                 editMeasure.inputType = type
                 if(ime == EditorInfo.IME_ACTION_DONE){
@@ -57,8 +61,8 @@ class ManualInputLayout: ConstraintLayout {
 
     fun enableEdit(isEnable: Boolean){
         if(isEnable){
-            titleMeasure.setTextColor(ContextCompat.getColor(context, R.color.silver_light))
-            unitMeasure.setTextColor(ContextCompat.getColor(context, R.color.silver_light))
+            titleMeasure.setTextColor(ContextCompat.getColor(context, R.color.storm_dust))
+            unitMeasure.setTextColor(ContextCompat.getColor(context, R.color.storm_dust))
             editMeasure.isEnabled = true
 
         }else{

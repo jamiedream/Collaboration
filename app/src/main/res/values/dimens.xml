@@ -34,9 +34,9 @@
     <dimen name="sp_44">44sp</dimen>
 
     <dimen name="border_radius">12dp</dimen>
-    <dimen name="border_width">1dp</dimen>
+    <dimen name="border_width">.4dp</dimen>
     <dimen name="toggle_border_radius">14dp</dimen>
-    <dimen name="toggle_height">24dp</dimen>
+    <dimen name="toggle_height">32dp</dimen>
 
     <dimen name="health_chart_offset_bottom">8dp</dimen>
 
@@ -46,6 +46,8 @@
 
     <dimen name="toggle_subsys_height">90dp</dimen>
     <dimen name="toggle_subsys_width">140dp</dimen>
+
+    <dimen name="manual_input_border_width">1.2dp</dimen>
 
 
 </resources>

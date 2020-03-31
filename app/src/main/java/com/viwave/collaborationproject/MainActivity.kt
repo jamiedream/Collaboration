@@ -32,10 +32,12 @@ import com.viwave.collaborationproject.fragments.DeviceFragment
 import com.viwave.collaborationproject.fragments.LoginFragment
 import com.viwave.collaborationproject.fragments.PendingDataFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
+import com.viwave.collaborationproject.utils.InputControlUtil
 import com.viwave.collaborationproject.utils.LogUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
@@ -93,6 +95,11 @@ class MainActivity : AppCompatActivity() {
             )
         )
         (navDrawer.getChildAt(0) as NavigationMenuView).addItemDecoration(decorator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        InputControlUtil.hideKeyboard(WeakReference((this)))
     }
 
     override fun onStop() {

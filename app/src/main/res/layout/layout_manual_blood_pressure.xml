@@ -6,72 +6,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/icon_measurement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow"
-        android:alpha=".6"
-        android:scaleX="20"
-        android:scaleY="20"
-        app:layout_constraintHorizontal_bias=".05"
-        app:layout_constraintVertical_bias=".2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
     <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
         android:id="@+id/manual_bp_sys"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
         app:manualInputTitle="@string/systolic"
         app:manualInputUnit="@string/unit_blood_pressure"
         app:manualInputEditIme="imeNext"
         app:manualInputEditType="typeNumber"
+        app:manualInputImage="@drawable/ic_count_bp"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".4"
+        app:layout_constraintWidth_percent=".42"
         app:layout_constraintVertical_bias=".2"
-        app:layout_constraintStart_toEndOf="@id/icon_measurement"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/manual_bp_dia"
-        app:layout_constraintTop_toTopOf="@id/icon_measurement"
-        app:layout_constraintBottom_toBottomOf="@id/icon_measurement"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
         android:id="@+id/manual_bp_dia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
         app:manualInputTitle="@string/diastolic"
         app:manualInputUnit="@string/unit_blood_pressure"
         app:manualInputEditIme="imeDone"
         app:manualInputEditType="typeNumber"
+        app:manualInputImage="@drawable/ic_count_bp"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".4"
-        app:layout_constraintVertical_bias=".2"
+        app:layout_constraintWidth_percent=".42"
         app:layout_constraintStart_toEndOf="@id/manual_bp_sys"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/icon_measurement"
-        app:layout_constraintBottom_toBottomOf="@id/icon_measurement"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
-<!--    <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout-->
-<!--        android:id="@+id/manual_bp_pulse"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/dp_12"-->
-<!--        android:visibility="gone"-->
-<!--        app:manualInputTitle="@string/pulse"-->
-<!--        app:manualInputUnit="@string/unit_pulse"-->
-<!--        app:manualInputEditIme="imeDone"-->
-<!--        app:manualInputEditType="typeNumber"-->
-<!--        app:layout_constraintWidth_default="percent"-->
-<!--        app:layout_constraintWidth_percent=".6"-->
-<!--        app:layout_constraintVertical_bias=".2"-->
-<!--        app:layout_constraintStart_toEndOf="@id/icon_measurement"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/manual_bp_dia"-->
-<!--        />-->
+    <FrameLayout
+        android:id="@+id/frame_manual_bp_dia"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white_40"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".42"
+        app:layout_constraintStart_toEndOf="@id/manual_bp_sys"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/manual_bp_dia"
+        app:layout_constraintBottom_toBottomOf="@id/manual_bp_dia"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

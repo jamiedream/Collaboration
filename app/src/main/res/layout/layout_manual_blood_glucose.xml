@@ -6,53 +6,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/icon_measurement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow"
-        android:alpha=".6"
-        android:scaleX="20"
-        android:scaleY="20"
-        app:layout_constraintHorizontal_bias=".05"
-        app:layout_constraintVertical_bias=".2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
     <com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
         android:id="@+id/manual_glucose"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
         app:manualInputTitle="@string/blood_glucose"
         app:manualInputUnit="@string/unit_blood_glucose"
         app:manualInputEditIme="imeDone"
         app:manualInputEditType="typeNumber"
+        app:manualInputImage="@drawable/ic_count_bg"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".4"
+        app:layout_constraintWidth_percent=".9"
         app:layout_constraintVertical_bias=".2"
-        app:layout_constraintStart_toEndOf="@id/icon_measurement"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/icon_measurement"
-        app:layout_constraintBottom_toBottomOf="@id/icon_measurement"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <com.viwave.collaborationproject.fragments.widgets.TabView
         android:id="@+id/view_auto_fit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_24"
         android:background="@drawable/btn_toggle"
         android:padding="@dimen/border_width"
         app:autoFitTabFirst="@string/fasting"
         app:autoFitTabSecond="@string/before_meal"
         app:autoFitTabThird="@string/after_meal"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".6"
+        app:layout_constraintWidth_percent=".68"
         app:layout_constraintTop_toBottomOf="@id/manual_glucose"
-        app:layout_constraintStart_toEndOf="@id/icon_measurement"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

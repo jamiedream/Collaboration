@@ -12,6 +12,7 @@
             <enum name="typeNumber" value="0x00000002" />
             <enum name="typeNumberDecimal" value="0x00002002" />
         </attr>
+        <attr name="manualInputImage" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="MeasureItem">
