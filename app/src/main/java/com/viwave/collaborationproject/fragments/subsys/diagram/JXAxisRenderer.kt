@@ -1,7 +1,7 @@
 /*
- * Copyright (c) viWave 2019.
- * Create by J.Y Yen 20/ 8/ 2019.
- * Last modified 8/1/19 6:09 PM
+ * Copyright (c) viWave 2020.
+ * Create by J.Y Yen 31/ 3/ 2020.
+ * Last modified 3/25/20 1:49 PM
  */
 
 package com.viwave.RossmaxConnect.Measurement.chart

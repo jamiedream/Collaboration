@@ -1,7 +1,7 @@
 /*
- * Copyright (c) viWave 2019.
- * Create by J.Y Yen 11/ 7/ 2019.
- * Last modified 7/11/19 2:53 PM
+ * Copyright (c) viWave 2020.
+ * Create by J.Y Yen 31/ 3/ 2020.
+ * Last modified 3/25/20 1:49 PM
  */
 
 package com.viwave.collaborationproject.fragments.widgets

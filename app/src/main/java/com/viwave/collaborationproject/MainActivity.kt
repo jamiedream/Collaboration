@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) viWave 2020.
+ * Create by J.Y Yen 31/ 3/ 2020.
+ * Last modified 3/31/20 2:26 PM
+ */
+
 package com.viwave.collaborationproject
 
 import android.graphics.drawable.Drawable

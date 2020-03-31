@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) viWave 2020.
+ * Create by J.Y Yen 31/ 3/ 2020.
+ * Last modified 3/30/20 12:04 PM
+ */
+
 package com.viwave.collaborationproject.fragments.subsys.caseList.adapter
 
 import android.view.View

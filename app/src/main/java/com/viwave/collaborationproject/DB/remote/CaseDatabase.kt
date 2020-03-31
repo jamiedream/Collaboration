@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) viWave 2020.
+ * Create by J.Y Yen 31/ 3/ 2020.
+ * Last modified 3/27/20 1:40 PM
+ */
+
 package com.viwave.collaborationproject.DB.remote
 
 import android.content.Context
