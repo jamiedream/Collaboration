@@ -35,6 +35,20 @@
         >
 
         <TextView
+            android:id="@+id/login_error_msg"
+            android:layout_width="@dimen/toggle_oval_width"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_marginTop="@dimen/dp_24"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
             android:id="@+id/login_title"
             android:layout_width="@dimen/toggle_oval_width"
             android:layout_height="@dimen/toggle_oval_height"
@@ -43,10 +57,9 @@
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
             android:layout_marginBottom="@dimen/dp_24"
-            android:layout_marginTop="@dimen/dp_80"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_error_msg"
             />
 
         <EditText
@@ -89,18 +102,6 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/login_error_msg"
-            android:layout_width="@dimen/toggle_oval_width"
-            android:layout_height="@dimen/toggle_oval_height"
-            android:gravity="center"
-            android:textColor="@android:color/holo_red_dark"
-            android:layout_marginTop="@dimen/dp_24"
-            app:layout_constraintTop_toBottomOf="@id/login_password_textinputlayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
         <Button
             android:id="@+id/btn_login"
             android:layout_width="@dimen/toggle_oval_width"
@@ -108,7 +109,8 @@
             android:text="@string/login"
             style="@style/ToggleOvalBtn"
             android:background="@drawable/bg_oval"
-            app:layout_constraintTop_toBottomOf="@id/login_error_msg"
+            app:layout_constraintVertical_bias=".2"
+            app:layout_constraintTop_toBottomOf="@id/login_password_textinputlayout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

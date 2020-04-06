@@ -74,7 +74,7 @@
     <string name="dashboard_upload_success">上傳成功</string>
 
     <string name="about_app_version">版本號：&#032;%s</string>
-    <string name="about_app_copyright">版本號：&#032;%s</string>
+    <string name="about_app_copyright">Copyright © 2020 viWave ULife Co. Ltd. \nAll Rights Reserved.</string>
 
     <string name="ok">OK</string>
     <string name="data_not_in_range">%s\n該筆資料不在正常範圍內</string>
