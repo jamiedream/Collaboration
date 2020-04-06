@@ -18,6 +18,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializer
 import com.google.gson.reflect.TypeToken
+import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
@@ -33,7 +34,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class LoginFragment: BaseFragment() {
+class LoginFragment: BaseFragment(), BackPressedDelegate {
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
     private val TAG = this::class.java.simpleName
     private val btnLogin by lazy { view!!.findViewById<Button>(R.id.btn_login) }

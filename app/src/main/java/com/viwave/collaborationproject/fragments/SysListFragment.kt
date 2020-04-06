@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
@@ -18,7 +19,11 @@ import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 
-class SysListFragment: BaseFragment() {
+class SysListFragment: BaseFragment(), BackPressedDelegate {
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
     private val TAG = this::class.java.simpleName
 

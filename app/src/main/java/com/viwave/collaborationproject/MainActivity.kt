@@ -33,10 +33,7 @@ import com.viwave.collaborationproject.DB.remote.CaseDatabase
 import com.viwave.collaborationproject.data.general.GeneralViewModel
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.data.general.User
-import com.viwave.collaborationproject.fragments.AboutFragment
-import com.viwave.collaborationproject.fragments.DeviceFragment
-import com.viwave.collaborationproject.fragments.LoginFragment
-import com.viwave.collaborationproject.fragments.PendingDataFragment
+import com.viwave.collaborationproject.fragments.*
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.utils.InputControlUtil
 import com.viwave.collaborationproject.utils.LogUtil
@@ -81,7 +78,13 @@ class MainActivity : AppCompatActivity() {
         reloadDrawer()
         navDrawer.setNavigationItemSelectedListener(navigationListener)
         when(UserPreference.instance.query(UserKey.IS_LOGIN, false)){
-            true -> switchFragmentToTop(CaseListFragment())
+            true -> {
+                when(UserPreference.instance.querySubSys() == null){
+                    true -> switchFragmentToTop(SysListFragment())
+                    false -> switchFragmentToTop(CaseListFragment())
+                }
+
+            }
             false -> switchFragmentToTop(LoginFragment())
         }
 

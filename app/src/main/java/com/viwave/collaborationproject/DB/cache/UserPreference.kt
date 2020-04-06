@@ -7,7 +7,6 @@
 package com.viwave.collaborationproject.DB.cache
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.viwave.collaborationproject.CollaborationApplication
 import com.viwave.collaborationproject.data.general.SubSys
@@ -83,7 +82,7 @@ class UserPreference private constructor(){
 
     fun queryUser(): User?{
         val json = userPreferences.getString(UserKey.USER, "")
-        Log.d("queryUser", json)
+//        Log.d("queryUser", json)
         return Gson().fromJson(json, User::class.java)
     }
 
