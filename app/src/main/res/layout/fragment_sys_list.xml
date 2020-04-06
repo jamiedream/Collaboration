@@ -27,7 +27,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
             android:id="@+id/hi_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_80"
             android:gravity="center_horizontal"
             android:text="@string/login_hi"
             android:textSize="@dimen/sp_20"
@@ -48,94 +48,92 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-        <TextView
-            android:id="@+id/title_subsys"
+        <RelativeLayout
+            android:id="@+id/sys_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_select_sys"
-            android:textSize="@dimen/sp_20"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
             android:layout_marginTop="@dimen/dp_60"
-            android:layout_marginBottom="@dimen/dp_16"
-            app:layout_constraintStart_toStartOf="@id/item_daily_care"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hi_name"
-            />
-
-
-        <TextView
-            android:id="@+id/item_daily_care"
-            android:layout_width="@dimen/toggle_subsys_width"
-            android:layout_height="@dimen/toggle_subsys_height"
-            android:text="@string/sys_daily_care"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
-            android:textColor="@color/color_sys_list"
-            android:background="@drawable/bg_sys_block"
-            android:gravity="center"
-            android:enabled="false"
-            android:layout_marginTop="@dimen/dp_16"
-            app:layout_constraintTop_toBottomOf="@id/title_subsys"
-            app:layout_constraintBottom_toTopOf="@id/item_daily_nursing"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/item_station"
-            />
-
-        <TextView
-            android:id="@+id/item_station"
-            android:layout_width="@dimen/toggle_subsys_width"
-            android:layout_height="@dimen/toggle_subsys_height"
-            android:text="@string/sys_station"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
-            android:textColor="@color/color_sys_list"
-            android:background="@drawable/bg_sys_block"
-            android:gravity="center"
-            android:enabled="false"
-            android:layout_marginTop="@dimen/dp_16"
-            android:layout_marginStart="@dimen/dp_20"
-            app:layout_constraintTop_toBottomOf="@id/title_subsys"
-            app:layout_constraintBottom_toTopOf="@id/item_home_service"
-            app:layout_constraintStart_toEndOf="@id/item_daily_care"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/item_daily_nursing"
-            android:layout_width="@dimen/toggle_subsys_width"
-            android:layout_height="@dimen/toggle_subsys_height"
-            android:text="@string/sys_daily_nursing"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
-            android:textColor="@color/color_sys_list"
-            android:background="@drawable/bg_sys_block"
-            android:gravity="center"
-            android:enabled="false"
-            android:layout_marginTop="@dimen/dp_28"
-            app:layout_constraintTop_toBottomOf="@id/item_daily_care"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/item_home_service"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            >
+            <TextView
+                android:id="@+id/title_subsys"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_select_sys"
+                android:textSize="@dimen/sp_20"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                />
 
-        <TextView
-            android:id="@+id/item_home_service"
-            android:layout_width="@dimen/toggle_subsys_width"
-            android:layout_height="@dimen/toggle_subsys_height"
-            android:text="@string/sys_home_service"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
-            android:textColor="@color/color_sys_list"
-            android:background="@drawable/bg_sys_block"
-            android:gravity="center"
-            android:enabled="false"
-            android:layout_marginTop="@dimen/dp_28"
-            android:layout_marginStart="@dimen/dp_20"
-            app:layout_constraintTop_toBottomOf="@id/item_station"
-            app:layout_constraintStart_toEndOf="@id/item_daily_nursing"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+
+            <TextView
+                android:id="@+id/item_daily_care"
+                android:layout_width="@dimen/toggle_subsys_width"
+                android:layout_height="@dimen/toggle_subsys_height"
+                android:text="@string/sys_daily_care"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:textColor="@color/color_sys_list"
+                android:background="@drawable/bg_sys_block"
+                android:gravity="center"
+                android:enabled="false"
+                android:layout_marginTop="@dimen/dp_24"
+                android:layout_below="@id/title_subsys"
+                />
+
+            <TextView
+                android:id="@+id/item_station"
+                android:layout_width="@dimen/toggle_subsys_width"
+                android:layout_height="@dimen/toggle_subsys_height"
+                android:text="@string/sys_station"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:textColor="@color/color_sys_list"
+                android:background="@drawable/bg_sys_block"
+                android:gravity="center"
+                android:enabled="false"
+                android:layout_marginTop="@dimen/dp_24"
+                android:layout_marginStart="@dimen/dp_28"
+                android:layout_below="@id/title_subsys"
+                android:layout_toEndOf="@id/item_daily_care"
+                />
+
+            <TextView
+                android:id="@+id/item_daily_nursing"
+                android:layout_width="@dimen/toggle_subsys_width"
+                android:layout_height="@dimen/toggle_subsys_height"
+                android:text="@string/sys_daily_nursing"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:textColor="@color/color_sys_list"
+                android:background="@drawable/bg_sys_block"
+                android:gravity="center"
+                android:enabled="false"
+                android:layout_marginTop="@dimen/dp_28"
+                android:layout_below="@id/item_daily_care"
+                />
+
+            <TextView
+                android:id="@+id/item_home_service"
+                android:layout_width="@dimen/toggle_subsys_width"
+                android:layout_height="@dimen/toggle_subsys_height"
+                android:text="@string/sys_home_service"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:textColor="@color/color_sys_list"
+                android:background="@drawable/bg_sys_block"
+                android:gravity="center"
+                android:enabled="false"
+                android:layout_marginTop="@dimen/dp_28"
+                android:layout_marginStart="@dimen/dp_28"
+                android:layout_below="@id/item_daily_care"
+                android:layout_toEndOf="@id/item_daily_nursing"
+                />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
