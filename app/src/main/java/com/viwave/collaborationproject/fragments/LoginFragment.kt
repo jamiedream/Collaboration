@@ -6,7 +6,9 @@
 
 package com.viwave.collaborationproject.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.DataSort
 import com.viwave.collaborationproject.data.UploadData
 import com.viwave.collaborationproject.data.general.User
+import com.viwave.collaborationproject.utils.SysUtil.isNetworkConnect
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -62,6 +65,10 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
     override fun onResume() {
         super.onResume()
         setToolbarLeftIcon(false)
+
+        if(!isNetworkConnect(activity!!)){
+            startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+        }
 
         editAccount.setOnEditorActionListener { _, _, _ ->
             editPassword.requestFocus()
