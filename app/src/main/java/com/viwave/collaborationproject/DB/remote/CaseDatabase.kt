@@ -11,13 +11,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.viwave.collaborationproject.DB.remote.CaseDatabase.Companion.tableVersion
-import com.viwave.collaborationproject.DB.remote.Dao.CaseCareDao
-import com.viwave.collaborationproject.DB.remote.Dao.CaseHomeCareDao
-import com.viwave.collaborationproject.DB.remote.Dao.CaseNursingDao
-import com.viwave.collaborationproject.DB.remote.Dao.CaseStationDao
+import com.viwave.collaborationproject.DB.remote.Dao.*
+import com.viwave.collaborationproject.DB.remote.entity.BioDataEntity
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 
-@Database(entities = [CaseEntity.CaseCareEntity::class, CaseEntity.CaseNursingEntity::class, CaseEntity.CaseStationEntity::class, CaseEntity.CaseHomeCareEntity::class], version = tableVersion)
+@Database(entities =
+    [CaseEntity.CaseCareEntity::class, CaseEntity.CaseNursingEntity::class,
+     CaseEntity.CaseStationEntity::class, CaseEntity.CaseHomeCareEntity::class,
+     BioDataEntity.BloodPressureEntity::class, BioDataEntity.BloodGlucoseEntity::class,
+     BioDataEntity.HeightEntity::class, BioDataEntity.OxygenEntity::class,
+     BioDataEntity.PulseEntity::class, BioDataEntity.RespireEntity::class,
+     BioDataEntity.TemperatureEntity::class, BioDataEntity.WeightEntity::class
+    ], version = tableVersion)
+
 abstract class CaseDatabase: RoomDatabase() {
 
     companion object{
@@ -26,6 +32,14 @@ abstract class CaseDatabase: RoomDatabase() {
         const val tableNursingCase = "tableNursingCase"
         const val tableStationCase = "tableStationCase"
         const val tableHomeCareCase = "tableHomeCareCase"
+        const val tableBioDataBloodPressure = "tableBloodPressure"
+        const val tableBioDataBloodGlucose = "tableBloodGlucose"
+        const val tableBioDataTemperature = "tableTemperature"
+        const val tableBioDataWeight = "tableWeight"
+        const val tableBioDataPulse = "tablePulse"
+        const val tableBioDataOxygen = "tableOxygen"
+        const val tableBioDataRespire = "tableRespire"
+        const val tableBioDataHeight = "tableHeight"
 
         @Volatile private var instance: CaseDatabase? = null
         private val LOCK = Any()
@@ -43,4 +57,5 @@ abstract class CaseDatabase: RoomDatabase() {
     abstract fun getCaseNursingDao(): CaseNursingDao
     abstract fun getCaseStationDao(): CaseStationDao
     abstract fun getCaseHomeCareDao(): CaseHomeCareDao
+    abstract fun getBioDao(): BioDao
 }

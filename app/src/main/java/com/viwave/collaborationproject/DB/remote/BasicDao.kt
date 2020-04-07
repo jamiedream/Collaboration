@@ -24,4 +24,6 @@ interface BasicDao<Entity> {
 
     @Delete
     fun deleteAll()
+
+    fun search(caseNumber:String): Entity
 }

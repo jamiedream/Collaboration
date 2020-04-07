@@ -27,4 +27,6 @@ interface CaseHomeCareDao: BasicDao<CaseEntity.CaseHomeCareEntity> {
     @Query("DELETE FROM ${CaseDatabase.tableHomeCareCase}")
     override fun deleteAll()
 
+    @Query("SELECT * FROM ${CaseDatabase.tableHomeCareCase} WHERE caseNumber = :caseNumber")
+    override fun search(caseNumber: String): CaseEntity.CaseHomeCareEntity
 }
