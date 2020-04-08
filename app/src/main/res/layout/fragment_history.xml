@@ -5,61 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/diagram_header"
+    <RelativeLayout
+        android:id="@+id/case_info"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/dp_4"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent=".04"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/content_scroll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
+        <ImageView
+            android:id="@+id/case_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
         <TextView
-            android:id="@+id/diagram_type"
+            android:id="@+id/case_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/temperature"
             android:textSize="@dimen/sp_20"
-            android:gravity="center_horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/case_gender"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_centerVertical="true"
             />
 
-        <ImageView
-            android:id="@+id/diagram_chart_list"
+        <TextView
+            android:id="@+id/case_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_health_chart"
-            android:tag="@string/tag_list"
-            style="@style/Widget.AppCompat.ActionButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="#727272"
+            android:textSize="@dimen/sp_16"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             />
-
-        <ImageView
-            android:id="@+id/diagram_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_menu"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/diagram_type"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/content_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_4"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".96"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent=".92"
-        app:layout_constraintTop_toBottomOf="@id/diagram_header"
+        app:layout_constraintHeight_percent=".94"
+        app:layout_constraintTop_toBottomOf="@id/case_info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >

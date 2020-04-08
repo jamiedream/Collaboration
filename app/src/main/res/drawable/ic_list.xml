@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 6/ 4/ 2020.
+  ~ Last modified 4/6/20 5:24 PM
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="21dp"
+    android:height="17dp"
+    android:viewportWidth="21"
+    android:viewportHeight="17">
+  <path
+      android:pathData="M20.3815,0.1538H5.8856V3.3393H20.3815V0.1538Z"
+      android:fillColor="#ffffff"/>
+  <path
+      android:pathData="M20.3815,6.9282H5.8856V10.1138H20.3815V6.9282Z"
+      android:fillColor="#ffffff"/>
+  <path
+      android:pathData="M20.3815,13.7388H5.8856V16.9243H20.3815V13.7388Z"
+      android:fillColor="#ffffff"/>
+  <path
+      android:pathData="M2.1285,3.334C3.0067,3.334 3.7186,2.6221 3.7186,1.7439C3.7186,0.8657 3.0067,0.1538 2.1285,0.1538C1.2503,0.1538 0.5385,0.8657 0.5385,1.7439C0.5385,2.6221 1.2503,3.334 2.1285,3.334Z"
+      android:fillColor="#ffffff"/>
+  <path
+      android:pathData="M2.1285,10.0993C3.0067,10.0993 3.7186,9.3874 3.7186,8.5093C3.7186,7.6311 3.0067,6.9192 2.1285,6.9192C1.2503,6.9192 0.5385,7.6311 0.5385,8.5093C0.5385,9.3874 1.2503,10.0993 2.1285,10.0993Z"
+      android:fillColor="#ffffff"/>
+  <path
+      android:pathData="M2.1285,16.8952C3.0067,16.8952 3.7186,16.1833 3.7186,15.3052C3.7186,14.427 3.0067,13.7151 2.1285,13.7151C1.2503,13.7151 0.5385,14.427 0.5385,15.3052C0.5385,16.1833 1.2503,16.8952 2.1285,16.8952Z"
+      android:fillColor="#ffffff"/>
+</vector>
