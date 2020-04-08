@@ -13,14 +13,15 @@ import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.MONTH
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.WEEK
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getTimeDateFormat
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
+import com.viwave.RossmaxConnect.Measurement.widgets.ChartValueComponent2
 import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisWeight
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
-import com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
 import com.viwave.collaborationproject.utils.DataFormatUtil
 import com.viwave.collaborationproject.utils.DateUtil
 import java.lang.ref.WeakReference
@@ -29,11 +30,7 @@ class DiagramWeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
 
     private val yAxis by lazy { YAxisWeight(chart) }
 
-    private val markerWeightValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.weight_marker_value) }
-
-//    //setting safe area
-//    private val weightSafeLow = 80f
-//    private val weightSafeHigh = 100f
+    private val markerWeightValue by lazy { view.findViewById<ChartValueComponent2>(R.id.weight_marker_value) }
 
     override fun pressedToggle(toggleName: String) {
 
@@ -100,15 +97,6 @@ class DiagramWeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
         yAxis.setYMin(dynamicY[1])
         yAxis.updateYAxis()
 
-//        setSafeAreaGrid(
-//            !(weightSafeHigh < yAxis.minY || weightSafeLow > yAxis.maxY),
-//            if(weightSafeLow < yAxis.minY) yAxis.minY else weightSafeLow,
-//            if(weightSafeHigh > yAxis.maxY) yAxis.maxY else weightSafeHigh,
-//            yAxis.minY,
-//            yAxis.minY,
-//            yAxis.maxY,
-//            R.color.cornflower_blue
-//        )
     }
 
     private fun getYMinMax(start: Float, end: Float): MutableList<Float>{
@@ -141,13 +129,13 @@ class DiagramWeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
     }
 
     private fun initTopData() {
-        markerTime.text = "--"
         markerWeightValue.setValue(null)
     }
 
     override fun updateTranslateData() {
         val newX = getScaledHighLow(chart.lowestVisibleX)
         xAxis.setBackXValue(newX[0])
+        markerTime.text = getTimeDateFormat(newX[0], newX[1])
         updateYAxis()
 
     }

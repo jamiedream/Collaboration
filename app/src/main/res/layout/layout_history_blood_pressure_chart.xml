@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@+id/chart_auto_fit"
+        app:layout_constraintTop_toBottomOf="@+id/bp_marker_info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="720:812"
@@ -55,48 +55,39 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@+id/bp_chart"
+        app:cardCornerRadius="@dimen/dp_20"
+        app:layout_constraintTop_toBottomOf="@+id/chart_auto_fit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="720:240"
         >
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
             >
-            <TextView
+
+            <include
                 android:id="@+id/marker_time"
-                android:layout_width="wrap_content"
+                layout="@layout/view_chart_date_move"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="@dimen/dp_2"
-                android:paddingBottom="@dimen/dp_2"
-                android:text="@string/two_dash"
                 />
 
-            <com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
-                android:id="@+id/bp_sys_marker_value"
+            <com.viwave.RossmaxConnect.Measurement.widgets.ChartValueComponent
+                android:id="@+id/bp_sys_dia_marker_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                app:markerInfoTitle="@string/systolic"
-                app:markerInfoUnit="@string/unit_blood_pressure"
-                app:markerInfoValue="@string/two_dash"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/marker_time"
+                android:layout_centerHorizontal="true"
+                app:chartComponentTitle="@string/systolic_diastolic"
+                app:chartComponentSubTitle="@string/unit_blood_pressure"
+                app:chartComponentContent="@string/two_dash_two_value"
                 />
 
-            <com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
-                android:id="@+id/bp_dia_marker_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                app:markerInfoTitle="@string/diastolic"
-                app:markerInfoUnit="@string/unit_blood_pressure"
-                app:markerInfoValue="@string/two_dash"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

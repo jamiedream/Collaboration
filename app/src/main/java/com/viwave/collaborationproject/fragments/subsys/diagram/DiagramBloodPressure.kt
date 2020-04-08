@@ -12,15 +12,16 @@ import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.MONTH
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.WEEK
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getTimeDateFormat
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.updateBarWidth
+import com.viwave.RossmaxConnect.Measurement.widgets.ChartValueComponent
 import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisBP
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
-import com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
 import com.viwave.collaborationproject.utils.DateUtil
 import java.lang.ref.WeakReference
 
@@ -28,8 +29,7 @@ class DiagramBloodPressure(fragment: WeakReference<HistoryChartFragment>): Diagr
 
     private val yAxis by lazy { YAxisBP(chart) }
 
-    private val markerBPSysValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.bp_sys_marker_value) }
-    private val markerBPDiaValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.bp_dia_marker_value) }
+    private val markerBPSysDiaValue by lazy { view.findViewById<ChartValueComponent>(R.id.bp_sys_dia_marker_value) }
 
     //setting safe area
     private val sysSafeLow = 90f
@@ -86,8 +86,7 @@ class DiagramBloodPressure(fragment: WeakReference<HistoryChartFragment>): Diagr
                 //date
                 markerTime.text = DateUtil.getMeasurementTime(data.takenAt * 1000L)
                 //marker data
-                markerBPSysValue.setValue(data.sys.toString())
-                markerBPDiaValue.setValue(data.dia.toString())
+                markerBPSysDiaValue.setValue("${data.sys}/${data.dia}")
             }
         }
     }
@@ -152,14 +151,13 @@ class DiagramBloodPressure(fragment: WeakReference<HistoryChartFragment>): Diagr
     }
 
     private fun initTopData() {
-        markerTime.text = "--"
-        markerBPSysValue.setValue(null)
-        markerBPDiaValue.setValue(null)
+        markerBPSysDiaValue.setValue("--/--")
     }
 
     override fun updateTranslateData() {
         val newX = getScaledHighLow(chart.lowestVisibleX)
         xAxis.setBackXValue(newX[0])
+        markerTime.text = getTimeDateFormat(newX[0], newX[1])
         updateYAxis()
 
     }

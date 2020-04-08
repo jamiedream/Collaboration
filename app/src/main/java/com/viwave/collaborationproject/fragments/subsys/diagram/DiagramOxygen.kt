@@ -12,16 +12,17 @@ import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.MONTH
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.WEEK
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getTimeDateFormat
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.timeFormat
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.updateBarWidth
+import com.viwave.RossmaxConnect.Measurement.widgets.ChartValueComponent
 import com.viwave.RossmaxConnect.Measurement.yaxis.YAxisOxygen
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
-import com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
 import com.viwave.collaborationproject.utils.DateUtil
 import java.lang.ref.WeakReference
 
@@ -30,7 +31,7 @@ class DiagramOxygen(fragment: WeakReference<HistoryChartFragment>): DiagramView(
 
     private val yAxis by lazy { YAxisOxygen(chart) }
 
-    private val markerOxygenValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.oxygen_marker_value) }
+    private val markerOxygenValue by lazy { view.findViewById<ChartValueComponent>(R.id.oxygen_marker_value) }
 
 
     override fun pressedToggle(toggleName: String) {
@@ -129,13 +130,13 @@ class DiagramOxygen(fragment: WeakReference<HistoryChartFragment>): DiagramView(
     }
 
     private fun initTopData() {
-        markerTime.text = "--"
         markerOxygenValue.setValue(null)
     }
 
     override fun updateTranslateData() {
         val newX = getScaledHighLow(chart.lowestVisibleX)
         xAxis.setBackXValue(newX[0])
+        markerTime.text = getTimeDateFormat(newX[0], newX[1])
         updateYAxis()
 
     }

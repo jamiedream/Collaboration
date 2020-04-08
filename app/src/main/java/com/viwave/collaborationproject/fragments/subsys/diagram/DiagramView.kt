@@ -7,6 +7,7 @@
 package com.viwave.collaborationproject.fragments.subsys.diagram
 
 import android.view.MotionEvent
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.listener.ChartTouchListener
@@ -14,6 +15,7 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.viwave.RossmaxConnect.Measurement.chart.JCustomCombinedChart
 import com.viwave.RossmaxConnect.Measurement.chart.JCustomXAxis
 import com.viwave.RossmaxConnect.Measurement.chart.JMarkdown
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.MONTH
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
 import com.viwave.collaborationproject.R
@@ -33,7 +35,9 @@ abstract class DiagramView(fragment: WeakReference<out Fragment>) {
     protected val xAxis by lazy { JCustomXAxis(chart) }
     private val mv by lazy {  JMarkdown(view.context, R.layout.view_triangle) }
 
-    protected val markerTime by lazy { view.findViewById<TextView>(R.id.marker_time) }
+    protected val markerTime by lazy { view.findViewById<TextView>(R.id.chart_range_date) }
+    protected val arrowPrevious by lazy { view.findViewById<ImageView>(R.id.arrow_previous) }
+    protected val arrowNext by lazy { view.findViewById<ImageView>(R.id.arrow_next) }
 
     init {
         togglePeriod = view.context.getString(R.string.month)
@@ -46,6 +50,8 @@ abstract class DiagramView(fragment: WeakReference<out Fragment>) {
 
         mv.chartView = chart
         chart.marker = mv
+
+        markerTime.text = "--"
     }
 
     fun initView(){
@@ -57,6 +63,8 @@ abstract class DiagramView(fragment: WeakReference<out Fragment>) {
 
         xAxis.updateXAxis()
         updateYAxis()
+
+        initChartDateArrow()
 
         chart.onChartGestureListener = customOnChartGestureListener
     }
@@ -75,6 +83,40 @@ abstract class DiagramView(fragment: WeakReference<out Fragment>) {
 
     fun setSecondSafeArea(low: Float, high: Float){
         chart.setSecondDrawCustomGridBackground(low, high)
+    }
+
+    private fun initChartDateArrow(){
+
+        markerTime.text = JTimeSwitcher.getTimeDateFormat(
+            xAxis.getBackXValue(),
+            xAxis.getBackXValue() + JTimeSwitcher.backXCount
+        )
+        arrowPrevious.setOnClickListener {
+            xAxis.setPreLocX(xAxis.getBackXValue(),
+                xAxis.getBackXValue() + JTimeSwitcher.backXCount)
+            xAxis.arrowBackward()
+            markerTime.text =
+                JTimeSwitcher.getTimeDateFormat(
+                    xAxis.getBackXValue(),
+                    xAxis.getBackXValue() + JTimeSwitcher.backXCount
+                )
+            updateXAxis()
+            updateYAxis()
+            emptyMarker()
+        }
+        arrowNext.setOnClickListener {
+            xAxis.setPreLocX(xAxis.getBackXValue(),
+                xAxis.getBackXValue() + JTimeSwitcher.backXCount)
+            xAxis.arrowForward()
+            markerTime.text =
+                JTimeSwitcher.getTimeDateFormat(
+                    xAxis.getBackXValue(),
+                    xAxis.getBackXValue() + JTimeSwitcher.backXCount
+                )
+            updateXAxis()
+            updateYAxis()
+            emptyMarker()
+        }
     }
 
     abstract fun updateXAxis()

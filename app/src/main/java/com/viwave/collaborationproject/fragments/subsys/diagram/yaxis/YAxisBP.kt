@@ -30,10 +30,7 @@ class YAxisBP(private val chart: JCustomCombinedChart){
 
     init {
 
-        rightAxis.yOffset = 0f
-        rightAxis.setDrawAxisLine(false)
-        rightAxis.setDrawGridLines(false)
-        rightAxis.textColor = ContextCompat.getColor(chart.context, R.color.nandor)
+        rightAxis.isEnabled = false
 
         leftAxis.yOffset = 0f
         leftAxis.setDrawAxisLine(false)

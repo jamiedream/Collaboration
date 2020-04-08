@@ -11,14 +11,15 @@ import com.viwave.RossmaxConnect.Measurement.chart.JLineData
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getTimeDateFormat
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.switchPress
+import com.viwave.RossmaxConnect.Measurement.widgets.ChartValueComponent2
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.diagram.yaxis.YAxisPulse
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
-import com.viwave.collaborationproject.fragments.widgets.MarkerInfoLayout
 import com.viwave.collaborationproject.utils.DateUtil
 import java.lang.ref.WeakReference
 
@@ -26,7 +27,7 @@ class DiagramPulse(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
 
     private val yAxis by lazy { YAxisPulse(chart) }
 
-    private val markerPulseValue by lazy { view.findViewById<MarkerInfoLayout>(R.id.pulse_marker_value) }
+    private val markerPulseValue by lazy { view.findViewById<ChartValueComponent2>(R.id.pulse_marker_value) }
 
     //setting safe area
     private val pulseSafeLow = 80f
@@ -138,13 +139,13 @@ class DiagramPulse(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
     }
 
     private fun initTopData() {
-        markerTime.text = "--"
         markerPulseValue.setValue(null)
     }
 
     override fun updateTranslateData() {
         val newX = getScaledHighLow(chart.lowestVisibleX)
         xAxis.setBackXValue(newX[0])
+        markerTime.text = getTimeDateFormat(newX[0], newX[1])
         updateYAxis()
 
     }
