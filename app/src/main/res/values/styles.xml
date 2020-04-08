@@ -39,4 +39,35 @@
         <item name="android:textColor">@color/silver_light</item>
         <item name="android:textSize">@dimen/sp_10</item>
     </style>
+
+    <style name="HealthChartRangeDateText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <!--Marker-->
+    <style name="HealthTitle">
+        <item name="android:textColor">@color/nandor</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HealthChartComponentSubTitle">
+        <item name="android:textColor">@color/boulder</item>
+        <item name="android:textSize">@dimen/sp_8</item>
+    </style>
+
+    <style name="HealthListValue">
+        <item name="android:textColor">@color/nandor</item>
+        <item name="android:textSize">@dimen/sp_26</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HealthThemeText">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/nandor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 8/ 4/ 2020.
+  ~ Last modified 4/8/20 10:58 AM
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/dusty"/>
+    <corners android:radius="@dimen/dp_12"/>
+</shape>

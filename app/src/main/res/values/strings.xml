@@ -15,6 +15,7 @@
     <string name="blood_pressure">血壓</string>
     <string name="systolic">收縮壓</string>
     <string name="diastolic">舒張壓</string>
+    <string name="systolic_diastolic">收縮壓/舒張壓</string>
     <string name="unit_blood_pressure">mmHg</string>
 
     <string name="pulse">脈搏</string>

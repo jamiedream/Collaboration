@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+    <LinearLayout
+            android:id="@+id/chart_component_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+        <TextView
+                android:id="@+id/chart_component_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/HealthTitle"
+                android:text="title"
+                tools:ignore="HardcodedText" />
+        <TextView
+                android:id="@+id/chart_component_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/HealthChartComponentSubTitle"
+                android:layout_gravity="end"/>
+    </LinearLayout>
+    <TextView
+            android:id="@+id/chart_component_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
+            android:layout_toEndOf="@id/chart_component_left"
+            style="@style/HealthListValue"
+            android:text="@string/two_dash"/>
+
+</RelativeLayout>

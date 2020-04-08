@@ -21,16 +21,30 @@
         <attr name="measureItemValue" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="MarkerInfo">
-        <attr name="markerInfoTitle" format="string" />
-        <attr name="markerInfoUnit" format="string" />
-        <attr name="markerInfoValue" format="string" />
-    </declare-styleable>
-
     <declare-styleable name="TabView">
         <attr name="autoFitTabFirst" format="string" />
         <attr name="autoFitTabSecond" format="string" />
         <attr name="autoFitTabThird" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="ChartValueComponent">
+        <attr name="chartComponentTitle" format="string" />
+        <attr name="chartComponentSubTitle" format="string" />
+        <attr name="chartComponentContent" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ChartValueComponent2">
+        <attr name="chartComponent2Unit" format="string" />
+        <attr name="chartComponent2TitleVis" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="4" />
+            <enum name="gone" value="8" />
+        </attr>
+    </declare-styleable>
+
+    <style name="HealthUnit">
+        <item name="android:textColor">@color/boulder</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+    </style>
 
 </resources>

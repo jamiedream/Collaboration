@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 8/ 4/ 2020.
+  ~ Last modified 2/27/20 2:40 PM
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/chart_component2_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/HealthListValue"
+        android:gravity="end"
+        android:layout_centerVertical="true"
+        android:text="@string/two_dash"
+        />
+
+    <TextView
+        android:id="@+id/chart_component2_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/HealthUnit"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/chart_component2_value"
+        />
+
+</RelativeLayout>
