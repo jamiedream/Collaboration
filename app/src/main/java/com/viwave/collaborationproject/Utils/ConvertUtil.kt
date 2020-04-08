@@ -7,6 +7,7 @@
 package com.viwave.collaborationproject.utils
 
 import android.util.Base64
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializer
@@ -14,6 +15,8 @@ import com.google.gson.reflect.TypeToken
 
 
 object ConvertUtil {
+
+    val GSON :Gson = Gson();
 
     fun fromBase64(encodeStr: String): String{
         val decoded = Base64.decode(encodeStr, Base64.URL_SAFE)

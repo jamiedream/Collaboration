@@ -4,7 +4,7 @@
 
     <string name="manual_input">手動輸入</string>
     <string name="add">新增</string>
-
+    <string name="upload">上傳</string>
 
     <string name="temperature">體溫</string>
     <string name="unit_celsius">°C</string>
