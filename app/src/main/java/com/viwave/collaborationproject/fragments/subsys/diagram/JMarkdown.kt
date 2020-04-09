@@ -99,6 +99,22 @@ class JMarkdown(context: Context?, layoutResource: Int) : MarkerView(context, la
                         }
                     }
                 }
+                BioLiveData.Companion.BioType.Respire -> {
+                    bioViewModel.getRespireListData().value?.forEach {
+                        if(calXIndex(it.takenAt) == x && it.respire.toFloat() == y){
+                            bioViewModel.getMarkerData().value = it
+                            return
+                        }
+                    }
+                }
+                BioLiveData.Companion.BioType.Height -> {
+                    bioViewModel.getHeightListData().value?.forEach {
+                        if(calXIndex(it.takenAt) == x && it.height == y){
+                            bioViewModel.getMarkerData().value = it
+                            return
+                        }
+                    }
+                }
                 else -> {}
             }
         }

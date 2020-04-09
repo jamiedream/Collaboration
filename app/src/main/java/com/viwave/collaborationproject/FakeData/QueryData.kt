@@ -238,6 +238,54 @@ class QueryData {
                 )
             }
 
+    val respireData =
+        JsonArray().apply {
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1584343726")
+                    this.addProperty("respire", "16")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583998126")
+                    this.addProperty("respire", "32")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583911726")
+                    this.addProperty("respire", "21")
+                }
+            )
+        }
+
+    val heightData =
+        JsonArray().apply {
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1584343726")
+                    this.addProperty("height", "166.2")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583998126")
+                    this.addProperty("height", "166.2")
+                }
+            )
+
+            this.add(
+                JsonObject().apply {
+                    this.addProperty("takenAt", "1583911726")
+                    this.addProperty("height", "166.9")
+                }
+            )
+        }
+
     val data =
         "{\n" +
                 "    {\n" +

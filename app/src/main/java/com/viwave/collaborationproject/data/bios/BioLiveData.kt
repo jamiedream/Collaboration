@@ -105,4 +105,30 @@ class BioLiveData {
     internal fun getOxygenLastData(): MutableLiveData<Bio.Oxygen>? {
         return oxygenLastData
     }
+
+    /**
+     * Respire
+     * */
+    private val respireListData = MutableLiveData<MutableList<Bio.Respire>>()
+    internal fun getRespireListData(): MutableLiveData<MutableList<Bio.Respire>>? {
+        return respireListData
+    }
+
+    private val respireLastData = MutableLiveData<Bio.Respire>()
+    internal fun getRespireLastData(): MutableLiveData<Bio.Respire>? {
+        return respireLastData
+    }
+
+    /**
+     * Height
+     * */
+    private val heightListData = MutableLiveData<MutableList<Bio.Height>>()
+    internal fun getHeightListData(): MutableLiveData<MutableList<Bio.Height>>? {
+        return heightListData
+    }
+
+    private val heightLastData = MutableLiveData<Bio.Height>()
+    internal fun getHeightLastData(): MutableLiveData<Bio.Height>? {
+        return heightLastData
+    }
 }

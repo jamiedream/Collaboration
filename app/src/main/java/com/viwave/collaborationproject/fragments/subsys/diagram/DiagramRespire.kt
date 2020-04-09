@@ -1,7 +1,7 @@
 /*
  * Copyright (c) viWave 2020.
  * Create by J.Y Yen 8/ 4/ 2020.
- * Last modified 4/8/20 4:53 PM
+ * Last modified 4/8/20 4:07 PM
  */
 
 package com.viwave.collaborationproject.fragments.subsys.diagram
@@ -16,19 +16,23 @@ import com.viwave.RossmaxConnect.Measurement.widgets.ChartValueComponent2
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
+import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
-import com.viwave.collaborationproject.fragments.subsys.diagram.yaxis.YAxisHeight
+import com.viwave.collaborationproject.fragments.subsys.diagram.yaxis.YAxisRespire
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryChartFragment
-import com.viwave.collaborationproject.utils.DataFormatUtil
 import com.viwave.collaborationproject.utils.DateUtil
 import java.lang.ref.WeakReference
 
-class DiagramHeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment),
+class DiagramRespire(fragment: WeakReference<HistoryChartFragment>): DiagramView(fragment),
     ITogglePressedListener {
 
-    private val yAxis by lazy { YAxisHeight(chart) }
+    private val yAxis by lazy { YAxisRespire(chart) }
 
-    private val markerHeightValue by lazy { view.findViewById<ChartValueComponent2>(R.id.height_marker_value) }
+    private val markerRespireValue by lazy { view.findViewById<ChartValueComponent2>(R.id.respire_marker_value) }
+
+    //setting safe area
+    private val respireSafeLow = 20f
+    private val respireSafeHigh = 30f
 
     override fun pressedToggle(toggleName: String) {
 
@@ -40,7 +44,7 @@ class DiagramHeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
             xAxis.setPreLocX(chart.lowestVisibleX, chart.highestVisibleX)
 
             (bioViewModel.getMarkerData().value)?.let {
-                it as Bio.Height
+                it as Bio.Respire
                 xAxis.setMarkerDataX(calXIndex(it.takenAt))
             }
 
@@ -66,20 +70,20 @@ class DiagramHeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
     override fun setData() {
 
         val combineData = CombinedData()
-        combineData.setData(JLineData.getHeightLineData(bioViewModel.getHeightListData().value))
+        combineData.setData(JLineData.getRespireLineData(CaseListFragment.bioViewModel.getRespireListData().value))
         chart.data = combineData
         chart.invalidate()
 
     }
 
     override fun setMarkerData(data: Bio?) {
-        data as Bio.Height?
+        data as Bio.Respire?
         when (data == null) {
             false -> {
                 //date
                 markerTime.text = DateUtil.getMeasurementTime(data.takenAt * 1000L)
                 //marker data
-                markerHeightValue.setValue(DataFormatUtil.formatString(data.height))
+                markerRespireValue.setValue(data.respire.toString())
             }
         }
     }
@@ -94,12 +98,22 @@ class DiagramHeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
         yAxis.setYMax(dynamicY[0])
         yAxis.setYMin(dynamicY[1])
         yAxis.updateYAxis()
+
+        setSafeAreaGrid(
+            !(respireSafeHigh < yAxis.minY || respireSafeLow > yAxis.maxY),
+            if (respireSafeLow < yAxis.minY) yAxis.minY else respireSafeLow,
+            if (respireSafeHigh > yAxis.maxY) yAxis.maxY else respireSafeHigh,
+            yAxis.minY,
+            yAxis.minY,
+            yAxis.maxY,
+            R.color.cornflower_blue
+        )
     }
 
     private fun getYMinMax(start: Float, end: Float): MutableList<Float> {
 
-        val inRangeList = mutableListOf<Bio.Height>()
-        bioViewModel.getHeightListData().value?.forEach {
+        val inRangeList = mutableListOf<Bio.Respire>()
+        bioViewModel.getRespireListData().value?.forEach {
             val index = calXIndex(it.takenAt)
             if (index in start..end) {
                 inRangeList.add(it)
@@ -107,16 +121,16 @@ class DiagramHeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
 
         }
 
-        var heightHigh = yAxis.defaultMax
-        var heightLow = yAxis.defaultMin
-        if (inRangeList.isEmpty()) return mutableListOf(heightHigh, heightLow)
+        var respireHigh = yAxis.defaultMax
+        var respireLow = yAxis.defaultMin
+        if (inRangeList.isEmpty()) return mutableListOf(respireHigh, respireLow)
         for (num in 0 until inRangeList.size) {
-            val dateTemp = inRangeList[num].height
-            heightHigh = Math.max(heightHigh, dateTemp)
-            heightLow = Math.min(heightLow, dateTemp)
+            val dateTemp = inRangeList[num].respire.toFloat()
+            respireHigh = Math.max(respireHigh, dateTemp)
+            respireLow = Math.min(respireLow, dateTemp)
         }
 
-        return mutableListOf(heightHigh, heightLow)
+        return mutableListOf(respireHigh, respireLow)
     }
 
     override fun emptyMarker() {
@@ -126,7 +140,7 @@ class DiagramHeight(fragment: WeakReference<HistoryChartFragment>): DiagramView(
     }
 
     private fun initTopData() {
-        markerHeightValue.setValue(null)
+        markerRespireValue.setValue(null)
     }
 
     override fun updateTranslateData() {

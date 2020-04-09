@@ -29,7 +29,7 @@ class HistoryChartFragment: BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(bioViewModel.getSelectedTypeHistoryLayout().value?: R.layout.layout_history_temperature_chart, container, false)
+        return inflater.inflate(bioViewModel.getSelectedTypeHistoryLayout().value?: R.layout.layout_history_chart_temperature, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,8 +40,8 @@ class HistoryChartFragment: BaseFragment() {
                 BioLiveData.Companion.BioType.BloodGlucose -> DiagramGlucose(fragment)
                 BioLiveData.Companion.BioType.Temperature -> DiagramTemperature(fragment)
                 BioLiveData.Companion.BioType.Weight -> DiagramWeight(fragment)
-//            BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_respire_chart
-//            BioLiveData.Companion.BioType.Height -> R.layout.layout_history_height_chart
+                BioLiveData.Companion.BioType.Respire -> DiagramRespire(fragment)
+                BioLiveData.Companion.BioType.Height -> DiagramHeight(fragment)
                 BioLiveData.Companion.BioType.Pulse -> DiagramPulse(fragment)
                 BioLiveData.Companion.BioType.BloodPressure -> DiagramBloodPressure(fragment)
                 BioLiveData.Companion.BioType.Oxygen -> DiagramOxygen(fragment)

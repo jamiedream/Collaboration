@@ -102,6 +102,32 @@ object JLineData {
         return LineData(lineDataGlucoseFastingStyle(fastingEntries), lineDataGlucoseBeforeStyle(beforeEntries), lineDataGlucoseAfterStyle(afterEntries))
     }
 
+    fun getRespireLineData(respireList: MutableList<Bio.Respire>?): LineData {
+
+        if(entries.isNotEmpty()) entries.clear()
+
+        respireList?.forEach {
+            val xVal = calXIndex(it.takenAt)
+            val yVal = it.respire.toFloat()
+            entries.add(Entry(xVal, yVal))
+        }
+
+        return LineData(lineDataRespireStyle(entries))
+    }
+
+    fun getHeightLineData(heightList: MutableList<Bio.Height>?): LineData {
+
+        if(entries.isNotEmpty()) entries.clear()
+
+        heightList?.forEach {
+            val xVal = calXIndex(it.takenAt)
+            val yVal = it.height
+            entries.add(Entry(xVal, yVal))
+        }
+
+        return LineData(lineDataHeightStyle(entries))
+    }
+
 
     /**
      * Line Chart Style
@@ -170,6 +196,28 @@ object JLineData {
         set.circleRadius = 6f
         set.lineWidth = 0f
         set.color = ContextCompat.getColor(context, android.R.color.transparent)
+        set.setDrawValues(false)
+        return set
+    }
+
+    private fun lineDataRespireStyle(data: MutableList<Entry>): LineDataSet {
+        val set = LineDataSet(data, "Respire Data set")
+        set.setCircleColor(ContextCompat.getColor(context, R.color.salmon_pink))
+        set.setDrawCircleHole(false)
+        set.circleRadius = 6f
+        set.color = ContextCompat.getColor(context, R.color.salmon_pink)
+        set.lineWidth = 2f
+        set.setDrawValues(false)
+        return set
+    }
+
+    private fun lineDataHeightStyle(data: MutableList<Entry>): LineDataSet {
+        val set = LineDataSet(data, "Height Data set")
+        set.setCircleColor(ContextCompat.getColor(context, R.color.salmon_pink))
+        set.setDrawCircleHole(false)
+        set.circleRadius = 6f
+        set.color = ContextCompat.getColor(context, R.color.salmon_pink)
+        set.lineWidth = 2f
         set.setDrawValues(false)
         return set
     }

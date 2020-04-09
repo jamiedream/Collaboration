@@ -134,6 +134,20 @@ class HistoryFragment: BaseFragment(){
                         ConvertUtil.sortListData(DataSort.oxygenList, QueryData().oxygenData)
                     bioViewModel.getOxygenListData().value?.sortBy { it.takenAt }
                 }
+
+                BioLiveData.Companion.BioType.Respire -> {
+                    setToolbarTitle(getString(R.string.respire))
+                    bioViewModel.getRespireListData().value =
+                        ConvertUtil.sortListData(DataSort.respireList, QueryData().respireData)
+                    bioViewModel.getRespireListData().value?.sortBy { it.takenAt }
+                }
+
+                BioLiveData.Companion.BioType.Height -> {
+                    setToolbarTitle(getString(R.string.height))
+                    bioViewModel.getHeightListData().value =
+                        ConvertUtil.sortListData(DataSort.heightList, QueryData().heightData)
+                    bioViewModel.getHeightListData().value?.sortBy { it.takenAt }
+                }
             }
 
             when(PAGE.value){

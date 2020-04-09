@@ -59,14 +59,14 @@ open class BioViewModel: ViewModel() {
     fun getSelectedTypeHistoryLayout(): MutableLiveData<Int> {
         selectedTypeHistoryLayout.value =
             when(selectedType?.value){
-                BioLiveData.Companion.BioType.BloodGlucose -> R.layout.layout_history_glucose_chart
-                BioLiveData.Companion.BioType.Temperature -> R.layout.layout_history_temperature_chart
-                BioLiveData.Companion.BioType.Weight -> R.layout.layout_history_weight_chart
-                BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_respire_chart
-                BioLiveData.Companion.BioType.Height -> R.layout.layout_history_height_chart
-                BioLiveData.Companion.BioType.Pulse -> R.layout.layout_history_pulse_chart
-                BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_history_blood_pressure_chart
-                BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_oxygen_chart
+                BioLiveData.Companion.BioType.BloodGlucose -> R.layout.layout_history_chart_glucose
+                BioLiveData.Companion.BioType.Temperature -> R.layout.layout_history_chart_temperature
+                BioLiveData.Companion.BioType.Weight -> R.layout.layout_history_chart_weight
+                BioLiveData.Companion.BioType.Respire -> R.layout.layout_history_chart_respire
+                BioLiveData.Companion.BioType.Height -> R.layout.layout_history_chart_height
+                BioLiveData.Companion.BioType.Pulse -> R.layout.layout_history_chart_pulse
+                BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_history_chart_blood_pressure
+                BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_chart_oxygen
                 else -> 0
             }
         return selectedTypeHistoryLayout
@@ -192,6 +192,44 @@ open class BioViewModel: ViewModel() {
             oxygenLastData = BioLiveData().getOxygenLastData()
         }
         return oxygenLastData!!
+    }
+
+    /**
+     * Respire
+     * */
+    private var respireListData: MutableLiveData<MutableList<Bio.Respire>>? = null
+    fun getRespireListData(): MutableLiveData<MutableList<Bio.Respire>>{
+        if(respireListData == null){
+            respireListData = BioLiveData().getRespireListData()
+        }
+        return respireListData!!
+    }
+
+    private var respireLastData: MutableLiveData<Bio.Respire>? = null
+    fun getRespireLastData(): MutableLiveData<Bio.Respire> {
+        if (respireLastData == null) {
+            respireLastData = BioLiveData().getRespireLastData()
+        }
+        return respireLastData!!
+    }
+
+    /**
+     * Height
+     * */
+    private var heightListData: MutableLiveData<MutableList<Bio.Height>>? = null
+    fun getHeightListData(): MutableLiveData<MutableList<Bio.Height>>{
+        if(heightListData == null){
+            heightListData = BioLiveData().getHeightListData()
+        }
+        return heightListData!!
+    }
+
+    private var heightLastData: MutableLiveData<Bio.Height>? = null
+    fun getHeightLastData(): MutableLiveData<Bio.Height> {
+        if (heightLastData == null) {
+            heightLastData = BioLiveData().getHeightLastData()
+        }
+        return heightLastData!!
     }
 
 }
