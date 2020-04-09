@@ -17,9 +17,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonDeserializer
-import com.google.gson.reflect.TypeToken
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserKey
@@ -66,30 +63,86 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
         super.onResume()
         setToolbarLeftIcon(false)
 
-        if(!isNetworkConnect(activity!!)){
+        if (!isNetworkConnect(activity!!)) {
             startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-        }
-
-        editAccount.setOnEditorActionListener { _, _, _ ->
-            editPassword.requestFocus()
-            true
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnLogin.setOnClickListener {
-            //api login, case list, history data
-            when{
-                editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
-                    Toast.makeText(context, "Account and password are empty.", Toast.LENGTH_LONG).show()
-                editAccount.text.isNullOrEmpty() && !editPassword.text.isNullOrEmpty() ->
-                    Toast.makeText(context, "Account is empty.", Toast.LENGTH_LONG).show()
-                !editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
-                    Toast.makeText(context, "Password is empty.", Toast.LENGTH_LONG).show()
-                else ->{
-                    //account: test, pwd: abc123
-                    val loginObject = UploadData.uploadLoginInfo(editAccount.text.toString(), editPassword.text.toString())
+            login()
+        }
+        editAccount.setOnEditorActionListener { _, _, _ ->
+            editPassword.requestFocus()
+            true
+        }
+        editPassword.setOnEditorActionListener { _, _, _ ->
+            login()
+            true
+        }
+    }
+
+    private fun login() {
+        //api login, case list, history data
+        when {
+            editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
+                Toast.makeText(
+                    context,
+                    "Account and password are empty.",
+                    Toast.LENGTH_LONG
+                ).show()
+            editAccount.text.isNullOrEmpty() && !editPassword.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Account is empty.", Toast.LENGTH_LONG).show()
+            !editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
+                Toast.makeText(context, "Password is empty.", Toast.LENGTH_LONG).show()
+            else -> {
+                //account: p00012, pwd: st13579
+                val loginObject = UploadData.uploadLoginInfo(
+                    editAccount.text.toString(),
+                    editPassword.text.toString()
+                )
+//                HttpClientService.login(loginObject,
+//                    object: HttpClientService.HttpCallback<LoginRtnDto>{
+//                        override fun onSuccess(data: LoginRtnDto) {
+//                            UserPreference.instance.editUser(DataSort.staff(data))
+//                            var count = 0
+//                            val sysList = data.sysList
+//                            sysList?.let {
+//                                it.forEach {
+//                                    HttpClientService.getList(it.sysCode,
+//                                        object: HttpClientService.HttpCallback<GetListRtnDto>{
+//                                            override fun onSuccess(data: GetListRtnDto) {
+//                                                count += 1
+//                                                LogUtil.logD(TAG, count)
+//                                                if (count == sysList.size) {
+//                                                    UserPreference.instance.edit(
+//                                                        UserKey.IS_LOGIN,
+//                                                        true
+//                                                    )
+//                                                    replaceFragment(
+//                                                        this@LoginFragment,
+//                                                        SysListFragment(),
+//                                                        getString(R.string.tag_sys_list)
+//                                                    )
+//                                                }
+//                                            }
+//
+//                                            override fun onFailure(errData: HttpErrorData) {
+//                                                textError.text = errData.message
+//                                            }
+//
+//                                        })
+//                                }
+//                            }
+//                        }
+//
+//                        override fun onFailure(errData: HttpErrorData) {
+//                            textError.text = errData.message
+//                        }
+//
+//                    })
+
                     when{
                         editAccount.text.toString() == "test" && editPassword.text.toString() == "abc123" -> {
                             val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
@@ -155,7 +208,6 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
                                                 )
                                             }
                                             //todo, load history data
-//                                            LogUtil.logD(TAG, CaseDatabase(context!!).getCaseNursingDao().getDataCountStr("3333333"))
                                         }
                                         SysKey.DAILY_STATION_CODE -> {
                                             QueryData().caseList.forEach {
@@ -198,16 +250,10 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
                         }
                         else -> Toast.makeText(context, "Login failed.", Toast.LENGTH_LONG).show()
                     }
-                }
             }
         }
     }
 
-    private fun <T> sortBioData(deserializer: JsonDeserializer<MutableList<T>>, data: JsonArray): MutableList<T>{
-        return GsonBuilder()
-            .registerTypeAdapter(object: TypeToken<MutableList<T>>(){}.type, deserializer)
-            .create()
-            .fromJson(data, object: TypeToken<MutableList<T>>(){}.type)
-    }
+
 
 }

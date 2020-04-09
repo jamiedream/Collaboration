@@ -11,6 +11,6 @@ class GetListRtnDto {
     var msg:String = ""
         private set
     @SerializedName("caseList")
-    var sysList:ArrayList<Case>? = null
+    var caseList:ArrayList<Case>? = null
         private set
 }

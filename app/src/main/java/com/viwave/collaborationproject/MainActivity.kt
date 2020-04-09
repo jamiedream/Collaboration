@@ -123,6 +123,30 @@ class MainActivity : AppCompatActivity() {
             val authSys = it?.sysList
             authSys?.let { sysList -> navDrawSubSys(sysList) }
             navDrawerLogout.setOnClickListener {
+//                HttpClientService.logout(
+//                    object: HttpClientService.HttpCallback<Logout>{
+//                        override fun onSuccess(data: Logout) {
+//                            //dialog: deal with data upload
+//                            GlobalScope.launch(Dispatchers.IO) {
+//                                authSys?.forEach { subSys ->
+//                                    when(subSys.sysCode){
+//                                        SysKey.DAILY_CARE_CODE -> CaseDatabase(applicationContext).getCaseCareDao().deleteAll()
+//                                        SysKey.DAILY_NURSING_CODE -> CaseDatabase(applicationContext).getCaseNursingDao().deleteAll()
+//                                        SysKey.DAILY_STATION_CODE -> CaseDatabase(applicationContext).getCaseStationDao().deleteAll()
+//                                        SysKey.DAILY_HOME_CARE_CODE -> CaseDatabase(applicationContext).getCaseHomeCareDao().deleteAll()
+//                                    }
+//                                }
+//                            }
+//                            UserPreference.instance.clear()
+//                            switchFragmentToTop(LoginFragment())
+//                        }
+//
+//                        override fun onFailure(errData: HttpErrorData) {
+//                            Toast.makeText(applicationContext, errData.message, Toast.LENGTH_LONG).show()
+//                        }
+//                    }
+//                )
+
                 //dialog: deal with data upload
                 GlobalScope.launch(Dispatchers.IO) {
                     authSys?.forEach { subSys ->

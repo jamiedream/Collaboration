@@ -56,7 +56,10 @@ class SysListFragment: BaseFragment(), BackPressedDelegate {
             sysList.forEach {
                 when(it){
                     SysKey.DailyCare -> enableSys(textDailyCare, SysKey.DailyCare)
-                    SysKey.DailyNursing -> enableSys(textDailyNursing, SysKey.DailyNursing)
+                    SysKey.DailyNursing -> {
+                        //todo, query history data
+                        enableSys(textDailyNursing, SysKey.DailyNursing)
+                    }
                     SysKey.Station -> enableSys(textStation, SysKey.Station)
                     SysKey.HomeCare -> enableSys(textHomeService, SysKey.HomeCare)
                 }

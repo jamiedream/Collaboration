@@ -1,6 +1,6 @@
 package com.viwave.collaborationproject.data.http
 
-class HttpErrorData {
-    var code = 0
+data class HttpErrorData (
+    var code: Int? = null,
     var message: String? = null
-}
+)

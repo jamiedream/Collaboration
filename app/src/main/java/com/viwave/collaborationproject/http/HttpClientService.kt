@@ -1,7 +1,20 @@
 package com.viwave.collaborationproject.http
 
+import com.google.gson.JsonObject
+import com.viwave.collaborationproject.CollaborationApplication
+import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
-import com.viwave.collaborationproject.data.http.*
+import com.viwave.collaborationproject.DB.remote.CaseDatabase
+import com.viwave.collaborationproject.DB.remote.DataCountAction
+import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
+import com.viwave.collaborationproject.data.general.Logout
+import com.viwave.collaborationproject.data.http.GetListRtnDto
+import com.viwave.collaborationproject.data.http.HttpErrorData
+import com.viwave.collaborationproject.data.http.LoginRtnDto
+import com.viwave.collaborationproject.data.http.UploadBioDto
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,6 +27,7 @@ object HttpClientService {
     private var service:HttpClient
     private const val baseUrl = "https://pm.st-mary.org.tw:8443/"
     private const val timeOut:Long = 30 //seconds
+    private const val failureCode:Int = 9
     init {
         val client = OkHttpClient.Builder()
             .readTimeout(timeOut, TimeUnit.SECONDS)
@@ -30,45 +44,51 @@ object HttpClientService {
         service = retrofit.create(HttpClient::class.java)
     }
 
-    fun login(account:String, pass:String, callback:HttpCallback<LoginRtnDto>) {
-        //TODO hardcode id & pwd
-        val loginDto = LoginDto()
-        loginDto.staffId = "p00012"
-        loginDto.staffPwd = "91b6a5c610ebbaf0d71921d9ee391e28b1e68bb28cf896fa8616903842bcbdbe"
-        val call:Call<LoginRtnDto> = service.login(loginDto)
+    fun login(loginData: JsonObject, callback:HttpCallback<LoginRtnDto>) {
+        val call:Call<LoginRtnDto> = service.login(loginData)
         call.enqueue(object:Callback<LoginRtnDto> {
             override fun onFailure(call: Call<LoginRtnDto>, t: Throwable) {
-                callback.onFailure(getErrorData(t))
+                callback.onFailure(HttpErrorData(failureCode, t.message))
             }
 
             override fun onResponse(call: Call<LoginRtnDto>, response: Response<LoginRtnDto>) {
                 if (response.isSuccessful
                     && response.body() != null) {
-                    callback.onSuccess(response.body()!!)
+                    response.body()?.let {
+                        val resCode = it.res.toInt()
+                        if(resCode == 1) {
+                            callback.onSuccess(it)
+                        }else{
+                            callback.onFailure(HttpErrorData(resCode, it.msg))
+                        }
+                    }
+
                 } else {
-                    callback.onFailure(getErrorData(response))
+                    callback.onFailure(HttpErrorData(response.body()?.res?.toInt(), response.body()?.msg))
                 }
             }
         })
     }
 
-    fun logout(account:String, pass:String, callback:HttpCallback<String>) {
-        //TODO hardcode id & pwd
-        val loginDto = LoginDto()
-        loginDto.staffId = "p00012"
-        loginDto.staffPwd = "91b6a5c610ebbaf0d71921d9ee391e28b1e68bb28cf896fa8616903842bcbdbe"
-        val call:Call<String> = service.logout(loginDto)
-        call.enqueue(object:Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                callback.onFailure(getErrorData(t))
+    fun logout(callback:HttpCallback<Logout>) {
+        val call:Call<Logout> = service.logout()
+        call.enqueue(object:Callback<Logout> {
+            override fun onFailure(call: Call<Logout>, t: Throwable) {
+                callback.onFailure(HttpErrorData(failureCode, t.message))
             }
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+            override fun onResponse(call: Call<Logout>, response: Response<Logout>) {
                 if (response.isSuccessful
                     && response.body() != null) {
-                    callback.onSuccess(response.body()!!)
+                    response.body()?.let {
+                        val resCode = it.res.toInt()
+                        if(resCode == 1) {
+                            callback.onSuccess(it)
+                        }else callback.onFailure(HttpErrorData(resCode, it.msg))
+                    }
+
                 } else {
-                    callback.onFailure(getErrorData(response))
+                    callback.onFailure(HttpErrorData(response.body()?.res?.toInt(), response.body()?.msg))
                 }
             }
         })
@@ -79,15 +99,93 @@ object HttpClientService {
         val call:Call<GetListRtnDto> = service.getList("Bearer $token", sysCode)
         call.enqueue(object:Callback<GetListRtnDto> {
             override fun onFailure(call: Call<GetListRtnDto>, t: Throwable) {
-                callback.onFailure(getErrorData(t))
+                callback.onFailure(HttpErrorData(failureCode, t.message))
             }
 
             override fun onResponse(call: Call<GetListRtnDto>, response: Response<GetListRtnDto>) {
                 if (response.isSuccessful
                     && response.body() != null) {
-                    callback.onSuccess(response.body()!!)
+                    response.body()?.let {
+                        val resCode = it.res.toInt()
+                        if(resCode == 1) {
+                            it.caseList?.let { caseList ->
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    when (sysCode) {
+                                        SysKey.DAILY_CARE_CODE -> {
+                                            caseList.forEach { case ->
+                                                CaseDatabase(CollaborationApplication.context).getCaseCareDao()
+                                                    .insert(
+                                                        CaseEntity.CaseCareEntity(
+                                                            case.caseNumber,
+                                                            case.caseName,
+                                                            case.caseGender,
+                                                            case.SCDTID,
+                                                            case.startTime,
+                                                            false,
+                                                            DataCountAction.initDataCount
+                                                        )
+                                                    )
+                                            }
+                                            callback.onSuccess(it)
+                                        }
+                                        SysKey.DAILY_NURSING_CODE -> {
+                                            caseList.forEach {case ->
+                                                CaseDatabase(CollaborationApplication.context).getCaseNursingDao()
+                                                    .insert(
+                                                        CaseEntity.CaseNursingEntity(
+                                                            case.caseNumber,
+                                                            case.caseName,
+                                                            case.caseGender,
+                                                            case.SCDTID,
+                                                            case.startTime,
+                                                            false,
+                                                            DataCountAction.initDataCount
+                                                        )
+                                                    )
+                                            }
+                                            callback.onSuccess(it)
+                                        }
+                                        SysKey.DAILY_STATION_CODE -> {
+                                            caseList.forEach { case ->
+                                                CaseDatabase(CollaborationApplication.context).getCaseStationDao()
+                                                    .insert(
+                                                        CaseEntity.CaseStationEntity(
+                                                            case.caseNumber,
+                                                            case.caseName,
+                                                            case.caseGender,
+                                                            case.SCDTID,
+                                                            case.startTime,
+                                                            false,
+                                                            DataCountAction.initDataCount
+                                                        )
+                                                    )
+                                            }
+                                            callback.onSuccess(it)
+                                        }
+                                        SysKey.DAILY_HOME_CARE_CODE -> {
+                                            caseList.forEach { case ->
+                                                CaseDatabase(CollaborationApplication.context).getCaseHomeCareDao()
+                                                    .insert(
+                                                        CaseEntity.CaseHomeCareEntity(
+                                                            case.caseNumber,
+                                                            case.caseName,
+                                                            case.caseGender,
+                                                            case.SCDTID,
+                                                            case.startTime,
+                                                            false,
+                                                            DataCountAction.initDataCount
+                                                        )
+                                                    )
+                                            }
+                                            callback.onSuccess(it)
+                                        }
+                                    }
+                                }
+                            }
+                        }else callback.onFailure(HttpErrorData(resCode, it.msg))
+                    }
                 } else {
-                    callback.onFailure(getErrorData(response))
+                    callback.onFailure(HttpErrorData(response.body()?.res?.toInt(), response.body()?.msg))
                 }
             }
         })

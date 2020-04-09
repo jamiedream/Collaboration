@@ -1,7 +1,8 @@
 package com.viwave.collaborationproject.http
 
+import com.google.gson.JsonObject
+import com.viwave.collaborationproject.data.general.Logout
 import com.viwave.collaborationproject.data.http.GetListRtnDto
-import com.viwave.collaborationproject.data.http.LoginDto
 import com.viwave.collaborationproject.data.http.LoginRtnDto
 import com.viwave.collaborationproject.data.http.UploadBioDto
 import retrofit2.Call
@@ -11,14 +12,13 @@ interface HttpClient {
     @Headers("Content-Type: application/json")
     @POST("/api/Auth")
     fun login(
-        @Body loginDto: LoginDto
+        @Body loginDto: JsonObject
     ): Call<LoginRtnDto>
 
     @Headers("Content-Type: application/json")
-    @POST("/api/Auth/LogOut")
+    @GET("/api/Auth/LogOut")
     fun logout(
-        @Body loginDto: LoginDto
-    ): Call<String>
+    ): Call<Logout>
 
     @Headers("Content-Type: application/json")
     @GET("/api/GetList/{sysCode}")
