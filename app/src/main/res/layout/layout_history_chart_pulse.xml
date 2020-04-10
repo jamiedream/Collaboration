@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/dp_4"
+    android:paddingEnd="@dimen/dp_4">
 
     <com.viwave.collaborationproject.fragments.widgets.TabView
         android:id="@+id/chart_auto_fit"
@@ -11,6 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_toggle"
         android:padding="@dimen/border_width"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
         app:autoFitTabFirst="@string/day"
         app:autoFitTabSecond="@string/week"
         app:autoFitTabThird="@string/month"
@@ -23,6 +27,9 @@
         android:id="@+id/pulse_chart"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
         app:cardUseCompatPadding="true"
         app:layout_constraintTop_toBottomOf="@+id/pulse_marker_info"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,12 +61,14 @@
         android:id="@+id/pulse_marker_info"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:cardUseCompatPadding="true"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
         app:cardCornerRadius="@dimen/dp_20"
         app:layout_constraintTop_toBottomOf="@+id/chart_auto_fit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="720:180"
+        app:layout_constraintDimensionRatio="720:140"
         >
         <RelativeLayout
             android:layout_width="match_parent"

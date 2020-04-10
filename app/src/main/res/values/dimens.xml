@@ -32,6 +32,7 @@
     <dimen name="sp_22">22sp</dimen>
     <dimen name="sp_24">24sp</dimen>
     <dimen name="sp_26">26sp</dimen>
+    <dimen name="sp_28">28sp</dimen>
     <dimen name="sp_32">32sp</dimen>
     <dimen name="sp_40">40sp</dimen>
     <dimen name="sp_44">44sp</dimen>
@@ -51,6 +52,8 @@
     <dimen name="toggle_subsys_width">140dp</dimen>
 
     <dimen name="manual_input_border_width">1.2dp</dimen>
+
+    <dimen name="history_list_header_height">46dp</dimen>
 
 
 </resources>
