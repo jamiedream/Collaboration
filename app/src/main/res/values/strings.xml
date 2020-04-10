@@ -7,30 +7,32 @@
     <string name="upload">上傳</string>
 
     <string name="temperature">體溫</string>
-    <string name="unit_celsius">°C</string>
+    <string name="unit_celsius">℃</string>
 
     <string name="respire">呼吸</string>
-    <string name="unit_respire">次數/分鐘</string>
+    <string name="unit_respire">次/分鐘</string>
 
     <string name="blood_pressure">血壓</string>
     <string name="systolic">收縮壓</string>
     <string name="diastolic">舒張壓</string>
     <string name="systolic_diastolic">收縮壓/舒張壓</string>
-    <string name="unit_blood_pressure">mmHg</string>
+    <string name="unit_blood_pressure">毫米汞柱</string>
 
     <string name="pulse">脈搏</string>
-    <string name="unit_pulse">BPM</string>
+    <string name="unit_pulse">次/分鐘</string>
 
     <string name="weight">體重</string>
-    <string name="unit_weight">kg</string>
+    <string name="unit_weight">公斤</string>
 
     <string name="blood_glucose">血糖</string>
-    <string name="unit_blood_glucose">mg/dL</string>
+    <string name="unit_blood_glucose">毫克/分升</string>
+    <string name="meal">餐別</string>
     <string name="fasting">空腹</string>
     <string name="before_meal">餐前</string>
     <string name="after_meal">餐後</string>
 
     <string name="oxygen">血氧</string>
+    <string name="oxygen_saturation">血氧飽和度</string>
     <string name="percentage">％</string>
 
     <string name="height">身高</string>
@@ -79,4 +81,5 @@
 
     <string name="ok">OK</string>
     <string name="data_not_in_range">%s\n該筆資料不在正常範圍內</string>
+    <string name="measure_time">量測時間</string>
 </resources>
