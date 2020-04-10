@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/glucose_marker_info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="720:812"
+        app:layout_constraintDimensionRatio="1:1"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,6 +56,17 @@
                 android:layout_marginTop="2dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+    <include
+        android:id="@+id/label"
+        layout="@layout/layout_history_label_bg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/glucose_chart"
+        app:layout_constraintEnd_toEndOf="@id/glucose_chart"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHeight_default="wrap"
+        />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/glucose_marker_info"
@@ -95,10 +106,10 @@
             <TextView
                 android:id="@+id/glucose_meal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@id/marker_time"
+                android:gravity="center"
                 android:layout_toEndOf="@id/glucose_marker_value"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_20"
                 android:paddingTop="@dimen/dp_2"
                 android:paddingBottom="@dimen/dp_2"

@@ -46,6 +46,11 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
+    <style name="HealthChartLabelText">
+        <item name="android:textColor">@color/nandor</item>
+        <item name="android:textSize">@dimen/sp_8</item>
+    </style>
+
     <!--Marker-->
     <style name="HealthTitle">
         <item name="android:textColor">@color/nandor</item>

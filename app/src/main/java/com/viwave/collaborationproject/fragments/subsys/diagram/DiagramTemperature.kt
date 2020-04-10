@@ -108,7 +108,7 @@ class DiagramTemperature(fragment: WeakReference<HistoryChartFragment>): Diagram
             yAxis.minY,
             yAxis.minY,
             yAxis.maxY,
-            R.color.cornflower_blue
+            R.color.aqua_blue
         )
     }
 

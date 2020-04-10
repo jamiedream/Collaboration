@@ -106,7 +106,7 @@ class DiagramRespire(fragment: WeakReference<HistoryChartFragment>): DiagramView
             yAxis.minY,
             yAxis.minY,
             yAxis.maxY,
-            R.color.cornflower_blue
+            R.color.aqua_blue
         )
     }
 

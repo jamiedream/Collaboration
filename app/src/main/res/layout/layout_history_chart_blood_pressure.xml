@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bp_marker_info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="720:812"
+        app:layout_constraintDimensionRatio="1:1"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,6 +56,17 @@
                 android:layout_marginTop="2dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+    <include
+        android:id="@+id/label"
+        layout="@layout/layout_history_label_bp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bp_chart"
+        app:layout_constraintEnd_toEndOf="@id/bp_chart"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHeight_default="wrap"
+        />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/bp_marker_info"

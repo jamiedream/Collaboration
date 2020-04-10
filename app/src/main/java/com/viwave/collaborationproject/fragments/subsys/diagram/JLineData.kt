@@ -134,12 +134,12 @@ object JLineData {
      * */
     private fun lineDataTempStyle(data: MutableList<Entry>): LineDataSet {
         val set = LineDataSet(data, "Temperature Data set")
-        set.setCircleColor(ContextCompat.getColor(context, R.color.egg_blue))
+        set.setCircleColor(ContextCompat.getColor(context, R.color.tangerine))
         set.circleHoleColor = ContextCompat.getColor(context, android.R.color.white)
         set.setDrawCircleHole(true)
         set.circleRadius = 6f
         set.circleHoleRadius = 3f
-        set.color = ContextCompat.getColor(context, R.color.egg_blue)
+        set.color = ContextCompat.getColor(context, R.color.tangerine)
         set.lineWidth = 2f
         set.setDrawValues(false)
         return set
@@ -147,10 +147,12 @@ object JLineData {
 
     private fun lineDataPulseStyle(data: MutableList<Entry>): LineDataSet {
         val set = LineDataSet(data, "Pulse Data set")
-        set.setCircleColor(ContextCompat.getColor(context, R.color.salmon_pink))
-        set.setDrawCircleHole(false)
+        set.setCircleColor(ContextCompat.getColor(context, R.color.feijoa))
+        set.circleHoleColor = ContextCompat.getColor(context, android.R.color.white)
+        set.setDrawCircleHole(true)
         set.circleRadius = 6f
-        set.color = ContextCompat.getColor(context, R.color.salmon_pink)
+        set.circleHoleRadius = 3f
+        set.color = ContextCompat.getColor(context, R.color.feijoa)
         set.lineWidth = 2f
         set.setDrawValues(false)
         return set
@@ -158,11 +160,11 @@ object JLineData {
 
     private fun lineDataWeightStyle(data: MutableList<Entry>): LineDataSet {
         val set = LineDataSet(data, "Weight Data set")
-        set.setCircleColor(ContextCompat.getColor(context, R.color.supernova))
+        set.setCircleColor(ContextCompat.getColor(context, R.color.wisteria))
         set.setDrawCircleHole(false)
         set.circleRadius = 6f
         set.lineWidth = 2f
-        set.color = ContextCompat.getColor(context, R.color.supernova)
+        set.color = ContextCompat.getColor(context, R.color.wisteria)
         set.setDrawValues(false)
         return set
     }
@@ -191,7 +193,7 @@ object JLineData {
 
     private fun lineDataGlucoseAfterStyle(data: MutableList<Entry>): LineDataSet {
         val set = LineDataSet(data, "GlucoseAfter Data set")
-        set.setCircleColor(ContextCompat.getColor(context, R.color.orange))
+        set.setCircleColor(ContextCompat.getColor(context, R.color.malibu))
         set.setDrawCircleHole(false)
         set.circleRadius = 6f
         set.lineWidth = 0f
@@ -202,10 +204,12 @@ object JLineData {
 
     private fun lineDataRespireStyle(data: MutableList<Entry>): LineDataSet {
         val set = LineDataSet(data, "Respire Data set")
-        set.setCircleColor(ContextCompat.getColor(context, R.color.salmon_pink))
-        set.setDrawCircleHole(false)
+        set.setCircleColor(ContextCompat.getColor(context, R.color.downy))
+        set.circleHoleColor = ContextCompat.getColor(context, android.R.color.white)
+        set.setDrawCircleHole(true)
         set.circleRadius = 6f
-        set.color = ContextCompat.getColor(context, R.color.salmon_pink)
+        set.circleHoleRadius = 3f
+        set.color = ContextCompat.getColor(context, R.color.downy)
         set.lineWidth = 2f
         set.setDrawValues(false)
         return set
@@ -213,10 +217,10 @@ object JLineData {
 
     private fun lineDataHeightStyle(data: MutableList<Entry>): LineDataSet {
         val set = LineDataSet(data, "Height Data set")
-        set.setCircleColor(ContextCompat.getColor(context, R.color.salmon_pink))
+        set.setCircleColor(ContextCompat.getColor(context, R.color.kobi))
         set.setDrawCircleHole(false)
         set.circleRadius = 6f
-        set.color = ContextCompat.getColor(context, R.color.salmon_pink)
+        set.color = ContextCompat.getColor(context, R.color.kobi)
         set.lineWidth = 2f
         set.setDrawValues(false)
         return set

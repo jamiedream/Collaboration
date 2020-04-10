@@ -12,23 +12,25 @@
     <color name="storm_dust">#717170</color>
     <color name="mercury">#E5E5E5</color>
     <color name="humming_bird">#D2F1EC</color>
-    <color name="egg_blue">#04DACD</color>
-    <color name="cornflower_blue">#80BFFFFB</color>
-    <color name="salmon_pink">#FF8B9A</color>
-    <color name="supernova">#FFC700</color>
-    <color name="turbo">#FFE600</color>
-    <color name="lucky">#97A014</color>
-    <color name="orange">#FF5B27</color>
-    <color name="mexican_red_70">#B3A32326</color>
-    <color name="picton_70">#B345CAE8</color>
-    <color name="selective_yellow_70">#B3FFB600</color>
+    <color name="aqua_blue">#80E3F3F1</color>
     <color name="tango">#F08718</color>
-    <color name="sienna">#EB6D58</color>
     <color name="sinbad">#A4D9CF</color>
     <color name="keppel">#42A595</color>
     <color name="white_40">#66ffffff</color>
     <color name="dusty">#969696</color>
     <color name="alto">#D7D7D7</color>
     <color name="boulder">#7A7A7A</color>
+    <color name="tangerine">#FFA36D</color>
+    <color name="feijoa">#A4D369</color>
+    <color name="downy">#69C6CC</color>
+    <color name="mexican_red_70">#B3A32326</color>
+    <color name="puerto_70">#B34ABBA7</color>
+    <color name="kobi">#E996BE</color>
+    <color name="wisteria">#BD9CD7</color>
+    <color name="turbo">#FFE500</color>
+    <color name="lucky">#97A014</color>
+    <color name="malibu">#75BFF5</color>
+    <color name="picton_70">#B345CAE8</color>
+    <color name="selective_yellow_70">#B3FFB600</color>
 
 </resources>

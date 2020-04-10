@@ -17,6 +17,8 @@
     <string name="diastolic">舒張壓</string>
     <string name="systolic_diastolic">收縮壓/舒張壓</string>
     <string name="unit_blood_pressure">毫米汞柱</string>
+    <string name="blood_pressure_des">脈壓差過大/過小</string>
+    <string name="blood_pressure_des1">脈壓差正常</string>
 
     <string name="pulse">脈搏</string>
     <string name="unit_pulse">次/分鐘</string>
@@ -34,6 +36,9 @@
     <string name="oxygen">血氧</string>
     <string name="oxygen_saturation">血氧飽和度</string>
     <string name="percentage">％</string>
+    <string name="view_spo2_chart_label_100_95_pct" translatable="false">"100–95%"</string>
+    <string name="view_spo2_chart_label_94_90_pct" translatable="false">"94–90%"</string>
+    <string name="view_spo2_chart_label_89_or_less">89％以下</string>
 
     <string name="height">身高</string>
     <string name="unit_height">公分</string>

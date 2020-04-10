@@ -109,7 +109,7 @@ class DiagramBloodPressure(fragment: WeakReference<HistoryChartFragment>): Diagr
             yAxis.minY,
             yAxis.minY,
             yAxis.maxY,
-            R.color.cornflower_blue
+            R.color.aqua_blue
         )
         setSecondSafeArea(
             if(sysSafeLow < yAxis.minY) yAxis.minY else sysSafeLow,

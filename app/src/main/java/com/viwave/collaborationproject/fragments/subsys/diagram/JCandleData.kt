@@ -252,7 +252,7 @@ object JCandleData{
     private fun candleDataNormalStyle(data: MutableList<CandleEntry>): CandleDataSet{
 
         val set = CandleDataSet(data, "Data Set Normal")
-        set.decreasingColor = ContextCompat.getColor(context, R.color.nandor_70)
+        set.decreasingColor = ContextCompat.getColor(context, R.color.puerto_70)
 
         return candleSetStyle(set)
     }

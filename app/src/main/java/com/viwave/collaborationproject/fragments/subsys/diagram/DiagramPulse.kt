@@ -105,7 +105,7 @@ class DiagramPulse(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
             yAxis.minY,
             yAxis.minY,
             yAxis.maxY,
-            R.color.cornflower_blue
+            R.color.aqua_blue
         )
     }
 
