@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 9/ 4/ 2020.
+  ~ Last modified 4/9/20 3:09 PM
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/history_list_header_height"
+    android:layout_marginTop="@dimen/dp_4"
+    >
+
+    <TextView
+        android:id="@+id/content_measure_time"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/measure_time"
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/nandor"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/content_value"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/content_value"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/unit_respire"
+        android:textSize="@dimen/sp_28"
+        android:textColor="@color/nandor"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/content_measure_time"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

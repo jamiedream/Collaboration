@@ -9,6 +9,7 @@
 
     <string name="tag_chart">CHART</string>
     <string name="tag_list">LIST</string>
+    <string name="tag_list_header">LIST HEADER</string>
 
     <string name="tag_open_drawer">Open drawer</string>
     <string name="tag_close_drawer">Close drawer</string>

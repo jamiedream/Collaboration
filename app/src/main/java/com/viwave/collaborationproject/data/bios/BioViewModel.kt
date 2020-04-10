@@ -72,6 +72,23 @@ open class BioViewModel: ViewModel() {
         return selectedTypeHistoryLayout
     }
 
+    private var selectedTypeHistoryHeaderLayout = MutableLiveData<Int>()
+    fun getSelectedTypeHistoryHeaderLayout(): MutableLiveData<Int> {
+        selectedTypeHistoryHeaderLayout.value =
+            when(selectedType?.value){
+                BioLiveData.Companion.BioType.Temperature,
+                BioLiveData.Companion.BioType.Weight,
+                BioLiveData.Companion.BioType.Respire,
+                BioLiveData.Companion.BioType.Height,
+                BioLiveData.Companion.BioType.Pulse,
+                BioLiveData.Companion.BioType.BloodPressure -> R.layout.layout_history_list_header
+                BioLiveData.Companion.BioType.BloodGlucose,
+                BioLiveData.Companion.BioType.Oxygen -> R.layout.layout_history_list_header1
+                else -> 0
+            }
+        return selectedTypeHistoryHeaderLayout
+    }
+
     private var markerData: MutableLiveData<Bio>? = null
     fun getMarkerData(): MutableLiveData<Bio>{
         if(markerData == null){
