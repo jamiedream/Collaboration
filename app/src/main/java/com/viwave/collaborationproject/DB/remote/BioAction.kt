@@ -14,17 +14,88 @@ object BioAction {
 
     private val TAG = this::class.java.simpleName
 
-    fun savePendingBio(caseNumber:String, sysCode:String, bio:Bio) {
+    fun saveBio(caseNumber:String, sysCode:String, bio:Bio, isPending:Boolean) {
         when(bio) {
+            is Bio.BloodGlucose -> {
+                val entity = BioDataEntity.BloodGlucoseEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    isPending,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertBG(entity)
+            }
+            is Bio.BloodPressure -> {
+                val entity = BioDataEntity.BloodPressureEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    isPending,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertBP(entity)
+            }
+            is Bio.Height -> {
+                val entity = BioDataEntity.HeightEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    isPending,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertHeight(entity)
+            }
+
+            is Bio.Oxygen -> {
+                val entity = BioDataEntity.OxygenEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    isPending,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertOxygen(entity)
+            }
+            is Bio.Pulse -> {
+                val entity = BioDataEntity.PulseEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    isPending,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertPulse(entity)
+            }
+            is Bio.Respire -> {
+                val entity = BioDataEntity.RespireEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    isPending,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertRespire(entity)
+            }
             is Bio.Temperature -> {
                 val entity = BioDataEntity.TemperatureEntity(
                     0,
                     caseNumber,
                     sysCode,
-                    true,
+                    isPending,
                     bio
                 )
                 CaseDatabase(context).getBioDao().insertTemperature(entity)
+            }
+            is Bio.Weight -> {
+                val entity = BioDataEntity.WeightEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    isPending,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertWeight(entity)
             }
         }
     }

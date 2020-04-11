@@ -190,10 +190,160 @@ object HttpClientService {
         })
     }
 
+    fun uploadBloodGlucose(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        bioData: Bio.BloodGlucose, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = bioData.takenAt.div(1000L).toString()
+
+        val type = CollaborationApplication.context.getString(R.string.blood_glucose)
+        val uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${bioData.glucose}",
+            bioData.meal,
+            "01"
+        );
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(uploadBioDto)
+        uploadBio(uploadList, callback)
+    }
+
+    fun uploadBloodPressure(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        bioData: Bio.BloodPressure, callback: HttpCallback<DefaultRtnDto>) {
+        val takenAt = bioData.takenAt.div(1000L).toString()
+
+        var type = CollaborationApplication.context.getString(R.string.blood_pressure)
+        val bloodPressure: UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${bioData.sys}/${bioData.dia}",
+            "",
+            "001"
+        )
+
+        type = CollaborationApplication.context.getString(R.string.pulse)
+        val pulse = UploadBioDto(
+                caseNo,
+                staffId,
+                SCDID,
+                sysCode,
+                type,
+                takenAt,
+                "${bioData.pulse}",
+                "",
+                "002"
+            )
+        val uploadList: ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(bloodPressure)
+        uploadList.add(pulse)
+        uploadBio(uploadList, callback)
+    }
+
+    fun uploadHeight(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        bioData: Bio.Height, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = bioData.takenAt.div(1000L).toString()
+
+        val type = CollaborationApplication.context.getString(R.string.height)
+        val uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${bioData.height}",
+            "",
+            "01"
+        );
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(uploadBioDto)
+        uploadBio(uploadList, callback)
+    }
+
+    fun uploadOxygen(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        bioData: Bio.Oxygen, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = bioData.takenAt.div(1000L).toString()
+        //TODO 血氧上傳格式
+        val type = CollaborationApplication.context.getString(R.string.oxygen)
+        val uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${bioData.spo2Lowest}",
+            "",
+            "01"
+        );
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(uploadBioDto)
+        uploadBio(uploadList, callback)
+    }
+
+    fun uploadPulse(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        bioData: Bio.Pulse, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = bioData.takenAt.div(1000L).toString()
+
+        val type = CollaborationApplication.context.getString(R.string.pulse)
+        val uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${bioData.pulse}",
+            "",
+            "01"
+        );
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(uploadBioDto)
+        uploadBio(uploadList, callback)
+    }
+
+    fun uploadRespire(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        bioData: Bio.Respire, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = bioData.takenAt.div(1000L).toString()
+        val type = CollaborationApplication.context.getString(R.string.respire)
+        val uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${bioData.respire}",
+            "",
+            "01"
+        );
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(uploadBioDto)
+        uploadBio(uploadList, callback)
+    }
+
     fun uploadTemperature(
         caseNo:String, staffId: String, SCDID: String, sysCode: String,
-        temperature: Bio.Temperature, callback: HttpCallback<DefaultRtnDto>){
-        val takenAt = temperature.takenAt.div(1000L).toString()
+        bioData: Bio.Temperature, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = bioData.takenAt.div(1000L).toString()
 
         val type = CollaborationApplication.context.getString(R.string.temperature)
         val uploadBioDto:UploadBioDto = UploadBioDto(
@@ -203,16 +353,41 @@ object HttpClientService {
             sysCode,
             type,
             takenAt,
-            "${temperature.temperature}",
+            "${bioData.temperature}",
             "",
             "01"
         );
 
         val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(uploadBioDto)
         uploadBio(uploadList, callback)
     }
 
-    fun uploadBio(bioList:ArrayList<UploadBioDto>, callback:HttpCallback<DefaultRtnDto>) {
+    fun uploadWeight(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        bioData: Bio.Weight, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = bioData.takenAt.div(1000L).toString()
+        //TODO 體重上傳格式 BMI, BMR,
+        val type = CollaborationApplication.context.getString(R.string.weight)
+        val uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${bioData.weight}",
+            "",
+            "01"
+        );
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadList.add(uploadBioDto)
+        uploadBio(uploadList, callback)
+    }
+
+
+    private fun uploadBio(bioList:ArrayList<UploadBioDto>, callback:HttpCallback<DefaultRtnDto>) {
         val token = UserPreference.instance.queryUser()?.token
         val call:Call<DefaultRtnDto> = service.uploadBio("Bearer $token", bioList)
         call.enqueue(object:Callback<DefaultRtnDto> {

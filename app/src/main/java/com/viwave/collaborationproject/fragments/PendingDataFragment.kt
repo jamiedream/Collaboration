@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
 
 class PendingDataFragment: BaseFragment() {
 
@@ -78,42 +79,11 @@ class PendingDataFragment: BaseFragment() {
     }
 
     private fun testUpload() {
-        val uploadBioList: ArrayList<UploadBioDto> = ArrayList();
-        var uploadData = UploadBioDto(
-            "DCC099001",
-            "n00198",
-            "1818781876",
-            "血糖",
-            "50",
-            "S03",
-            "",
-            "",
-            "001"
-        )
-        uploadBioList.add(uploadData)
+        GlobalScope.launch(Dispatchers.IO) {
+            val pendingData:TreeMap<String, TreeMap<Case, ArrayList<Bio>>> = BioAction.getAllPendingData();
+            Log.v("YuYu", pendingData.firstKey())
+        }
 
-        uploadData = UploadBioDto(
-            "DCC099001",
-            "n00198",
-            "1818781876",
-            "體溫",
-            "36.4",
-            "S03",
-            "",
-            "",
-            "002"
-        )
-        uploadBioList.add(uploadData)
-
-        HttpClientService.uploadBio(uploadBioList, object: HttpClientService.HttpCallback<DefaultRtnDto> {
-            override fun onSuccess(data: DefaultRtnDto) {
-
-            }
-
-            override fun onFailure(errData: HttpErrorData) {
-                Log.v("YuYu", "onFailure ${errData.code} ${errData.message}");
-            }
-        })
     }
 
 }

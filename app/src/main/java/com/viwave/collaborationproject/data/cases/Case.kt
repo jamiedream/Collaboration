@@ -14,4 +14,8 @@ data class Case(
     @SerializedName("caseGender") val caseGender: String,
     @SerializedName("startTime") val startTime: String?,
     @SerializedName("SCDTID") val SCDTID: String?
-)
+) : Comparable<Case> {
+    override fun compareTo(other: Case): Int {
+        return caseName.compareTo(other.caseName)
+    }
+}

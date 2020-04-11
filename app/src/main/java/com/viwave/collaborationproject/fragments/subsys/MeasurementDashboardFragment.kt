@@ -30,10 +30,9 @@ import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.bios.BioLiveData
-import com.viwave.collaborationproject.data.bios.BioUpload
+import com.viwave.collaborationproject.data.cases.Case
 import com.viwave.collaborationproject.data.http.DefaultRtnDto
 import com.viwave.collaborationproject.data.http.HttpErrorData
-import com.viwave.collaborationproject.data.http.UploadBioDto
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.FEMALE
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
@@ -131,6 +130,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
 
     }
 
+    private lateinit var case: Case
     private lateinit var caseNo: String
     private lateinit var SCDID: String
     private lateinit var staffId: String
@@ -318,45 +318,39 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 p1: VUBloodPressure?,
                 p2: VUError?
             ) {
-                when(p2 == null){
-                    false -> LogUtil.logE(TAG, p2.msg)
-                    true -> {
-                        when(p1 == null){
-                            false -> {
-                                val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                                val bpUploadData =
-                                    BioUpload(
-                                        caseNo,
-                                        staffId,
-                                        SCDID,
-                                        sysCode,
-                                        getString(R.string.blood_pressure),
-                                        takenAt,
-                                        "${p1.getSystolic(VU_PRESSURE_UNIT.mmHg).toInt()}/${p1.getDiastolic(VU_PRESSURE_UNIT.mmHg).toInt()}",
-                                        ""
-                                    )
+                if(p2 != null) {
+                    LogUtil.logE(TAG, p2.msg)
+                    return
+                }
+                if(p1 == null) {
+                    return
+                }
+                val bloodPressure: Bio.BloodPressure = Bio.BloodPressure(
+                    DateUtil.getNowTimestamp(),
+                    p1.getSystolic(VU_PRESSURE_UNIT.mmHg).toInt(),
+                    p1.getDiastolic(VU_PRESSURE_UNIT.mmHg).toInt(),
+                    p1.pulse,
+                    "", //scene
+                    p1.arr.numericType == 1,
+                    p1.aFib.numericType == 1,
+                    p1.pc.numericType == 1,
+                    p1.ihb.numericType == 1
+                )
 
-                                val bpPulseUploadData =
-                                    BioUpload(
-                                        caseNo,
-                                        staffId,
-                                        SCDID,
-                                        sysCode,
-                                        getString(R.string.pulse),
-                                        takenAt,
-                                        "${p1.pulse}",
-                                        ""
-                                    )
-
-                                LogUtil.logD(TAG, "systolic/diastolic: ${p1.getSystolic(VU_PRESSURE_UNIT.mmHg)}/${p1.getDiastolic(VU_PRESSURE_UNIT.mmHg)}")
-                                LogUtil.logD(TAG, "pulse: ${p1.pulse}")
-                                LogUtil.logD(TAG, "takenAt: $takenAt")
-                            }
-                        }
-                    }
+                GlobalScope.launch(Dispatchers.Main) {
+                    valueBloodPressure.setValues(
+                        p1.getSystolic(VU_PRESSURE_UNIT.mmHg).toInt(),
+                        p1.getDiastolic(VU_PRESSURE_UNIT.mmHg).toInt())
+                    valueBloodPressurePulse.setValue(p1.pulse)
                 }
 
+                HttpClientService.uploadBloodPressure(
+                    caseNo, staffId, SCDID, sysCode,
+                    bloodPressure, UploadCallback(uploadBloodPressure, bloodPressure))
 
+                LogUtil.logD(TAG, "systolic/diastolic: ${bloodPressure.sys}/${bloodPressure.dia}")
+                LogUtil.logD(TAG, "pulse: ${bloodPressure.pulse}")
+                LogUtil.logD(TAG, "takenAt: ${bloodPressure.takenAt}")
             }
 
             override fun onWeightReceive(p0: VUBleDevice?, p1: VUWeight?, p2: VUError?) {
@@ -383,7 +377,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 }
                 HttpClientService.uploadTemperature(
                     caseNo, staffId, SCDID, sysCode,
-                    temperature, UploadCallback(uploadTemp, caseNo, sysCode, temperature))
+                    temperature, UploadCallback(uploadTemp, temperature))
 
 
                 LogUtil.logD(TAG, "temperature: ${p1.getTemperature(VU_TEMPERATURE_UNIT.C)}")
@@ -399,50 +393,46 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
             }
 
             override fun onGlucoseReceive(p0: VUBleDevice?, p1: VUGlucose?, p2: VUError?) {
-
-                when(p2 == null){
-                    false -> LogUtil.logE(TAG, p2.msg)
-                    true -> {
-                        when(p1 == null){
-                            false -> {
-                                val mealSelectItems = arrayListOf(getString(R.string.fasting), getString(R.string.before_meal), getString(R.string.after_meal))
-                                GlobalScope.launch(Dispatchers.Main) {
-                                    AlertDialog.Builder(this@MeasurementDashboardFragment.activity)
-                                        .setTitle(getString(R.string.blood_glucose))
-                                        .setIcon(R.drawable.ic_count_bg)
-                                        .setSingleChoiceItems(
-                                            mealSelectItems.toTypedArray(),
-                                            0
-                                        ) { dialog, which ->
-                                            val note = mealSelectItems[which]
-                                            LogUtil.logD(TAG, mealSelectItems[which])
-
-                                            val takenAt =
-                                                DateUtil.getNowTimestamp().div(1000L)
-                                                    .toString()
-                                            val bgUploadData =
-                                                BioUpload(
-                                                    caseNo,
-                                                    staffId,
-                                                    SCDID,
-                                                    sysCode,
-                                                    getString(R.string.blood_glucose),
-                                                    takenAt,
-                                                    "${p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl).toInt()}",
-                                                    note
-                                                )
-
-                                            LogUtil.logD(TAG, "glucose: ${p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl)}")
-                                            LogUtil.logD(TAG, "takenAt: $takenAt")
-                                            dialog.dismiss()
-                                        }
-                                        .show()
-                                }
-                            }
-                        }
-                    }
+                if(p2 != null) {
+                    LogUtil.logE(TAG, p2.msg)
+                    return
                 }
 
+                if(p1 == null) {
+                    return
+                }
+
+                val mealSelectItems = arrayListOf(getString(R.string.fasting), getString(R.string.before_meal), getString(R.string.after_meal))
+                GlobalScope.launch(Dispatchers.Main) {
+                    AlertDialog.Builder(this@MeasurementDashboardFragment.activity)
+                        .setTitle(getString(R.string.blood_glucose))
+                        .setIcon(R.drawable.ic_count_bg)
+                        .setSingleChoiceItems(
+                            mealSelectItems.toTypedArray(),
+                            0
+                        ) { dialog, which ->
+                            val note = mealSelectItems[which]
+                            LogUtil.logD(TAG, mealSelectItems[which])
+
+                            val bloodGlucose = Bio.BloodGlucose(
+                                DateUtil.getNowTimestamp(),
+                                p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl).toInt(),
+                                note
+                            )
+                            GlobalScope.launch(Dispatchers.Main) {
+                                valueBloodGlucose.setValue(bloodGlucose.glucose)
+                            }
+                            HttpClientService.uploadBloodGlucose(
+                                caseNo, staffId, SCDID, sysCode,
+                                bloodGlucose, UploadCallback(uploadBloodGlucose, bloodGlucose))
+
+
+                            LogUtil.logD(TAG, "glucose: ${bloodGlucose.glucose}")
+                            LogUtil.logD(TAG, "takenAt: ${bloodGlucose.takenAt}")
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
             }
 
             override fun onPulseOximetryPPGDataReceive(
@@ -651,24 +641,22 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
         }
     }
 
-    private class UploadCallback(val statusView:TextView, val caseNumber:String, val sysCode:String, val bio:Bio) : HttpClientService.HttpCallback<DefaultRtnDto> {
+    private inner class UploadCallback(val statusView:TextView, val bio:Bio) : HttpClientService.HttpCallback<DefaultRtnDto> {
 
         override fun onSuccess(data: DefaultRtnDto) {
             //update view
-            GlobalScope.launch(Dispatchers.Main) {
-                statusView.setText(R.string.dashboard_upload_success)
-            }
+            statusView.setText(R.string.dashboard_upload_success)
+
+            //TODO 是否要 save to db
         }
 
         override fun onFailure(errData: HttpErrorData) {
-            //update view
-            GlobalScope.launch(Dispatchers.Main) {
-                statusView.setText(R.string.dashboard_upload_failed)
-                BioAction.savePendingBio(caseNumber, sysCode, bio)
+            statusView.setText(R.string.dashboard_upload_failed)
+
+            GlobalScope.launch(Dispatchers.IO) {
+                BioAction.saveBio(caseNo, sysCode, bio, true)
             }
-
         }
-
     }
 
 }

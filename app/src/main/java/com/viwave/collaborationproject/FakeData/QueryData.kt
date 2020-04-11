@@ -75,14 +75,14 @@ class QueryData {
 
     val caseList =
         mutableListOf(
-            Case("3333333", "賈個案", "M", null, null),
-            Case("4444444", "甄個案", "M", null, null)
+            Case("3333333", "賈個案", "M", null, "1234"),
+            Case("4444444", "甄個案", "M", null, "abcd")
         )
 
     val caseList2 =
         mutableListOf(
-            Case("3333333", "臼個案", "M", null, null),
-            Case("4444444", "辛個案", "M", null, null)
+            Case("3333333", "臼個案", "M", null, "5678"),
+            Case("4444444", "辛個案", "M", null, "defg")
         )
 
     val tempData =
