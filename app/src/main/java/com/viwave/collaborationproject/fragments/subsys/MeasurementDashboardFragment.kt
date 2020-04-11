@@ -24,17 +24,23 @@ import androidx.lifecycle.Observer
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.DB.cache.SysKey
+import com.viwave.collaborationproject.DB.remote.BioAction
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.bios.BioUpload
+import com.viwave.collaborationproject.data.http.DefaultRtnDto
+import com.viwave.collaborationproject.data.http.HttpErrorData
+import com.viwave.collaborationproject.data.http.UploadBioDto
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.FEMALE
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.caseViewModel
 import com.viwave.collaborationproject.fragments.subsys.history.HistoryFragment
 import com.viwave.collaborationproject.fragments.widgets.MeasurementItemLayout
+import com.viwave.collaborationproject.http.HttpClientService
 import com.viwave.collaborationproject.utils.DateUtil
 import com.viwave.collaborationproject.utils.LogUtil
 import com.viwave.collaborationproject.utils.PreferenceUtil
@@ -358,30 +364,30 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
             }
 
             override fun onTemperatureReceive(p0: VUBleDevice?, p1: VUTemperature?, p2: VUError?) {
-                when(p2 == null){
-                    false -> LogUtil.logE(TAG, p2.msg)
-                    true -> {
-                        when(p1 == null){
-                            false -> {
-                                val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                                val tempUploadData =
-                                    BioUpload(
-                                        caseNo,
-                                        staffId,
-                                        SCDID,
-                                        sysCode,
-                                        getString(R.string.temperature),
-                                        takenAt,
-                                        "${p1.getTemperature(VU_TEMPERATURE_UNIT.C).toInt()}",
-                                        ""
-                                    )
-
-                                LogUtil.logD(TAG, "glucose: ${p1.getTemperature(VU_TEMPERATURE_UNIT.C)}")
-                                LogUtil.logD(TAG, "takenAt: $takenAt")
-                            }
-                        }
-                    }
+                if(p2 != null) {
+                    LogUtil.logE(TAG, p2.msg)
+                    return;
                 }
+
+                if(p1 == null) {
+                    return;
+                }
+
+                val temperature : Bio.Temperature = Bio.Temperature(
+                    DateUtil.getNowTimestamp(),
+                    p1.getTemperature(VU_TEMPERATURE_UNIT.C).toFloat()
+                )
+
+                GlobalScope.launch(Dispatchers.Main) {
+                    valueTemp.setValue(p1.getTemperature(VU_TEMPERATURE_UNIT.C))
+                }
+                HttpClientService.uploadTemperature(
+                    caseNo, staffId, SCDID, sysCode,
+                    temperature, UploadCallback(uploadTemp, caseNo, sysCode, temperature))
+
+
+                LogUtil.logD(TAG, "temperature: ${p1.getTemperature(VU_TEMPERATURE_UNIT.C)}")
+                LogUtil.logD(TAG, "takenAt: ${temperature.takenAt}")
             }
 
             override fun onPulseOximetryReceive(
@@ -643,6 +649,26 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 getString(R.string.tag_case_history_diagram)
             )
         }
+    }
+
+    private class UploadCallback(val statusView:TextView, val caseNumber:String, val sysCode:String, val bio:Bio) : HttpClientService.HttpCallback<DefaultRtnDto> {
+
+        override fun onSuccess(data: DefaultRtnDto) {
+            //update view
+            GlobalScope.launch(Dispatchers.Main) {
+                statusView.setText(R.string.dashboard_upload_success)
+            }
+        }
+
+        override fun onFailure(errData: HttpErrorData) {
+            //update view
+            GlobalScope.launch(Dispatchers.Main) {
+                statusView.setText(R.string.dashboard_upload_failed)
+                BioAction.savePendingBio(caseNumber, sysCode, bio)
+            }
+
+        }
+
     }
 
 }

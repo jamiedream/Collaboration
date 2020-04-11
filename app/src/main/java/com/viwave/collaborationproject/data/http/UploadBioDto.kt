@@ -7,16 +7,16 @@ class UploadBioDto(
     val caseNo:String,
     @SerializedName("staffId")
     val staffId:String,
-    @SerializedName("takenAt")
-    val takenAt:String,
-    @SerializedName("type")
-    val type:String,
-    @SerializedName("value")
-    val value:String,
-    @SerializedName("sysCode")
-    val sysCode:String,
     @SerializedName("SCDTID")
     val scdtid:String,
+    @SerializedName("sysCode")
+    val sysCode:String,
+    @SerializedName("type")
+    val type:String,
+    @SerializedName("takenAt")
+    val takenAt:String,
+    @SerializedName("value")
+    val value:String,
     @SerializedName("note")
     val note:String,
     @SerializedName("rowid")

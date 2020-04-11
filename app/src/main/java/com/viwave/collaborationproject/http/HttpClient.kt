@@ -2,6 +2,7 @@ package com.viwave.collaborationproject.http
 
 import com.google.gson.JsonObject
 import com.viwave.collaborationproject.data.general.Logout
+import com.viwave.collaborationproject.data.http.DefaultRtnDto
 import com.viwave.collaborationproject.data.http.GetListRtnDto
 import com.viwave.collaborationproject.data.http.LoginRtnDto
 import com.viwave.collaborationproject.data.http.UploadBioDto
@@ -32,7 +33,7 @@ interface HttpClient {
     fun uploadBio(
         @Header("Authorization") token:String,
         @Body bioList:ArrayList<UploadBioDto>
-    ): Call<String>
+    ): Call<DefaultRtnDto>
 
     @Headers("Content-Type: application/json")
     @GET("/api/PM/{caseNumber}")

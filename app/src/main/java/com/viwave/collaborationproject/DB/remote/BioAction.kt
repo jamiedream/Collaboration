@@ -13,6 +13,22 @@ import java.util.*
 object BioAction {
 
     private val TAG = this::class.java.simpleName
+
+    fun savePendingBio(caseNumber:String, sysCode:String, bio:Bio) {
+        when(bio) {
+            is Bio.Temperature -> {
+                val entity = BioDataEntity.TemperatureEntity(
+                    0,
+                    caseNumber,
+                    sysCode,
+                    true,
+                    bio
+                )
+                CaseDatabase(context).getBioDao().insertTemperature(entity)
+            }
+        }
+    }
+
     //<sysCode, <case, List<Bio>>
     fun getAllPendingData() : TreeMap<String, TreeMap<Case, ArrayList<Bio>>> {
         val dataMap: TreeMap<String, TreeMap<Case, ArrayList<Bio>>> = TreeMap()

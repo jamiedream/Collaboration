@@ -7,11 +7,10 @@ import com.viwave.collaborationproject.DB.cache.UserPreference
 import com.viwave.collaborationproject.DB.remote.CaseDatabase
 import com.viwave.collaborationproject.DB.remote.DataCountAction
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
+import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.general.Logout
-import com.viwave.collaborationproject.data.http.GetListRtnDto
-import com.viwave.collaborationproject.data.http.HttpErrorData
-import com.viwave.collaborationproject.data.http.LoginRtnDto
-import com.viwave.collaborationproject.data.http.UploadBioDto
+import com.viwave.collaborationproject.data.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -191,18 +190,40 @@ object HttpClientService {
         })
     }
 
-    fun uploadBio(bioList:ArrayList<UploadBioDto>, callback:HttpCallback<String>) {
+    fun uploadTemperature(
+        caseNo:String, staffId: String, SCDID: String, sysCode: String,
+        temperature: Bio.Temperature, callback: HttpCallback<DefaultRtnDto>){
+        val takenAt = temperature.takenAt.div(1000L).toString()
+
+        val type = CollaborationApplication.context.getString(R.string.temperature)
+        val uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            type,
+            takenAt,
+            "${temperature.temperature}",
+            "",
+            "01"
+        );
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        uploadBio(uploadList, callback)
+    }
+
+    fun uploadBio(bioList:ArrayList<UploadBioDto>, callback:HttpCallback<DefaultRtnDto>) {
         val token = UserPreference.instance.queryUser()?.token
-        val call:Call<String> = service.uploadBio("Bearer $token", bioList)
-        call.enqueue(object:Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
+        val call:Call<DefaultRtnDto> = service.uploadBio("Bearer $token", bioList)
+        call.enqueue(object:Callback<DefaultRtnDto> {
+            override fun onFailure(call: Call<DefaultRtnDto>, t: Throwable) {
                 callback.onFailure(getErrorData(t))
             }
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+            override fun onResponse(call: Call<DefaultRtnDto>, response: Response<DefaultRtnDto>) {
                 if (response.isSuccessful
                     && response.body() != null) {
-                        callback.onSuccess(response.body().toString())
+                        callback.onSuccess(response.body()!!)
                 } else {
                     callback.onFailure(getErrorData(response))
                 }

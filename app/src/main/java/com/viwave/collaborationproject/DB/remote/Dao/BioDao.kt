@@ -41,7 +41,7 @@ interface BioDao {
     @Query("SELECT * FROM ${CaseDatabase.tableBioDataBloodGlucose} WHERE caseNumber = :caseNumber")
     fun getAllBG(caseNumber: String): List<BioDataEntity.BloodGlucoseEntity>
 
-    @Query("SELECT * FROM ${CaseDatabase.tableBioDataBloodGlucose} WHERE caseNumber = :caseNumber AND isPendingData" )
+    @Query("SELECT * FROM ${CaseDatabase.tableBioDataBloodGlucose} WHERE isPendingData" )
     fun getPendingBG(): List<BioDataEntity.BloodGlucoseEntity>
 
     @Query("UPDATE ${CaseDatabase.tableBioDataBloodGlucose} SET isPendingData = 'FALSE' WHERE id = :id" )
