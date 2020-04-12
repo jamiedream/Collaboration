@@ -1,5 +1,6 @@
 package com.viwave.collaborationproject.DB.remote.Dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.viwave.collaborationproject.CollaborationApplication
 import com.viwave.collaborationproject.DB.cache.SysKey
