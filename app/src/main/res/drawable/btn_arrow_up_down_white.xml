@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 1/ 4/ 2020.
+  ~ Last modified 4/1/20 11:27 AM
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_arrow_up_white" android:state_enabled="false" />
+    <item android:drawable="@drawable/ic_arrow_down_white" android:state_enabled="true" />
+</selector>

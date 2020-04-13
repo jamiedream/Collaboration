@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.viwave.collaborationproject.CollaborationApplication
-import com.viwave.collaborationproject.fragments.MeasurementDevice
+import com.viwave.collaborationproject.fragments.device.data.MeasurementDevice
 
 class PreferenceUtil {
     companion object{

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 6/ 4/ 2020.
+  ~ Last modified 4/6/20 12:29 PM
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/rename_des"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/device_rename_content"
+        android:textSize="@dimen/sp_20"
+        android:textColor="@color/storm_dust"
+        android:layout_marginTop="@dimen/dp_24"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/rename_edit"
+        />
+
+    <EditText
+        android:id="@+id/rename_edit"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/toggle_oval_height"
+        android:layout_marginTop="@dimen/dp_12"
+        android:background="@drawable/bg_edittext"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".6"
+        app:layout_constraintTop_toBottomOf="@id/rename_des"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

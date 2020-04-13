@@ -6,6 +6,11 @@
     <string name="tag_case_history_diagram">Case History Diagram</string>
     <string name="tag_sys_list">Sys List</string>
     <string name="tag_add_case">Add Case</string>
+    <string name="tag_binding_device">Binding Device</string>
+    <string name="tag_device_list">Device List</string>
+    <string name="tag_device_scan">Device Scan</string>
+    <string name="tag_device_rename">Device Rename</string>
+    <string name="tag_device_detail">Device Detail</string>
 
     <string name="tag_chart">CHART</string>
     <string name="tag_list">LIST</string>

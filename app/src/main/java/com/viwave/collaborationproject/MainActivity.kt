@@ -33,7 +33,11 @@ import com.viwave.collaborationproject.DB.remote.CaseDatabase
 import com.viwave.collaborationproject.data.general.GeneralViewModel
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.data.general.User
-import com.viwave.collaborationproject.fragments.*
+import com.viwave.collaborationproject.fragments.AboutFragment
+import com.viwave.collaborationproject.fragments.LoginFragment
+import com.viwave.collaborationproject.fragments.PendingDataFragment
+import com.viwave.collaborationproject.fragments.SysListFragment
+import com.viwave.collaborationproject.fragments.device.DeviceBindingListFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment
 import com.viwave.collaborationproject.utils.InputControlUtil
 import com.viwave.collaborationproject.utils.LogUtil
@@ -53,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             when(menuItem.title){
                 getString(R.string.menu_case_list) -> switchFragmentToTop(CaseListFragment())
                 getString(R.string.menu_unupload_data) -> switchFragmentToTop(PendingDataFragment())
-                getString(R.string.menu_measurement_device) -> switchFragmentToTop(DeviceFragment())
+                getString(R.string.menu_measurement_device) -> switchFragmentToTop(DeviceBindingListFragment())
                 getString(R.string.menu_about) -> switchFragmentToTop(AboutFragment())
             }
             drawerLayout.closeDrawer(GravityCompat.START, true)
@@ -285,7 +289,8 @@ class MainActivity : AppCompatActivity() {
      * Toolbar
      * */
     fun setToolbarTitle(title: String){
-        toolbar.title = title
+        findViewById<TextView>(R.id.toolbar_title).text = title
+        toolbar.title = ""
         setSupportActionBar(toolbar)
     }
 

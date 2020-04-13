@@ -23,6 +23,7 @@ import android.widget.TextView
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.fragments.device.data.MeasurementDevice
 import com.viwave.collaborationproject.utils.LogUtil
 import com.viwave.collaborationproject.utils.PreferenceUtil
 import com.viwaveulife.vuioht.VUBleDevice
@@ -173,7 +174,7 @@ class DeviceFragment: BaseFragment(), BackPressedDelegate {
                                 tempView = v
                                 return
                             }
-                            val type = DeviceKey.DEVICE_SKU_BP_X3
+                            val type = DeviceKey.DEVICE_X3
                             scanLeDevice(true, type)
                             showDeviceList(type)
                             vuBleDeviceList.clear()
@@ -202,7 +203,7 @@ class DeviceFragment: BaseFragment(), BackPressedDelegate {
                                 tempView = v
                                 return
                             }
-                            val type = DeviceKey.DEVICE_SKU_BG_HT100
+                            val type = DeviceKey.DEVICE_HT100
                             scanLeDevice(true, type)
                             showDeviceList(type)
                             vuBleDeviceList.clear()
@@ -231,7 +232,7 @@ class DeviceFragment: BaseFragment(), BackPressedDelegate {
                                 tempView = v
                                 return
                             }
-                            val type = DeviceKey.DEVICE_SKU_TM_HC700
+                            val type = DeviceKey.DEVICE_HC700
                             scanLeDevice(true, type)
                             showDeviceList(type)
                             vuBleDeviceList.clear()
@@ -267,13 +268,13 @@ class DeviceFragment: BaseFragment(), BackPressedDelegate {
             val scanFilterList: MutableList<VUBleScanFilter> =
                 ArrayList()
             when (type) {
-                DeviceKey.DEVICE_SKU_BP_X3 -> {
+                DeviceKey.DEVICE_X3 -> {
                     scanFilterList.addAll(VUBleScanFilter.generateRossmaxBloodPressureX3ScanFilterList())
                 }
-                DeviceKey.DEVICE_SKU_BG_HT100 -> {
+                DeviceKey.DEVICE_HT100 -> {
                     scanFilterList.addAll(VUBleScanFilter.generateRossmaxBloodGlucoseHT100ScanFilterList())
                 }
-                DeviceKey.DEVICE_SKU_TM_HC700 -> {
+                DeviceKey.DEVICE_HC700 -> {
                     scanFilterList.addAll(VUBleScanFilter.generateRossmaxThermometerHC700ScanFilterList())
                 }
             }
@@ -296,42 +297,45 @@ class DeviceFragment: BaseFragment(), BackPressedDelegate {
             val device = adapter.getItem(which) as VUBleDevice
             val macAddress = device.id
             when (type) {
-                DeviceKey.DEVICE_SKU_BP_X3 -> {
+                DeviceKey.DEVICE_X3 -> {
                     if(vuBleManager.addObserveDevice(macAddress, device)){
                         val measurementDevice =
                             MeasurementDevice(
                                 macAddress,
+                                device.name,
                                 DeviceKey.DEVICE_X3,
-                                type,
-                                DeviceKey.DEVICE_KEY_BP
+                                DeviceKey.DEVICE_KEY_BP,
+                                ""
                             )
                         PreferenceUtil.saveDevice(macAddress, measurementDevice)
                         txtMacBP.text = macAddress
                         btnBindBP.text = stringUnbind
                     }
                 }
-                DeviceKey.DEVICE_SKU_BG_HT100 -> {
+                DeviceKey.DEVICE_HT100 -> {
                     if(vuBleManager.addObserveDevice(macAddress, device)){
                         val measurementDevice =
                             MeasurementDevice(
                                 macAddress,
+                                device.name,
                                 DeviceKey.DEVICE_HT100,
-                                type,
-                                DeviceKey.DEVICE_KEY_BG
+                                DeviceKey.DEVICE_KEY_BG,
+                                ""
                             )
                         PreferenceUtil.saveDevice(macAddress, measurementDevice)
                         txtMacBG.text = macAddress
                         btnBindBG.text = stringUnbind
                     }
                 }
-                DeviceKey.DEVICE_SKU_TM_HC700 -> {
+                DeviceKey.DEVICE_HC700 -> {
                     if(vuBleManager.addObserveDevice(macAddress, device)){
                         val measurementDevice =
                             MeasurementDevice(
                                 macAddress,
+                                device.name,
                                 DeviceKey.DEVICE_HC700,
-                                type,
-                                DeviceKey.DEVICE_KEY_TEMP
+                                DeviceKey.DEVICE_KEY_TEMP,
+                                ""
                             )
                         PreferenceUtil.saveDevice(macAddress, measurementDevice)
                         txtMacTemp.text = macAddress

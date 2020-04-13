@@ -108,7 +108,7 @@
             android:layout_height="@dimen/toggle_oval_height"
             android:text="@string/login"
             style="@style/ToggleOvalBtn"
-            android:background="@drawable/bg_oval"
+            android:background="@drawable/bg_oval_tango"
             app:layout_constraintVertical_bias=".2"
             app:layout_constraintTop_toBottomOf="@id/login_password_textinputlayout"
             app:layout_constraintBottom_toBottomOf="parent"
