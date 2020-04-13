@@ -20,10 +20,15 @@ object DateUtil{
 
     var measureDate: Date = Date()
     private val measureFormat = SimpleDateFormat("MMM dd, yyyy HH:mm ", Locale.getDefault())
+    private val pendingDataFormat = SimpleDateFormat("MM-DD-yyyy HH:MM", Locale.getDefault())
     fun getMeasurementTime(time: Long): String{
         val date = Date(time) // *1000 is to convert seconds to milliseconds
         measureDate = date
         return measureFormat.format(date)
+    }
+
+    fun getPendingDataTime(time:Long): String {
+        return pendingDataFormat.format(Date(time))
     }
 
     fun getChartDateRange(startCalender: Calendar, endCalendar: Calendar, format: String): String {
