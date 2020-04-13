@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="false">
+    <item android:state_enabled="true">
         <shape
             android:shape="rectangle"  >
             <solid android:color="@color/colorPrimary"/>
@@ -8,11 +8,10 @@
         </shape>
     </item>
 
-    <item android:state_enabled="true">
+    <item android:state_enabled="false">
         <shape
             android:shape="rectangle"  >
-            <solid android:color="@android:color/white"/>
-            <stroke android:color="@color/colorPrimary" android:width="@dimen/border_width" />
+            <solid android:color="@color/colorPrimary_20"/>
             <corners android:radius="@dimen/dp_10" />
         </shape>
     </item>

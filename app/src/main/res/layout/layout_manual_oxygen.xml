@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/dp_24"
         app:manualInputTitle="@string/oxygen"
         app:manualInputUnit="@string/percentage"
-        app:manualInputEditIme="imeNext"
+        app:manualInputEditIme="imeDone"
         app:manualInputEditType="typeNumber"
         app:manualInputImage="@drawable/ic_count_oxygen"
         app:layout_constraintWidth_default="percent"

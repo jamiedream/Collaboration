@@ -60,7 +60,7 @@ class MeasurementItemLayout: ConstraintLayout {
 
     fun setValues(firstValue: Any?, secondValue: Any?){
         if(firstValue != null && secondValue != null) 
-            valueMeasure.text = String.format("%s / %s", firstValue.toString(), secondValue.toString())
+            valueMeasure.text = String.format("%s/%s", firstValue.toString(), secondValue.toString())
 
     }
 }

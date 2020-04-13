@@ -22,7 +22,7 @@
         android:id="@+id/case_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_16"
         app:layout_constraintStart_toEndOf="@id/img_gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +35,7 @@
             android:textSize="@dimen/sp_16"
             android:textColor="@android:color/black"
             android:layout_marginTop="@dimen/dp_4"
-            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_8"
             />
 
         <LinearLayout
@@ -46,6 +46,7 @@
             android:layout_below="@id/case_name"
             >
             <ImageView
+                android:id="@+id/temp_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_temp" />
@@ -55,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 
@@ -65,10 +67,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/temp_measurement_count"
             >
             <ImageView
+                android:id="@+id/pulse_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_pulse" />
@@ -78,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 
@@ -88,10 +92,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/pulse_measurement_count"
             >
             <ImageView
+                android:id="@+id/respire_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_respire" />
@@ -101,7 +106,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 
@@ -111,10 +117,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/respire_measurement_count"
             >
             <ImageView
+                android:id="@+id/bp_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_bp" />
@@ -124,7 +131,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 
@@ -134,10 +142,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/bp_measurement_count"
             >
             <ImageView
+                android:id="@+id/bg_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_bg" />
@@ -147,7 +156,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 
@@ -157,10 +167,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/bg_measurement_count"
             >
             <ImageView
+                android:id="@+id/height_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_height" />
@@ -170,7 +181,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 
@@ -180,10 +192,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/height_measurement_count"
             >
             <ImageView
+                android:id="@+id/weight_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_weight" />
@@ -193,7 +206,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 
@@ -203,10 +217,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/case_name"
-            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/weight_measurement_count"
             >
             <ImageView
+                android:id="@+id/oxygen_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_count_oxygen" />
@@ -216,7 +231,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/two_dash"
                 android:textSize="@dimen/sp_12"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
 

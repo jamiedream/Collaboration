@@ -61,38 +61,86 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
             holder.caseNumber.text = this.getCaseNumber
             holder.caseName.text = this.getCaseName
             holder.itemView.setOnClickListener { whichCaseClicked.whichCase(this) }
-            val datacountList = getListFromStr(this.getDataCount)
+            val dataCountList = getListFromStr(this.getDataCount)
             holder.tempCount.text =
-                datacountList.find { it.type == DataSort.Temperature }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.Temperature }?.count?.let {
+                    if(it == 0) {
+                        holder.tempImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.tempImg.alpha = 1f
+                        it.toString()
+                    }
                 }
             holder.pulseCount.text =
-                datacountList.find { it.type == DataSort.Pulse }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.Pulse }?.count?.let {
+                    if(it == 0) {
+                        holder.pulseImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.pulseImg.alpha = 1f
+                        it.toString()
+                    }
                 }
             holder.respireCount.text =
-                datacountList.find { it.type == DataSort.Respire }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.Respire }?.count?.let {
+                    if(it == 0) {
+                        holder.respireImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.respireImg.alpha = 1f
+                        it.toString()
+                    }
                 }
             holder.bgCount.text =
-                datacountList.find { it.type == DataSort.BloodGlucose }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.BloodGlucose }?.count?.let {
+                    if(it == 0) {
+                        holder.bgImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.bgImg.alpha = 1f
+                        it.toString()
+                    }
                 }
             holder.bpCount.text =
-                datacountList.find { it.type == DataSort.BloodPressure }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.BloodPressure }?.count?.let {
+                    if(it == 0) {
+                        holder.bpImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.bpImg.alpha = 1f
+                        it.toString()
+                    }
                 }
             holder.oxygenCount.text =
-                datacountList.find { it.type == DataSort.Oxygen }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.Oxygen }?.count?.let {
+                    if(it == 0) {
+                        holder.oxygenImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.oxygenImg.alpha = 1f
+                        it.toString()
+                    }
                 }
             holder.heightCount.text =
-                datacountList.find { it.type == DataSort.Height }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.Height }?.count?.let {
+                    if(it == 0) {
+                        holder.heightImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.heightImg.alpha = 1f
+                        it.toString()
+                    }
                 }
             holder.weightCount.text =
-                datacountList.find { it.type == DataSort.Weight }?.count?.let {
-                    if(it == 0) holder.itemView.context.getString(R.string.two_dash) else it.toString()
+                dataCountList.find { it.type == DataSort.Weight }?.count?.let {
+                    if(it == 0) {
+                        holder.weightImg.alpha = .4f
+                        ""
+                    } else {
+                        holder.weightImg.alpha = 1f
+                        it.toString()
+                    }
                 }
         }
 

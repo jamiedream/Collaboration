@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#828282</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <color name="colorPrimary_20">#334ABBA7</color>
+
     <color name="nandor">#555755</color>
     <color name="nandor_70">#B3555755</color>
     <color name="silver_light">#FFFFFA</color>
