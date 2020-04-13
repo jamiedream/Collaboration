@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.utils.DataFormatUtil
 
 class MeasurementItemLayout: ConstraintLayout {
 
@@ -48,7 +49,13 @@ class MeasurementItemLayout: ConstraintLayout {
     }
 
     fun setValue(value: Any?){
-        if(value != null) valueMeasure.text = value.toString()
+        if(value != null) {
+            when (value) {
+                is Float -> valueMeasure.text = DataFormatUtil.formatString(value)
+                is Int -> valueMeasure.text = value.toString()
+                else -> valueMeasure.text = value.toString()
+            }
+        }
     }
 
     fun setValues(firstValue: Any?, secondValue: Any?){

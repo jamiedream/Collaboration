@@ -16,9 +16,11 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.Toast
 import com.viwave.collaborationproject.BackPressedDelegate
+import com.viwave.collaborationproject.DB.remote.DataCountAction
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.DataSort
+import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.bios.BioLiveData
-import com.viwave.collaborationproject.data.bios.BioUpload
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.ITogglePressedListener
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment.Companion.MEASURE_CASE_NO
@@ -28,7 +30,13 @@ import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFrag
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.bioViewModel
 import com.viwave.collaborationproject.fragments.widgets.ManualInputLayout
 import com.viwave.collaborationproject.fragments.widgets.TabView
-import com.viwave.collaborationproject.utils.*
+import com.viwave.collaborationproject.utils.DateUtil
+import com.viwave.collaborationproject.utils.InputControlUtil
+import com.viwave.collaborationproject.utils.InputFormatUtil
+import com.viwave.collaborationproject.utils.LogUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
@@ -315,18 +323,15 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
             val value = glucoseEditText.text.toString().toInt()
             when (value) {
                 in 20..600 -> {
-                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                    val bgUploadData =
-                        BioUpload(
-                            caseNo,
-                            staffId,
-                            SCDID,
-                            sysCode,
-                            getString(R.string.blood_glucose),
-                            takenAt,
-                            "$value",
-                            note
-                        )
+                    val bgUploadData = Bio.BloodGlucose(
+                        DateUtil.getNowTimestamp().div(1000L),
+                        value,
+                        note
+                    )
+                    GlobalScope.launch(Dispatchers.IO) {
+                        DataCountAction.updateDataCount(sysCode, caseNo, DataSort.BloodGlucose)
+                    }
+                    bioViewModel.getGlucoseLastData().value = bgUploadData
                     onBackPressed()
                 }
                 else -> {
@@ -348,18 +353,14 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
             val value = tempEditText.text.toString().replace(",", ".").toFloat()
             when(value){
                 in 34f..42.2f ->  {
-                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                    val tempUploadData =
-                        BioUpload(
-                            caseNo,
-                            staffId,
-                            SCDID,
-                            sysCode,
-                            getString(R.string.temperature),
-                            takenAt,
-                            DataFormatUtil.formatString(value),
-                            ""
-                        )
+                    val tempUploadData = Bio.Temperature(
+                        DateUtil.getNowTimestamp().div(1000L),
+                        value
+                    )
+                    GlobalScope.launch(Dispatchers.IO) {
+                        DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Temperature)
+                    }
+                    bioViewModel.getTempLastData().value = tempUploadData
                     onBackPressed()
                 }
                 else -> {
@@ -391,18 +392,20 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
                     in 30..260 -> {
                         when(valueDia){
                             in 30..260 -> {
-                                val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                                val bpUploadData =
-                                    BioUpload(
-                                        caseNo,
-                                        staffId,
-                                        SCDID,
+                                val bpUploadData = Bio.BloodPressure(
+                                    DateUtil.getNowTimestamp().div(1000L),
+                                    valueSys,
+                                    valueDia,
+                                    null, null, null, null, null, null
+                                )
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    DataCountAction.updateDataCount(
                                         sysCode,
-                                        getString(R.string.blood_pressure),
-                                        takenAt,
-                                        "${valueSys}/${valueDia}",
-                                        ""
+                                        caseNo,
+                                        DataSort.BloodPressure
                                     )
+                                }
+                                bioViewModel.getBPLastData().value = bpUploadData
                                 onBackPressed()
                             }
                             else -> {
@@ -437,18 +440,14 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
             //40~199
             when (value) {
                 in 40..199 -> {
-                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                    val pulseUploadData =
-                        BioUpload(
-                            caseNo,
-                            staffId,
-                            SCDID,
-                            sysCode,
-                            getString(R.string.pulse),
-                            takenAt,
-                            "$value",
-                            ""
-                        )
+                    val pulseUploadData = Bio.Pulse(
+                        DateUtil.getNowTimestamp().div(1000L),
+                        value
+                    )
+                    GlobalScope.launch(Dispatchers.IO) {
+                        DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Pulse)
+                    }
+                    bioViewModel.getPulseLastData().value = pulseUploadData
                     onBackPressed()
                 }
                 else -> {
@@ -468,20 +467,15 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
         if(!respireEditText.text.isNullOrEmpty()) {
             val value = respireEditText.text.toString().toInt()
             when (value) {
-                //todo, temp range
                 in 10..40 -> {
-                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                    val respireUploadData =
-                        BioUpload(
-                            caseNo,
-                            staffId,
-                            SCDID,
-                            sysCode,
-                            getString(R.string.respire),
-                            takenAt,
-                            "$value",
-                            ""
-                        )
+                    val respireUploadData = Bio.Respire(
+                        DateUtil.getNowTimestamp().div(1000L),
+                        value
+                    )
+                    GlobalScope.launch(Dispatchers.IO) {
+                        DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Respire)
+                    }
+                    bioViewModel.getRespireLastData().value = respireUploadData
                     onBackPressed()
                 }
                 else -> {
@@ -502,18 +496,15 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
             val value = weightEditText.text.toString().replace(",", ".").toFloat()
             when (value) {
                 in 11f..360f -> {
-                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                    val weightUploadData =
-                        BioUpload(
-                            caseNo,
-                            staffId,
-                            SCDID,
-                            sysCode,
-                            getString(R.string.weight),
-                            takenAt,
-                            DataFormatUtil.formatString(value),
-                            ""
-                        )
+                    val weightUploadData = Bio.Weight(
+                        DateUtil.getNowTimestamp().div(1000L),
+                        value,
+                        null, null, null, null, null, null
+                    )
+                    GlobalScope.launch(Dispatchers.IO) {
+                        DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Weight)
+                    }
+                    bioViewModel.getWeightLastData().value = weightUploadData
                     onBackPressed()
                 }
                 else -> {
@@ -538,18 +529,16 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
                 val oxygenValue = oxygenEditText.text.toString().toInt()
                 when(oxygenValue) {
                     in 35..100 -> {
-                        val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                        val oxygenUploadData =
-                            BioUpload(
-                                caseNo,
-                                staffId,
-                                SCDID,
-                                sysCode,
-                                getString(R.string.oxygen),
-                                takenAt,
-                                "$oxygenValue",
-                                ""
-                            )
+                        val oxygenUploadData = Bio.Oxygen(
+                            DateUtil.getNowTimestamp().div(1000L),
+                            oxygenValue,
+                            oxygenValue,
+                            null, null, null, null
+                        )
+                        GlobalScope.launch(Dispatchers.IO) {
+                            DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Oxygen)
+                        }
+                        bioViewModel.getOxygenLastData().value = oxygenUploadData
                         onBackPressed()
                     }
                     else -> {
@@ -572,18 +561,14 @@ class ManualInputFragment(): BaseFragment(), BackPressedDelegate{
             val value = heightEditText.text.toString().replace(",", ".").toFloat()
             when(value){
                 in 20f..200f -> {
-                    val takenAt = DateUtil.getNowTimestamp().div(1000L).toString()
-                    val heightUploadData =
-                        BioUpload(
-                            caseNo,
-                            staffId,
-                            SCDID,
-                            sysCode,
-                            getString(R.string.height),
-                            takenAt,
-                            DataFormatUtil.formatString(value),
-                            ""
-                        )
+                    val heightUploadData = Bio.Height(
+                        DateUtil.getNowTimestamp().div(1000L),
+                        value
+                    )
+                    GlobalScope.launch(Dispatchers.IO) {
+                        DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Height)
+                    }
+                    bioViewModel.getHeightLastData().value = heightUploadData
                     onBackPressed()
                 }
                 else -> {

@@ -25,9 +25,11 @@ import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.remote.BioAction
+import com.viwave.collaborationproject.DB.remote.DataCountAction
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
+import com.viwave.collaborationproject.data.DataSort
 import com.viwave.collaborationproject.data.bios.Bio
 import com.viwave.collaborationproject.data.bios.BioLiveData
 import com.viwave.collaborationproject.data.cases.Case
@@ -82,6 +84,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private val valueBloodPressure by lazy { view!!.findViewById<MeasurementItemLayout>(R.id.value_blood_pressure) }
     private val valueBloodPressurePulse by lazy { view!!.findViewById<MeasurementItemLayout>(R.id.value_blood_pressure_pulse) }
     private val valueBloodGlucose by lazy { view!!.findViewById<MeasurementItemLayout>(R.id.value_blood_glucose) }
+    private val valueBloodGlucoseMeal by lazy { view!!.findViewById<TextView>(R.id.value_blood_glucose_meal) }
     private val valueWeight by lazy { view!!.findViewById<MeasurementItemLayout>(R.id.value_weight) }
     private val valueHeight by lazy { view!!.findViewById<MeasurementItemLayout>(R.id.value_height) }
     private val valueOxygen by lazy { view!!.findViewById<MeasurementItemLayout>(R.id.value_oxygen) }
@@ -101,6 +104,49 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     private var obsDeviceMap:MutableMap<String, VUBleDevice>? = null
 
     private var fragmentView: View? = null
+
+    private val bpLastDataObserver =
+        Observer<Bio.BloodPressure> { t ->
+            valueBloodPressure.setValues(t?.sys, t?.dia)
+            valueBloodPressurePulse.setValue(t?.pulse)
+        }
+
+    private val tempLastDataObserver =
+        Observer<Bio.Temperature> { t ->
+            valueTemp.setValue(t?.temperature)
+        }
+
+    private val pulseLastDataObserver =
+        Observer<Bio.Pulse> { t ->
+            valuePulse.setValue(t?.pulse)
+        }
+
+    private val respireLastDataObserver =
+        Observer<Bio.Respire> { t ->
+            valueRespire.setValue(t?.respire)
+        }
+
+    private val weightLastDataObserver =
+        Observer<Bio.Weight> { t ->
+            valueWeight.setValue(t?.weight)
+        }
+
+    private val heightLastDataObserver =
+        Observer<Bio.Height> { t ->
+            valueHeight.setValue(t?.height)
+        }
+
+    private val oxygenLastDataObserver =
+        Observer<Bio.Oxygen> { t ->
+            valueOxygen.setValue(t?.spo2Highest)
+            valueOxygenPulse.setValue(t?.pulseHighest)
+        }
+
+    private val bgLastDataObserver =
+        Observer<Bio.BloodGlucose> { t ->
+            valueBloodGlucose.setValue(t?.glucose)
+            valueBloodGlucoseMeal.text = t?.meal
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -164,6 +210,16 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
 
     override fun onResume() {
         super.onResume()
+
+        bioViewModel.getTempLastData().observe(this, tempLastDataObserver)
+        bioViewModel.getGlucoseLastData().observe(this, bgLastDataObserver)
+        bioViewModel.getBPLastData().observe(this, bpLastDataObserver)
+        bioViewModel.getPulseLastData().observe(this, pulseLastDataObserver)
+        bioViewModel.getRespireLastData().observe(this, respireLastDataObserver)
+        bioViewModel.getWeightLastData().observe(this, weightLastDataObserver)
+        bioViewModel.getHeightLastData().observe(this, heightLastDataObserver)
+        bioViewModel.getOxygenLastData().observe(this, oxygenLastDataObserver)
+
         caseViewModel.getSelectedCase().observe(this, selectedCaseObserver)
         staffId = generalViewModel.getLoginUser().value?.id?: ""
         sysCode = generalViewModel.getSelectedSubSys().value?.sysCode?: ""
@@ -205,6 +261,23 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
     override fun onStop() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         caseViewModel.getSelectedCase().removeObserver(selectedCaseObserver)
+
+        bioViewModel.getTempLastData().removeObserver(tempLastDataObserver)
+        bioViewModel.getGlucoseLastData().removeObserver(bgLastDataObserver)
+        bioViewModel.getBPLastData().removeObserver(bpLastDataObserver)
+        bioViewModel.getPulseLastData().removeObserver(pulseLastDataObserver)
+        bioViewModel.getRespireLastData().removeObserver(respireLastDataObserver)
+        bioViewModel.getWeightLastData().removeObserver(weightLastDataObserver)
+        bioViewModel.getHeightLastData().removeObserver(heightLastDataObserver)
+        bioViewModel.getOxygenLastData().removeObserver(oxygenLastDataObserver)
+        bioViewModel.getTempLastData().value = null
+        bioViewModel.getOxygenLastData().value = null
+        bioViewModel.getHeightLastData().value = null
+        bioViewModel.getWeightLastData().value = null
+        bioViewModel.getRespireLastData().value = null
+        bioViewModel.getPulseLastData().value = null
+        bioViewModel.getBPLastData().value = null
+        bioViewModel.getGlucoseLastData().value = null
         super.onStop()
     }
 
@@ -325,6 +398,9 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 if(p1 == null) {
                     return
                 }
+
+                DataCountAction.updateDataCount(sysCode, caseNo, DataSort.BloodPressure)
+
                 val bloodPressure: Bio.BloodPressure = Bio.BloodPressure(
                     DateUtil.getNowTimestamp(),
                     p1.getSystolic(VU_PRESSURE_UNIT.mmHg).toInt(),
@@ -337,12 +413,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                     p1.ihb.numericType == 1
                 )
 
-                GlobalScope.launch(Dispatchers.Main) {
-                    valueBloodPressure.setValues(
-                        p1.getSystolic(VU_PRESSURE_UNIT.mmHg).toInt(),
-                        p1.getDiastolic(VU_PRESSURE_UNIT.mmHg).toInt())
-                    valueBloodPressurePulse.setValue(p1.pulse)
-                }
+                bioViewModel.getBPLastData().value = bloodPressure
 
                 HttpClientService.uploadBloodPressure(
                     caseNo, staffId, SCDID, sysCode,
@@ -367,14 +438,15 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                     return;
                 }
 
+                DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Temperature)
+
                 val temperature : Bio.Temperature = Bio.Temperature(
                     DateUtil.getNowTimestamp(),
                     p1.getTemperature(VU_TEMPERATURE_UNIT.C).toFloat()
                 )
 
-                GlobalScope.launch(Dispatchers.Main) {
-                    valueTemp.setValue(p1.getTemperature(VU_TEMPERATURE_UNIT.C))
-                }
+                bioViewModel.getTempLastData().value = temperature
+
                 HttpClientService.uploadTemperature(
                     caseNo, staffId, SCDID, sysCode,
                     temperature, UploadCallback(uploadTemp, temperature))
@@ -402,6 +474,8 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                     return
                 }
 
+                DataCountAction.updateDataCount(sysCode, caseNo, DataSort.BloodGlucose)
+
                 val mealSelectItems = arrayListOf(getString(R.string.fasting), getString(R.string.before_meal), getString(R.string.after_meal))
                 GlobalScope.launch(Dispatchers.Main) {
                     AlertDialog.Builder(this@MeasurementDashboardFragment.activity)
@@ -419,9 +493,7 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                                 p1.getGlucose(VU_GLUCOSE_UNIT.mg_dl).toInt(),
                                 note
                             )
-                            GlobalScope.launch(Dispatchers.Main) {
-                                valueBloodGlucose.setValue(bloodGlucose.glucose)
-                            }
+                            bioViewModel.getGlucoseLastData().value = bloodGlucose
                             HttpClientService.uploadBloodGlucose(
                                 caseNo, staffId, SCDID, sysCode,
                                 bloodGlucose, UploadCallback(uploadBloodGlucose, bloodGlucose))
