@@ -56,7 +56,7 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
                     setCompoundDrawables(
                         null,
                         null,
-                        ContextCompat.getDrawable(holder.itemView.context,R.drawable.ic_new_case),
+                        ContextCompat.getDrawable(holder.itemView.context,R.drawable.ic_support),
                         null)
             holder.caseNumber.text = this.getCaseNumber
             holder.caseName.text = this.getCaseName

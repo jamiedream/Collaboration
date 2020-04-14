@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         generalViewModel = ViewModelProviders.of(this).get(GeneralViewModel::class.java)
 
-        toolbar.setNavigationIcon(R.drawable.btn_arrow)
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
         lockDrawer(true)
         reloadDrawer()
         navDrawer.setNavigationItemSelectedListener(navigationListener)
@@ -285,7 +285,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
     }
 
-    fun setToolbarLeftIcon(isDrawer: Boolean, icon: Drawable? = getDrawable(R.drawable.ic_arrow)) {
+    fun setToolbarLeftIcon(isDrawer: Boolean, icon: Drawable? = getDrawable(R.drawable.ic_arrow_back)) {
         when (isDrawer) {
             true -> {
                 lockDrawer(false)

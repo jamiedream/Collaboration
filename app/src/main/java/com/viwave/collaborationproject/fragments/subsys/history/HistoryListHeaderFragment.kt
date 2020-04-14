@@ -61,10 +61,6 @@ class HistoryListHeaderFragment: BaseFragment(){
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
 
     private fun strWithSub(textView: TextView, str: String, subStr: String){
         textView.text =
