@@ -22,6 +22,7 @@ import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getFirstDayOfMo
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.labelCount
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.preTimeFormat
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.startTime
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.timeFormat
 import com.viwave.chart.UI.health.Chart.JCustomTimeAxisValueFormatter
 import com.viwave.collaborationproject.R
@@ -105,26 +106,21 @@ class JCustomXAxis(private val chart: CombinedChart){
 
             when(timeFormat){
                 MONTH -> {
+                    val startCalender = Calendar.getInstance()
+                    startCalender.time = Date(startTime * 1000L)
                     val c = getCalendar(midOfView.toFloat())
-//                    val c = getCalendar(midOfView.toFloat())
-                    val midYear = c.get(Calendar.YEAR)
-                    val midMonth = c.get(Calendar.MONTH)
-                    //mid of view month
-                    if(midYear == 2019&& midMonth == 1){
-                        c.set(midYear, midMonth, 0)
-                        //2019/01/01
+                    //31+16
+                    if(midOfView <= 47){
+                        c.set(startCalender.get(Calendar.YEAR), startCalender.get(Calendar.MONTH), startCalender.get(Calendar.DAY_OF_MONTH) - 1)
                         this.backXValue = 0f
-                    }else if(this.backXValue == 0f){
-
                     }else{
-                        c.set(midYear, midMonth - 1, 0)
+                        c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH) - 1, 0)
                     }
                     updateMonthBackXValue(c)
                 }
                 WEEK -> {
                     var minWeekDay = midOfView - 7
                     //previous week day 1
-
                     if(minWeekDay <= 7) {
                         //2019/01/01
                         this.backXValue = 0f

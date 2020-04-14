@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.CombinedData
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.DAY
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.MONTH
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.WEEK
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.backXCount
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getTimeDateFormat
@@ -58,6 +59,8 @@ class DiagramOxygen(fragment: WeakReference<HistoryChartFragment>): DiagramView(
             updateYAxis()
 
             setData()
+            markerTime.text =
+                getTimeDateFormat(xAxis.getBackXValue(), xAxis.getBackXValue() + backXCount)
 
         }
 

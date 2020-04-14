@@ -36,7 +36,11 @@ object JTimeSwitcher {
     const val SEC_PER_MIN = 60
 
     //time start from 93 days
-    val startTime = Calendar.getInstance().timeInMillis.minus(3.times(31).times(24).times(60).times(60).times(1000L)).div(1000L).toInt()
+    val startTime =
+        (Calendar.getInstance().timeInMillis.div(SEC_PER_DAY * 1000).plus(1).times(SEC_PER_DAY))
+            .minus(8.times(SEC_PER_HOUR))
+            .minus(3.times(31).times(24).times(60).times(60))
+            .toInt()
 
     var differentTime = renewNowtime() - startTime
     var daysOfYear = differentTime.toFloat() / SEC_PER_DAY + 1

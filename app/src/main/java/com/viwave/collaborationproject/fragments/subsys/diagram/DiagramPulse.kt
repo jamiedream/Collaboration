@@ -9,6 +9,7 @@ package com.viwave.collaborationproject.fragments.subsys.diagram
 import com.github.mikephil.charting.data.CombinedData
 import com.viwave.RossmaxConnect.Measurement.chart.JLineData
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher
+import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.backXCount
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.calXIndex
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getScaledHighLow
 import com.viwave.RossmaxConnect.Measurement.chart.JTimeSwitcher.getTimeDateFormat
@@ -57,7 +58,8 @@ class DiagramPulse(fragment: WeakReference<HistoryChartFragment>): DiagramView(f
             updateYAxis()
 
             setData()
-
+            markerTime.text =
+                getTimeDateFormat(xAxis.getBackXValue(), xAxis.getBackXValue() + backXCount)
         }
 
     }
