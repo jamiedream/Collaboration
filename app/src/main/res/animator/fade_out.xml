@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 15/ 4/ 2020.
+  ~ Last modified 4/15/20 3:39 PM
+  -->
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/accelerate_quad"
+    android:valueFrom="1"
+    android:valueTo="0"
+    android:propertyName="alpha"
+    android:duration="@android:integer/config_shortAnimTime" />

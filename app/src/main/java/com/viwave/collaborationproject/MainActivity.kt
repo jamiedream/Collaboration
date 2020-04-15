@@ -192,6 +192,7 @@ class MainActivity : AppCompatActivity() {
     private fun switchFragmentToTop(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
             .replace(R.id.host_fragment, fragment, fragment.javaClass.simpleName)
             .commit()
     }

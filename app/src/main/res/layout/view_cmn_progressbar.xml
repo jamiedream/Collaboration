@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) viWave 2020.
+  ~ Create by J.Y Yen 15/ 4/ 2020.
+  ~ Last modified 4/15/20 3:01 PM
+  -->
+
+<ProgressBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cmn_progressbar"
+    android:layout_width="@dimen/dp_80"
+    android:layout_height="@dimen/dp_80"
+    />

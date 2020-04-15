@@ -36,6 +36,7 @@ abstract class BaseFragment: Fragment() {
     fun replaceFragment(nowFragment: Fragment, replaceFragment: Fragment, tag: String){
         nowFragment.activity?.supportFragmentManager?.
             beginTransaction()?.
+            setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)?.
             replace(R.id.host_fragment, replaceFragment, tag)?.
             addToBackStack("replace $tag")?.
             commit()
@@ -44,6 +45,7 @@ abstract class BaseFragment: Fragment() {
     fun replacePartialFragment(nowFragment: Fragment, replaceFragment: Fragment, replaceLayout: Int, tag: String){
         nowFragment.fragmentManager?.
             beginTransaction()?.
+            setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)?.
             replace(replaceLayout, replaceFragment, tag)?.
             commit()
     }

@@ -25,6 +25,7 @@ import com.viwave.collaborationproject.data.UploadData
 import com.viwave.collaborationproject.data.http.GetListRtnDto
 import com.viwave.collaborationproject.data.http.HttpErrorData
 import com.viwave.collaborationproject.data.http.LoginRtnDto
+import com.viwave.collaborationproject.fragments.widgets.LoadingDialog
 import com.viwave.collaborationproject.http.HttpClientService
 import com.viwave.collaborationproject.utils.LogUtil
 import com.viwave.collaborationproject.utils.SysUtil.isNetworkConnect
@@ -92,6 +93,7 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
             !editAccount.text.isNullOrEmpty() && editPassword.text.isNullOrEmpty() ->
                 Toast.makeText(context, "Password is empty.", Toast.LENGTH_LONG).show()
             else -> {
+                LoadingDialog.startLoadingDialog(context)
                 //account: p00012, pwd: st13579
                 val loginObject = UploadData.uploadLoginInfo(
                     editAccount.text.toString(),
@@ -111,6 +113,7 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
                                                 count += 1
                                                 LogUtil.logD(TAG, count)
                                                 if (count == sysList.size) {
+                                                    LoadingDialog.dismissLoadingDialog()
                                                     UserPreference.instance.edit(
                                                         UserKey.IS_LOGIN,
                                                         true
@@ -124,6 +127,7 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
                                             }
 
                                             override fun onFailure(errData: HttpErrorData) {
+                                                LoadingDialog.dismissLoadingDialog()
                                                 textError.text = errData.message
                                             }
 
@@ -133,6 +137,7 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
                         }
 
                         override fun onFailure(errData: HttpErrorData) {
+                            LoadingDialog.dismissLoadingDialog()
                             textError.text = errData.message
                         }
 

@@ -71,6 +71,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate, Swipe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        generalViewModel.getSelectedSubSys().observe(this, subSysObserver)
         layoutRefresh.setOnRefreshListener(this)
     }
 
@@ -144,11 +145,6 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate, Swipe
             )
             setToolbarLeftIcon(true)
         }
-
-    override fun onResume() {
-        super.onResume()
-        generalViewModel.getSelectedSubSys().observe(this, subSysObserver)
-    }
 
     private val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.cmn_recycler) }
     private lateinit var caseList: MutableList<out CaseEntity>
