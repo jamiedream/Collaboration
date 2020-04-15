@@ -16,8 +16,6 @@ import java.lang.ref.WeakReference
 
 abstract class BaseFragment: Fragment() {
 
-    val BUNDLE_TOOLBAR_TITLE = "PRE_TOOLBAR_TITLE"
-
     fun setToolbarTitle(title: String){
         (activity as MainActivity).setToolbarTitle(title)
     }
@@ -35,16 +33,6 @@ abstract class BaseFragment: Fragment() {
      * @param key key in intent fragment bundle
      * @param value value in intent fragment bundle
      * */
-    fun addFragment(nowFragment: Fragment, addedFragment: Fragment, tag: String) {
-//        LogUtil.logD(TAG, nowFragment.fragmentManager?.findFragmentByTag(tag)?.isAdded)
-        when(nowFragment.fragmentManager?.findFragmentByTag(tag)?.isAdded){
-            null -> {
-                nowFragment.fragmentManager?.beginTransaction()?.add(R.id.host_fragment, addedFragment, tag)
-                    ?.addToBackStack("add $tag")?.commit()
-            }
-        }
-    }
-
     fun replaceFragment(nowFragment: Fragment, replaceFragment: Fragment, tag: String){
         nowFragment.activity?.supportFragmentManager?.
             beginTransaction()?.

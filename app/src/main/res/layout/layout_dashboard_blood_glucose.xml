@@ -48,10 +48,9 @@
             android:id="@+id/value_blood_glucose_meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_18"
+            android:layout_marginStart="@dimen/dp_10"
             android:textSize="@dimen/sp_18"
             android:textStyle="bold"
-            android:text="@string/fasting"
             app:layout_constraintStart_toEndOf="@id/value_blood_glucose"
             app:layout_constraintTop_toTopOf="@id/value_blood_glucose"
             />
@@ -62,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_6"
             app:layout_constraintTop_toTopOf="@id/value_blood_glucose"
+            app:layout_constraintStart_toEndOf="@id/value_blood_glucose_meal"
             app:layout_constraintEnd_toStartOf="@id/add_blood_glucose"
             />
 
