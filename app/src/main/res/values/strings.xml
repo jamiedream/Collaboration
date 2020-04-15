@@ -84,6 +84,13 @@
     <string name="about_app_version">版本</string>
     <string name="about_app_copyright">Copyright © 2020 viWave ULife Co. Ltd. \nAll Rights Reserved.</string>
 
+    <string name="support_case_title">新增職代個案</string>
+    <string name="support_case_no">個案號</string>
+    <string name="support_case_name">姓名</string>
+    <string name="support_case_gender">性別</string>
+    <string name="support_case_gender_male">男</string>
+    <string name="support_case_gender_female">女</string>
+
     <string name="ok">OK</string>
     <string name="data_not_in_range">%s\n該筆資料不在正常範圍內</string>
     <string name="measure_time">量測時間</string>

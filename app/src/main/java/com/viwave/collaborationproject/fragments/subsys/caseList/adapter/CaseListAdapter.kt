@@ -53,7 +53,7 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
             holder.caseSchedule.text = this.getStartTime
             if(this.getIsSupport == true)
                 holder.caseSchedule.
-                    setCompoundDrawables(
+                    setCompoundDrawablesWithIntrinsicBounds(
                         null,
                         null,
                         ContextCompat.getDrawable(holder.itemView.context,R.drawable.ic_support),

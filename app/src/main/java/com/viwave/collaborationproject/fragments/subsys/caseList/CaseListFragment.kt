@@ -24,8 +24,8 @@ import com.viwave.collaborationproject.data.cases.CaseViewModel
 import com.viwave.collaborationproject.data.general.SubSys
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment
+import com.viwave.collaborationproject.fragments.subsys.SupportCaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.adapter.CaseListAdapter
-import com.viwave.collaborationproject.utils.LogUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,13 +64,13 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_case_add, menu)
+        inflater.inflate(R.menu.menu_case, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.case_add -> {
-                LogUtil.logD(TAG, "ADD CASE")
+            R.id.support_case -> {
+                replaceFragment(this, SupportCaseFragment(), getString(R.string.tag_case_support))
                 return true
             }
         }
