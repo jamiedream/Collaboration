@@ -50,7 +50,6 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
                     else -> R.drawable.ic_gender_male
                 }
             )
-            holder.caseSchedule.text = this.getStartTime
             if(this.getIsSupport == true)
                 holder.caseSchedule.
                     setCompoundDrawablesWithIntrinsicBounds(
@@ -58,6 +57,14 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
                         null,
                         ContextCompat.getDrawable(holder.itemView.context,R.drawable.ic_support),
                         null)
+            else
+                holder.caseSchedule.
+                    setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        null,
+                        null)
+            holder.caseSchedule.text = this.getStartTime
             holder.caseNumber.text = this.getCaseNumber
             holder.caseName.text = this.getCaseName
             holder.itemView.setOnClickListener { whichCaseClicked.whichCase(this) }

@@ -93,14 +93,13 @@ object HttpClientService {
         })
     }
 
-    fun getList(sysCode:String, callback:HttpCallback<GetListRtnDto>) {
+    fun getList(sysCode:String, callback:HttpCallback<GetListRtnDto>, isReload: Boolean = false) {
         val token = UserPreference.instance.queryUser()?.token
         val call:Call<GetListRtnDto> = service.getList("Bearer $token", sysCode)
         call.enqueue(object:Callback<GetListRtnDto> {
             override fun onFailure(call: Call<GetListRtnDto>, t: Throwable) {
                 callback.onFailure(HttpErrorData(failureCode, t.message))
             }
-
             override fun onResponse(call: Call<GetListRtnDto>, response: Response<GetListRtnDto>) {
                 if (response.isSuccessful
                     && response.body() != null) {
@@ -111,6 +110,8 @@ object HttpClientService {
                                 GlobalScope.launch(Dispatchers.IO) {
                                     when (sysCode) {
                                         SysKey.DAILY_CARE_CODE -> {
+                                            if(isReload)
+                                                CaseDatabase(CollaborationApplication.context).getCaseCareDao().deleteAll()
                                             caseList.forEach { case ->
                                                 CaseDatabase(CollaborationApplication.context).getCaseCareDao()
                                                     .insert(
@@ -128,6 +129,8 @@ object HttpClientService {
                                             callback.onSuccess(it)
                                         }
                                         SysKey.DAILY_NURSING_CODE -> {
+                                            if(isReload)
+                                                CaseDatabase(CollaborationApplication.context).getCaseNursingDao().deleteAll()
                                             caseList.forEach {case ->
                                                 CaseDatabase(CollaborationApplication.context).getCaseNursingDao()
                                                     .insert(
@@ -145,6 +148,8 @@ object HttpClientService {
                                             callback.onSuccess(it)
                                         }
                                         SysKey.DAILY_STATION_CODE -> {
+                                            if(isReload)
+                                                CaseDatabase(CollaborationApplication.context).getCaseStationDao().deleteAll()
                                             caseList.forEach { case ->
                                                 CaseDatabase(CollaborationApplication.context).getCaseStationDao()
                                                     .insert(
@@ -162,6 +167,8 @@ object HttpClientService {
                                             callback.onSuccess(it)
                                         }
                                         SysKey.DAILY_HOME_CARE_CODE -> {
+                                            if(isReload)
+                                                CaseDatabase(CollaborationApplication.context).getCaseHomeCareDao().deleteAll()
                                             caseList.forEach { case ->
                                                 CaseDatabase(CollaborationApplication.context).getCaseHomeCareDao()
                                                     .insert(

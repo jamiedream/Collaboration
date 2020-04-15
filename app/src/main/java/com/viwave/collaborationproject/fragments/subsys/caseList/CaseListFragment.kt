@@ -8,12 +8,15 @@ package com.viwave.collaborationproject.fragments.subsys.caseList
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.viwave.collaborationproject.BackPressedDelegate
+import com.viwave.collaborationproject.CollaborationApplication
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.remote.CaseDatabase
 import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
@@ -22,16 +25,19 @@ import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.bios.BioViewModel
 import com.viwave.collaborationproject.data.cases.CaseViewModel
 import com.viwave.collaborationproject.data.general.SubSys
+import com.viwave.collaborationproject.data.http.GetListRtnDto
+import com.viwave.collaborationproject.data.http.HttpErrorData
 import com.viwave.collaborationproject.fragments.BaseFragment
 import com.viwave.collaborationproject.fragments.subsys.MeasurementDashboardFragment
 import com.viwave.collaborationproject.fragments.subsys.SupportCaseFragment
 import com.viwave.collaborationproject.fragments.subsys.caseList.adapter.CaseListAdapter
+import com.viwave.collaborationproject.http.HttpClientService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
+class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate, SwipeRefreshLayout.OnRefreshListener{
 
     override fun onBackPressed(): Boolean {
         return true
@@ -45,6 +51,7 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
     }
 
     private val TAG = this::class.java.simpleName
+    private val layoutRefresh by lazy { view!!.findViewById<SwipeRefreshLayout>(R.id.layout_refresh) }
 
     private var fragmentView: View? = null
 
@@ -56,10 +63,15 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         if (fragmentView != null) {
             return fragmentView
         }
-        val view = inflater.inflate(R.layout.view_cmn_recycler, container, false)
+        val view = inflater.inflate(R.layout.fragment_case_list, container, false)
         fragmentView = view
         setHasOptionsMenu(true)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        layoutRefresh.setOnRefreshListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -89,9 +101,9 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                 when(it?.sysName){
                     SysKey.DAILY_CARE_NAME -> {
                         GlobalScope.launch(Dispatchers.IO) {
-                            val caseList = CaseDatabase(context!!).getCaseCareDao().getAll()
+                            caseList = CaseDatabase(context!!).getCaseCareDao().getAll()
                             withContext(Dispatchers.Main){
-                                caseListView(caseList)
+                                caseListView()
                             }
                         }
                         this.setMenuVisibility(false)
@@ -99,9 +111,9 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                     }
                     SysKey.DAILY_NURSING_NAME -> {
                         GlobalScope.launch(Dispatchers.IO) {
-                            val caseList = CaseDatabase(context!!).getCaseNursingDao().getAll()
+                            caseList = CaseDatabase(context!!).getCaseNursingDao().getAll()
                             withContext(Dispatchers.Main){
-                                caseListView(caseList)
+                                caseListView()
                             }
                         }
                         this.setMenuVisibility(true)
@@ -109,9 +121,9 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                     }
                     SysKey.DAILY_STATION_NAME -> {
                         GlobalScope.launch(Dispatchers.IO) {
-                            val caseList = CaseDatabase(context!!).getCaseStationDao().getAll()
+                            caseList = CaseDatabase(context!!).getCaseStationDao().getAll()
                             withContext(Dispatchers.Main){
-                                caseListView(caseList)
+                                caseListView()
                             }
                         }
                         this.setMenuVisibility(false)
@@ -119,9 +131,9 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
                     }
                     SysKey.DAILY_HOME_CARE_NAME -> {
                         GlobalScope.launch(Dispatchers.IO) {
-                            val caseList = CaseDatabase(context!!).getCaseHomeCareDao().getAll()
+                            caseList = CaseDatabase(context!!).getCaseHomeCareDao().getAll()
                             withContext(Dispatchers.Main){
-                                caseListView(caseList)
+                                caseListView()
                             }
                         }
                         this.setMenuVisibility(true)
@@ -138,12 +150,12 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
         generalViewModel.getSelectedSubSys().observe(this, subSysObserver)
     }
 
-    private fun caseListView(caseList: MutableList<out CaseEntity>){
-        val caseListAdapter = CaseListAdapter(caseList, this)
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.cmn_recycler)
+    private val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.cmn_recycler) }
+    private lateinit var caseList: MutableList<out CaseEntity>
+    private fun caseListView(){
         recyclerView?.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = caseListAdapter
+            adapter = CaseListAdapter(caseList, this@CaseListFragment)
             val decorator =
                 DividerItemDecoration(
                     context,
@@ -163,6 +175,54 @@ class CaseListFragment: BaseFragment(), ICaseClicked, BackPressedDelegate{
     override fun onStop() {
         generalViewModel.getSelectedSubSys().removeObserver(subSysObserver)
         super.onStop()
+    }
+
+    override fun onRefresh() {
+        generalViewModel.getSelectedSubSys().value?.apply {
+            val sysCode = this.sysCode
+            HttpClientService.getList(sysCode,
+                object: HttpClientService.HttpCallback<GetListRtnDto>{
+                    override fun onSuccess(data: GetListRtnDto) {
+                        GlobalScope.launch(Dispatchers.IO) {
+                            when (sysCode) {
+                                SysKey.DAILY_CARE_CODE -> {
+                                    caseList = CaseDatabase(CollaborationApplication.context).getCaseCareDao().getAll()
+                                    withContext(Dispatchers.Main) {
+                                        layoutRefresh.isRefreshing = false
+                                        caseListView()
+                                    }
+                                }
+                                SysKey.DAILY_NURSING_CODE -> {
+                                    caseList = CaseDatabase(CollaborationApplication.context).getCaseNursingDao().getAll()
+                                    withContext(Dispatchers.Main) {
+                                        layoutRefresh.isRefreshing = false
+                                        caseListView()
+                                    }
+                                }
+                                SysKey.DAILY_STATION_CODE -> {
+                                    caseList = CaseDatabase(CollaborationApplication.context).getCaseStationDao().getAll()
+                                    withContext(Dispatchers.Main) {
+                                        layoutRefresh.isRefreshing = false
+                                        caseListView()
+                                    }
+                                }
+                                else -> {
+                                    caseList = CaseDatabase(CollaborationApplication.context).getCaseHomeCareDao().getAll()
+                                    withContext(Dispatchers.Main) {
+                                        layoutRefresh.isRefreshing = false
+                                        caseListView()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onFailure(errData: HttpErrorData) {
+                        layoutRefresh.isRefreshing = false
+                        Toast.makeText(context, "Reload list failed.", Toast.LENGTH_LONG).show()
+                    }
+                }, true)
+        }
     }
 
 }

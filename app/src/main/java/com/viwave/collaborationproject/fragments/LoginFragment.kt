@@ -16,23 +16,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.google.gson.GsonBuilder
 import com.viwave.collaborationproject.BackPressedDelegate
-import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
-import com.viwave.collaborationproject.DB.remote.CaseDatabase
-import com.viwave.collaborationproject.DB.remote.DataCountAction.initDataCount
-import com.viwave.collaborationproject.DB.remote.entity.CaseEntity
-import com.viwave.collaborationproject.FakeData.QueryData
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.DataSort
 import com.viwave.collaborationproject.data.UploadData
-import com.viwave.collaborationproject.data.general.User
+import com.viwave.collaborationproject.data.http.GetListRtnDto
+import com.viwave.collaborationproject.data.http.HttpErrorData
+import com.viwave.collaborationproject.data.http.LoginRtnDto
+import com.viwave.collaborationproject.http.HttpClientService
+import com.viwave.collaborationproject.utils.LogUtil
 import com.viwave.collaborationproject.utils.SysUtil.isNetworkConnect
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class LoginFragment: BaseFragment(), BackPressedDelegate {
 
@@ -102,154 +97,154 @@ class LoginFragment: BaseFragment(), BackPressedDelegate {
                     editAccount.text.toString(),
                     editPassword.text.toString()
                 )
-//                HttpClientService.login(loginObject,
-//                    object: HttpClientService.HttpCallback<LoginRtnDto>{
-//                        override fun onSuccess(data: LoginRtnDto) {
-//                            UserPreference.instance.editUser(DataSort.staff(data))
-//                            var count = 0
-//                            val sysList = data.sysList
-//                            sysList?.let {
-//                                it.forEach {
-//                                    HttpClientService.getList(it.sysCode,
-//                                        object: HttpClientService.HttpCallback<GetListRtnDto>{
-//                                            override fun onSuccess(data: GetListRtnDto) {
-//                                                count += 1
-//                                                LogUtil.logD(TAG, count)
-//                                                if (count == sysList.size) {
-//                                                    UserPreference.instance.edit(
-//                                                        UserKey.IS_LOGIN,
-//                                                        true
-//                                                    )
-//                                                    replaceFragment(
-//                                                        this@LoginFragment,
-//                                                        SysListFragment(),
-//                                                        getString(R.string.tag_sys_list)
-//                                                    )
-//                                                }
-//                                            }
-//
-//                                            override fun onFailure(errData: HttpErrorData) {
-//                                                textError.text = errData.message
-//                                            }
-//
-//                                        })
-//                                }
-//                            }
-//                        }
-//
-//                        override fun onFailure(errData: HttpErrorData) {
-//                            textError.text = errData.message
-//                        }
-//
-//                    })
+                HttpClientService.login(loginObject,
+                    object: HttpClientService.HttpCallback<LoginRtnDto>{
+                        override fun onSuccess(data: LoginRtnDto) {
+                            UserPreference.instance.editUser(DataSort.staff(data))
+                            var count = 0
+                            val sysList = data.sysList
+                            sysList?.let {
+                                it.forEach {
+                                    HttpClientService.getList(it.sysCode,
+                                        object: HttpClientService.HttpCallback<GetListRtnDto>{
+                                            override fun onSuccess(data: GetListRtnDto) {
+                                                count += 1
+                                                LogUtil.logD(TAG, count)
+                                                if (count == sysList.size) {
+                                                    UserPreference.instance.edit(
+                                                        UserKey.IS_LOGIN,
+                                                        true
+                                                    )
+                                                    replaceFragment(
+                                                        this@LoginFragment,
+                                                        SysListFragment(),
+                                                        getString(R.string.tag_sys_list)
+                                                    )
+                                                }
+                                            }
 
-                    when{
-                        editAccount.text.toString() == "test" && editPassword.text.toString() == "abc123" -> {
-                            val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
-                            //login success
-                            UserPreference.instance.editUser(gson.fromJson(QueryData().loginReturn, User::class.java))
-                            GlobalScope.launch(Dispatchers.IO){
-                                QueryData().caseList.forEach {
-                                    CaseDatabase(context!!).getCaseCareDao().insert(
-                                        CaseEntity.CaseCareEntity(
-                                            it.caseNumber,
-                                            it.caseName,
-                                            it.caseGender,
-                                            it.SCDTID,
-                                            it.startTime,
-                                            false,
-                                            initDataCount
-                                        )
-                                    )
+                                            override fun onFailure(errData: HttpErrorData) {
+                                                textError.text = errData.message
+                                            }
+
+                                        })
                                 }
                             }
-
-//                            LogUtil.logD(TAG, gson.fromJson(QueryData().loginReturn2, User::class.java))
-//                            LogUtil.logD(TAG, UserPreference.instance.queryUser())
-                            UserPreference.instance.edit(UserKey.IS_LOGIN, true)
-                            replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
                         }
-                        editAccount.text.toString() == "test2" && editPassword.text.toString() == "abc123" -> {
-                            val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
-                            //login success
-                            UserPreference.instance.editUser(gson.fromJson(QueryData().loginReturn2, User::class.java))
-                            val sys = QueryData().loginReturn2.getAsJsonArray("system").toMutableList()
-                            GlobalScope.launch(Dispatchers.IO) {
-                                sys.forEach {
-                                    val ob = it.asJsonObject
-                                    when (ob.get("sysCode").asString) {
-                                        SysKey.DAILY_CARE_CODE -> {
-                                            QueryData().caseList.forEach {
-                                                CaseDatabase(context!!).getCaseCareDao().insert(
-                                                    CaseEntity.CaseCareEntity(
-                                                        it.caseNumber,
-                                                        it.caseName,
-                                                        it.caseGender,
-                                                        it.SCDTID,
-                                                        it.startTime,
-                                                        false,
-                                                        initDataCount
-                                                    )
-                                                )
-                                            }
-                                        }
-                                        SysKey.DAILY_NURSING_CODE -> {
-                                            QueryData().caseList2.forEach {
-                                                CaseDatabase(context!!).getCaseNursingDao().insert(
-                                                    CaseEntity.CaseNursingEntity(
-                                                        it.caseNumber,
-                                                        it.caseName,
-                                                        it.caseGender,
-                                                        it.SCDTID,
-                                                        it.startTime,
-                                                        false,
-                                                        initDataCount
-                                                    )
-                                                )
-                                            }
-                                            //todo, load history data
-                                        }
-                                        SysKey.DAILY_STATION_CODE -> {
-                                            QueryData().caseList.forEach {
-                                                CaseDatabase(context!!).getCaseStationDao().insert(
-                                                    CaseEntity.CaseStationEntity(
-                                                        it.caseNumber,
-                                                        it.caseName,
-                                                        it.caseGender,
-                                                        it.SCDTID,
-                                                        it.startTime,
-                                                        false,
-                                                        initDataCount
-                                                    )
-                                                )
-                                            }
-                                        }
-                                        SysKey.DAILY_HOME_CARE_CODE -> {
-                                            QueryData().caseList2.forEach {
-                                                CaseDatabase(context!!).getCaseHomeCareDao().insert(
-                                                    CaseEntity.CaseHomeCareEntity(
-                                                        it.caseNumber,
-                                                        it.caseName,
-                                                        it.caseGender,
-                                                        it.SCDTID,
-                                                        it.startTime,
-                                                        false,
-                                                        initDataCount
-                                                    )
-                                                )
-                                            }
-                                        }
-                                    }
-                                    }
-                            }
 
-
-
-                            UserPreference.instance.edit(UserKey.IS_LOGIN, true)
-                            replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
+                        override fun onFailure(errData: HttpErrorData) {
+                            textError.text = errData.message
                         }
-                        else -> Toast.makeText(context, "Login failed.", Toast.LENGTH_LONG).show()
-                    }
+
+                    })
+
+//                    when{
+//                        editAccount.text.toString() == "test" && editPassword.text.toString() == "abc123" -> {
+//                            val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
+//                            //login success
+//                            UserPreference.instance.editUser(gson.fromJson(QueryData().loginReturn, User::class.java))
+//                            GlobalScope.launch(Dispatchers.IO){
+//                                QueryData().caseList.forEach {
+//                                    CaseDatabase(context!!).getCaseCareDao().insert(
+//                                        CaseEntity.CaseCareEntity(
+//                                            it.caseNumber,
+//                                            it.caseName,
+//                                            it.caseGender,
+//                                            it.SCDTID,
+//                                            it.startTime,
+//                                            false,
+//                                            initDataCount
+//                                        )
+//                                    )
+//                                }
+//                            }
+//
+////                            LogUtil.logD(TAG, gson.fromJson(QueryData().loginReturn2, User::class.java))
+////                            LogUtil.logD(TAG, UserPreference.instance.queryUser())
+//                            UserPreference.instance.edit(UserKey.IS_LOGIN, true)
+//                            replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
+//                        }
+//                        editAccount.text.toString() == "test2" && editPassword.text.toString() == "abc123" -> {
+//                            val gson = GsonBuilder().registerTypeAdapter(User::class.java, DataSort.staffInfo).create()
+//                            //login success
+//                            UserPreference.instance.editUser(gson.fromJson(QueryData().loginReturn2, User::class.java))
+//                            val sys = QueryData().loginReturn2.getAsJsonArray("system").toMutableList()
+//                            GlobalScope.launch(Dispatchers.IO) {
+//                                sys.forEach {
+//                                    val ob = it.asJsonObject
+//                                    when (ob.get("sysCode").asString) {
+//                                        SysKey.DAILY_CARE_CODE -> {
+//                                            QueryData().caseList.forEach {
+//                                                CaseDatabase(context!!).getCaseCareDao().insert(
+//                                                    CaseEntity.CaseCareEntity(
+//                                                        it.caseNumber,
+//                                                        it.caseName,
+//                                                        it.caseGender,
+//                                                        it.SCDTID,
+//                                                        it.startTime,
+//                                                        false,
+//                                                        initDataCount
+//                                                    )
+//                                                )
+//                                            }
+//                                        }
+//                                        SysKey.DAILY_NURSING_CODE -> {
+//                                            QueryData().caseList2.forEach {
+//                                                CaseDatabase(context!!).getCaseNursingDao().insert(
+//                                                    CaseEntity.CaseNursingEntity(
+//                                                        it.caseNumber,
+//                                                        it.caseName,
+//                                                        it.caseGender,
+//                                                        it.SCDTID,
+//                                                        it.startTime,
+//                                                        false,
+//                                                        initDataCount
+//                                                    )
+//                                                )
+//                                            }
+//                                            //todo, load history data
+//                                        }
+//                                        SysKey.DAILY_STATION_CODE -> {
+//                                            QueryData().caseList.forEach {
+//                                                CaseDatabase(context!!).getCaseStationDao().insert(
+//                                                    CaseEntity.CaseStationEntity(
+//                                                        it.caseNumber,
+//                                                        it.caseName,
+//                                                        it.caseGender,
+//                                                        it.SCDTID,
+//                                                        it.startTime,
+//                                                        false,
+//                                                        initDataCount
+//                                                    )
+//                                                )
+//                                            }
+//                                        }
+//                                        SysKey.DAILY_HOME_CARE_CODE -> {
+//                                            QueryData().caseList2.forEach {
+//                                                CaseDatabase(context!!).getCaseHomeCareDao().insert(
+//                                                    CaseEntity.CaseHomeCareEntity(
+//                                                        it.caseNumber,
+//                                                        it.caseName,
+//                                                        it.caseGender,
+//                                                        it.SCDTID,
+//                                                        it.startTime,
+//                                                        false,
+//                                                        initDataCount
+//                                                    )
+//                                                )
+//                                            }
+//                                        }
+//                                    }
+//                                    }
+//                            }
+//
+//
+//
+//                            UserPreference.instance.edit(UserKey.IS_LOGIN, true)
+//                            replaceFragment(this@LoginFragment, SysListFragment(), getString(R.string.tag_sys_list))
+//                        }
+//                        else -> Toast.makeText(context, "Login failed.", Toast.LENGTH_LONG).show()
+//                    }
             }
         }
     }
