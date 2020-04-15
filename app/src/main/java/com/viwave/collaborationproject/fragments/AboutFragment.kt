@@ -31,6 +31,6 @@ class AboutFragment: BaseFragment() {
         super.onResume()
         setToolbarTitle(getString(R.string.menu_about))
         setToolbarLeftIcon(true)
-        textAppVersion.text = String.format(getString(R.string.about_app_version), BuildConfig.VERSION_NAME)
+        textAppVersion.text = BuildConfig.VERSION_NAME
     }
 }

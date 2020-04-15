@@ -81,7 +81,7 @@
     <string name="dashboard_upload_failed">上傳失敗</string>
     <string name="dashboard_upload_success">上傳成功</string>
 
-    <string name="about_app_version">版本號：&#032;%s</string>
+    <string name="about_app_version">版本</string>
     <string name="about_app_copyright">Copyright © 2020 viWave ULife Co. Ltd. \nAll Rights Reserved.</string>
 
     <string name="ok">OK</string>
