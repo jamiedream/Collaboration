@@ -77,11 +77,15 @@
     </style>
 
     <style name="PendingDataTitle">
-        <item name="android:background">#A2E4D9</item>
-        <item name="android:textColor">#828282</item>
+        <item name="android:background">@color/keppel</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/sp_20</item>
-        <item name="android:padding">@dimen/dp_8</item>
-        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/dp_16</item>
+        <item name="android:gravity">left</item>
         <item name="fontWeight">700</item>
+    </style>
+
+    <style name="PendingDataExpandableListView">
+        <item name="android:groupIndicator">@null</item>
     </style>
 </resources>

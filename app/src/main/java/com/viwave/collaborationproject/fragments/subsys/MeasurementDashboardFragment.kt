@@ -50,6 +50,7 @@ import com.viwaveulife.vuioht.model.device_data.*
 import com.viwaveulife.vuioht.model.unit.VU_GLUCOSE_UNIT
 import com.viwaveulife.vuioht.model.unit.VU_PRESSURE_UNIT
 import com.viwaveulife.vuioht.model.unit.VU_TEMPERATURE_UNIT
+import com.viwaveulife.vuioht.model.unit.VU_WEIGHT_UNIT
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -107,45 +108,95 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
 
     private val bpLastDataObserver =
         Observer<Bio.BloodPressure> { t ->
-            valueBloodPressure.setValues(t?.sys, t?.dia)
-            valueBloodPressurePulse.setValue(t?.pulse)
+            if(t != null) {
+                valueBloodPressure.setValues(t.sys, t.dia)
+                valueBloodPressurePulse.setValue(t.pulse)
+                HttpClientService.uploadBloodPressure(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadBloodPressure, t)
+                )
+            }
         }
 
     private val tempLastDataObserver =
         Observer<Bio.Temperature> { t ->
-            valueTemp.setValue(t?.temperature)
+            if( t != null) {
+                valueTemp.setValue(t.temperature)
+
+                HttpClientService.uploadTemperature(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadTemp, t)
+                )
+            }
         }
 
     private val pulseLastDataObserver =
         Observer<Bio.Pulse> { t ->
-            valuePulse.setValue(t?.pulse)
+            if(t != null) {
+                valuePulse.setValue(t.pulse)
+
+                HttpClientService.uploadPulse(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadPulse, t)
+                )
+            }
         }
 
     private val respireLastDataObserver =
         Observer<Bio.Respire> { t ->
-            valueRespire.setValue(t?.respire)
+            if(t != null) {
+                valueRespire.setValue(t.respire)
+                HttpClientService.uploadRespire(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadRespire, t)
+                )
+            }
         }
 
     private val weightLastDataObserver =
         Observer<Bio.Weight> { t ->
-            valueWeight.setValue(t?.weight)
+            if(t != null) {
+                valueWeight.setValue(t.weight)
+                HttpClientService.uploadWeight(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadWeight, t)
+                )
+            }
         }
 
     private val heightLastDataObserver =
         Observer<Bio.Height> { t ->
-            valueHeight.setValue(t?.height)
+            if(t != null) {
+                valueHeight.setValue(t.height)
+                HttpClientService.uploadHeight(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadHeight, t)
+                )
+            }
         }
 
     private val oxygenLastDataObserver =
         Observer<Bio.Oxygen> { t ->
-            valueOxygen.setValue(t?.spo2Highest)
-            valueOxygenPulse.setValue(t?.pulseHighest)
+            if(t != null) {
+                valueOxygen.setValue(t.spo2Highest)
+                valueOxygenPulse.setValue(t.pulseHighest)
+                HttpClientService.uploadOxygen(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadOxygen, t)
+                )
+            }
         }
 
     private val bgLastDataObserver =
         Observer<Bio.BloodGlucose> { t ->
-            valueBloodGlucose.setValue(t?.glucose)
-            valueBloodGlucoseMeal.text = t?.meal
+            if(t != null) {
+                valueBloodGlucose.setValue(t.glucose)
+                valueBloodGlucoseMeal.text = t.meal
+
+                HttpClientService.uploadBloodGlucose(
+                    caseNo, staffId, SCDID, sysCode,
+                    t, UploadCallback(uploadBloodGlucose, t))
+            }
         }
 
     override fun onCreateView(
@@ -425,7 +476,32 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
             }
 
             override fun onWeightReceive(p0: VUBleDevice?, p1: VUWeight?, p2: VUError?) {
+                if(p2 != null) {
+                    LogUtil.logE(TAG, p2.msg)
+                    return;
+                }
 
+                if(p1 == null) {
+                    return;
+                }
+
+                DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Weight)
+
+                val weight : Bio.Weight = Bio.Weight(
+                    DateUtil.getNowTimestamp(),
+                    p1.getWeight(VU_WEIGHT_UNIT.kg).toFloat(),
+                    p1.bmi.toFloat(),
+                    p1.basalMetabolism.toInt(),
+                    p1.bodyFat.toFloat(),
+                    p1.bodyWater.toInt(),
+                    p1.muscleMass.toFloat(),
+                    p1.visceralFat.toInt()
+                )
+
+                bioViewModel.getWeightLastData().value = weight
+
+                LogUtil.logD(TAG, "weight: ${p1.getWeight(VU_WEIGHT_UNIT.kg)}")
+                LogUtil.logD(TAG, "takenAt: ${weight.takenAt}")
             }
 
             override fun onTemperatureReceive(p0: VUBleDevice?, p1: VUTemperature?, p2: VUError?) {
@@ -447,11 +523,6 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
 
                 bioViewModel.getTempLastData().value = temperature
 
-                HttpClientService.uploadTemperature(
-                    caseNo, staffId, SCDID, sysCode,
-                    temperature, UploadCallback(uploadTemp, temperature))
-
-
                 LogUtil.logD(TAG, "temperature: ${p1.getTemperature(VU_TEMPERATURE_UNIT.C)}")
                 LogUtil.logD(TAG, "takenAt: ${temperature.takenAt}")
             }
@@ -461,7 +532,28 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 p1: VUPulseOximetry?,
                 p2: VUError?
             ) {
+                if(p2 != null) {
+                    LogUtil.logE(TAG, p2.msg)
+                    return;
+                }
 
+                if(p1 == null) {
+                    return;
+                }
+
+                DataCountAction.updateDataCount(sysCode, caseNo, DataSort.Oxygen)
+
+                //處理 5 秒
+
+//                bioViewModel.getWeightLastData().value = weight
+//
+//                HttpClientService.uploadWeight(
+//                    caseNo, staffId, SCDID, sysCode,
+//                    weight, UploadCallback(uploadTemp, weight))
+//
+//
+//                LogUtil.logD(TAG, "weight: ${p1.getWeight(VU_WEIGHT_UNIT.kg)}")
+//                LogUtil.logD(TAG, "takenAt: ${weight.takenAt}")
             }
 
             override fun onGlucoseReceive(p0: VUBleDevice?, p1: VUGlucose?, p2: VUError?) {
@@ -494,10 +586,6 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                                 note
                             )
                             bioViewModel.getGlucoseLastData().value = bloodGlucose
-                            HttpClientService.uploadBloodGlucose(
-                                caseNo, staffId, SCDID, sysCode,
-                                bloodGlucose, UploadCallback(uploadBloodGlucose, bloodGlucose))
-
 
                             LogUtil.logD(TAG, "glucose: ${bloodGlucose.glucose}")
                             LogUtil.logD(TAG, "takenAt: ${bloodGlucose.takenAt}")
@@ -512,7 +600,6 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 p1: ArrayList<Double>?,
                 p2: VUError?
             ) {
-
             }
 
             override fun onBloodPressureRawDataReceive(
@@ -521,7 +608,6 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 p2: Int,
                 p3: Int
             ) {
-
             }
 
             override fun onDescriptorReadError(
@@ -529,57 +615,43 @@ class MeasurementDashboardFragment: BaseFragment(), BackPressedDelegate {
                 p1: BluetoothGattDescriptor?,
                 p2: Int
             ) {
-
             }
 
             override fun onProgressUpdate(p0: VUBleDevice?, p1: Int, p2: Int) {
-
             }
 
             override fun onCharacteristicReadError(
                 p0: VUBleDevice?,
                 p1: BluetoothGattCharacteristic?,
                 p2: Int
-            ) {
-
-            }
+            ) {}
 
             override fun onHistoryDataReceive(
                 p0: VUBleDevice?,
                 p1: MutableList<out AbsDeviceData>?,
                 p2: Class<*>?
-            ) {
-
-            }
+            ) {}
 
             override fun onBloodPressureIntermediateCuffReceive(p0: VUBleDevice?, p1: Int) {
-
             }
 
             override fun onDescriptorWriteError(
                 p0: VUBleDevice?,
                 p1: BluetoothGattDescriptor?,
                 p2: Int
-            ) {
-
-            }
+            ) {}
 
             override fun onSetDateTimeFinish(p0: VUBleDevice?, p1: Boolean) {
-
             }
 
             override fun onCharacteristicWriteError(
                 p0: VUBleDevice?,
                 p1: BluetoothGattCharacteristic?,
                 p2: Int
-            ) {
-
-            }
+            ) {}
 
             override fun onServiceDiscoverError(p0: VUBleDevice?, p1: Int) {
-
             }
-
         }
 
     private fun initTempView(view: View){

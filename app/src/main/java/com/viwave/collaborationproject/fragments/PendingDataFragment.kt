@@ -1,11 +1,6 @@
-/*
- * Copyright (c) viWave 2020.
- * Create by J.Y Yen 31/ 3/ 2020.
- * Last modified 3/25/20 1:49 PM
- */
-
 package com.viwave.collaborationproject.fragments
 
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -30,6 +25,9 @@ import kotlin.collections.ArrayList
 class PendingDataFragment: BaseFragment() {
 
     companion object {
+        const val GROUP_TYPE_TITLE:Int = 0;
+        const val GROUP_TYPE_CASE:Int = 1;
+
         //體溫 脈搏 呼吸 血壓 血糖 身高 體重 血氧
         const val TYPE_TEMPERATURE:Int = 0
         const val TYPE_PULSE:Int = 1
@@ -44,22 +42,9 @@ class PendingDataFragment: BaseFragment() {
     private lateinit var pendingDataViewModel:PendingDataViewModel
 
     private lateinit var inflater: LayoutInflater
+    private lateinit var adapter:CaseBioAdapter
 
-    private val group1:View  by lazy { view!!.findViewById<View>(R.id.group_1) }
-    private val title1: TextView by lazy { view!!.findViewById<TextView>(R.id.title_1) }
-    private val listView1:ExpandableListView  by lazy { view!!.findViewById<ExpandableListView>(R.id.listView_1) }
-
-    private val group2:View  by lazy { view!!.findViewById<View>(R.id.group_2) }
-    private val title2: TextView by lazy { view!!.findViewById<TextView>(R.id.title_2) }
-    private val listView2:ExpandableListView  by lazy { view!!.findViewById<ExpandableListView>(R.id.listView_2) }
-
-    private val group3:View  by lazy { view!!.findViewById<View>(R.id.group_3) }
-    private val title3: TextView by lazy { view!!.findViewById<TextView>(R.id.title_3) }
-    private val listView3:ExpandableListView  by lazy { view!!.findViewById<ExpandableListView>(R.id.listView_3) }
-
-    private val group4:View  by lazy { view!!.findViewById<View>(R.id.group_4) }
-    private val title4: TextView by lazy { view!!.findViewById<TextView>(R.id.title_4) }
-    private val listView4:ExpandableListView  by lazy { view!!.findViewById<ExpandableListView>(R.id.listView_4) }
+    private val listView:ExpandableListView  by lazy { view!!.findViewById<ExpandableListView>(R.id.listView) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,58 +105,49 @@ class PendingDataFragment: BaseFragment() {
 
     private val pendingDataObserver =
         Observer<TreeMap<String, TreeMap<Case, java.util.ArrayList<Bio>>>>{
-            //TODO 依照順序
-            //1 日照
-            for ((k, v) in it!!) {
-                val adapter:CaseBioAdapter = CaseBioAdapter(v)
-                when(k){
-                    //日照中心
-                    SysKey.DailyCare.sysCode -> {
-                        if(v.size == 0) {
-                            group1.visibility = View.GONE
-                        } else {
-                            group1.visibility = View.VISIBLE
-                            title1.text = SysKey.DailyCare.sysName
-                            listView1.setAdapter(adapter)
-                        }
-                    }
-
-                    //居護
-                    SysKey.DailyNursing.sysCode -> {
-                        if(v.size == 0) {
-                            group2.visibility = View.GONE
-                        } else {
-                            group2.visibility = View.VISIBLE
-                            title2.text = SysKey.DailyCare.sysName
-                            listView2.setAdapter(adapter)
-                        }
-                    }
-
-                    //活力站
-                    SysKey.Station.sysCode -> {
-                        if(v.size == 0) {
-                            group3.visibility = View.GONE
-                        } else {
-                            group3.visibility = View.VISIBLE
-                            title3.text = SysKey.DailyCare.sysName
-                            listView3.setAdapter(adapter)
-                        }
-                    }
-                    //居護
-                    SysKey.HomeCare.sysCode -> {
-                        if(v.size == 0) {
-                            group4.visibility = View.GONE
-                        } else {
-                            group4.visibility = View.VISIBLE
-                            title4.text = SysKey.DailyCare.sysName
-                            listView4.setAdapter(adapter)
-                        }
-                    }
-                }
-            }
+            adapter = CaseBioAdapter(it)
+            listView.setAdapter(adapter)
         }
 
-    private inner class CaseBioAdapter(val dataMap:TreeMap<Case, ArrayList<Bio>>): BaseExpandableListAdapter() {
+    //用同一個 Expendable ListView  處理 title 和 Case
+    //title 也為 Group，不可展開
+    private inner class CaseBioAdapter(val dataMap:TreeMap<String, TreeMap<Case, java.util.ArrayList<Bio>>>): BaseExpandableListAdapter() {
+        private var dailyCareIndex:Int = -1  //日照  S03
+        private var dailyNurseIndex:Int = -1 //居護  S05
+        private var dailyStationIndex:Int = -1  //活力站  S26
+        private var dailyHomeCareIndex:Int = -1  //居服  S01
+        init{
+            var index:Int = -1
+            //計算四個 title 在 group 的排序
+            var caseMap = dataMap[SysKey.DAILY_CARE_CODE]
+
+            if(caseMap != null && caseMap.size > 0) {
+                index++
+                dailyCareIndex = index
+                index += caseMap.size
+            }
+
+            caseMap = dataMap[SysKey.DAILY_NURSING_CODE]
+            if(caseMap != null && caseMap.size > 0) {
+                index++
+                dailyNurseIndex = index
+                index += caseMap.size
+            }
+
+            caseMap = dataMap[SysKey.DAILY_STATION_CODE]
+            if(caseMap != null && caseMap.size > 0) {
+                index++
+                dailyStationIndex = index
+                index += caseMap.size
+            }
+
+            caseMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
+            if(caseMap != null && caseMap.size > 0) {
+                index++
+                dailyHomeCareIndex = index
+                index += caseMap.size
+            }
+        }
 
         override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
             return false
@@ -190,47 +166,194 @@ class PendingDataFragment: BaseFragment() {
         }
 
         override fun getGroupCount(): Int {
-            return dataMap.size
+            var size:Int = 0
+            for((key, value) in dataMap){
+
+                if(value.size == 0) {
+                    continue
+                } else {
+                    size++
+                    size += value.size
+                }
+            }
+
+            return size
         }
 
         override fun getChildrenCount(groupPosition: Int): Int {
-            val key:Case = ArrayList(dataMap.keys)[groupPosition]
-            return dataMap[key]!!.size
+            when(groupPosition){
+                dailyCareIndex -> return 0
+                dailyNurseIndex -> return 0
+                dailyStationIndex -> return 0
+                dailyHomeCareIndex -> return 0
+
+                //照順序 Care, Nurse, Station, Home
+                in dailyCareIndex..dailyNurseIndex -> {
+                    val caseMap = dataMap[SysKey.DAILY_CARE_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyCareIndex-1]
+                        return caseMap[case]!!.size
+                    }
+                }
+                in dailyNurseIndex..dailyStationIndex -> {
+                    val caseMap = dataMap[SysKey.DAILY_NURSING_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyNurseIndex-1]
+                        return caseMap[case]!!.size
+                    }
+                }
+                in dailyStationIndex..dailyHomeCareIndex -> {
+                    val caseMap = dataMap[SysKey.DAILY_STATION_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyStationIndex-1]
+                        return caseMap[case]!!.size
+                    }
+                }
+                else -> {
+                    val caseMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyHomeCareIndex-1]
+                        return caseMap[case]!!.size
+                    }
+                }
+            }
+
+            //應該不會發生
+            return 0
         }
 
         override fun getGroup(groupPosition: Int): Any {
-            return ArrayList(dataMap.keys)[groupPosition]
+            when(groupPosition){
+                dailyCareIndex -> return getString(R.string.sys_daily_care)
+                dailyNurseIndex -> return getString(R.string.sys_daily_nursing)
+                dailyStationIndex -> return getString(R.string.sys_station)
+                dailyHomeCareIndex -> return getString(R.string.sys_home_service)
+
+                //照順序 Care, Nurse, Station, Home
+                in dailyCareIndex..dailyNurseIndex -> {
+                    val childMap = dataMap[SysKey.DAILY_CARE_CODE]
+                    if(childMap != null) {
+                        return ArrayList(childMap.keys)[groupPosition-dailyCareIndex-1]
+                    }
+                }
+                in dailyNurseIndex..dailyStationIndex -> {
+                    val childMap = dataMap[SysKey.DAILY_NURSING_CODE]
+                    if(childMap != null) {
+                        return ArrayList(childMap.keys)[groupPosition-dailyNurseIndex-1]
+                    }
+                }
+                in dailyStationIndex..dailyHomeCareIndex -> {
+                    val childMap = dataMap[SysKey.DAILY_STATION_CODE]
+                    if(childMap != null) {
+                        return ArrayList(childMap.keys)[groupPosition-dailyStationIndex-1]
+                    }
+                }
+                else -> {
+                    val childMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
+                    if(childMap != null) {
+                        return ArrayList(childMap.keys)[groupPosition-dailyHomeCareIndex-1]
+                    }
+                }
+            }
+
+            //應該不會發生
+            return String()
         }
 
         override fun getChild(groupPosition: Int, childPosition: Int): Any {
-            val key:Case = ArrayList(dataMap.keys)[groupPosition]
-            return dataMap[key]!![childPosition]
+            when(groupPosition) {
+                dailyCareIndex -> return 0
+                dailyNurseIndex -> return 0
+                dailyStationIndex -> return 0
+                dailyHomeCareIndex -> return 0
+
+                //照順序 Care, Nurse, Station, Home
+                in dailyCareIndex..dailyNurseIndex -> {
+                    val caseMap = dataMap[SysKey.DAILY_CARE_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyCareIndex-1]
+                        return caseMap[case]!![childPosition]
+                    }
+                }
+                in dailyNurseIndex..dailyStationIndex -> {
+                    val caseMap = dataMap[SysKey.DAILY_NURSING_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyNurseIndex-1]
+                        return caseMap[case]!![childPosition]
+                    }
+                }
+                in dailyStationIndex..dailyHomeCareIndex -> {
+                    val caseMap = dataMap[SysKey.DAILY_STATION_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyStationIndex-1]
+                        return caseMap[case]!![childPosition]
+                    }
+                }
+                else -> {
+                    val caseMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
+                    if(caseMap != null) {
+                        val case = ArrayList(caseMap.keys)[groupPosition-dailyHomeCareIndex-1]
+                        return caseMap[case]!![childPosition]
+                    }
+                }
+            }
+
+            //應該不會發生
+            return String()
         }
 
-        override fun getGroupView(groupPosition: Int, b: Boolean, view: View?, viewGroup: ViewGroup?): View {
+        override fun getGroupView(groupPosition: Int, isExpanded: Boolean, view: View?, viewGroup: ViewGroup?): View {
+            val type = getGroupType(groupPosition)
             var holder:GroupViewHolder? = null
             var currentView = view
-            if(currentView == null) {
-                currentView = inflater.inflate(R.layout.layout_pending_data_case, viewGroup, false)
-                holder = GroupViewHolder();
-                holder.igGender = currentView!!.findViewById(R.id.imgGender)
-                holder.tvName = currentView.findViewById(R.id.name)
-                holder.tvCaseNo = currentView.findViewById(R.id.caseNo)
 
+            if(currentView == null) {
+
+                when(type) {
+                    GROUP_TYPE_TITLE -> {
+                        currentView = inflater.inflate(R.layout.layout_pending_data_title, viewGroup, false)
+                        holder = GroupTitleViewHolder()
+                        holder.tvTitle = currentView!!.findViewById(R.id.title)
+                    }
+                    else -> {
+                        currentView = inflater.inflate(R.layout.layout_pending_data_case, viewGroup, false)
+                        holder = GroupCaseViewHolder()
+                        holder.indicator = currentView!!.findViewById(R.id.groupIndicator)
+                        holder.igGender = currentView.findViewById(R.id.imgGender)
+                        holder.tvName = currentView.findViewById(R.id.name)
+                        holder.tvCaseNo = currentView.findViewById(R.id.caseNo)
+                    }
+                }
                 currentView.tag = holder
             } else {
                 holder = currentView.tag as GroupViewHolder?
             }
-            val case:Case = getGroup(groupPosition) as Case
-            holder!!.igGender.setImageResource(
-                when(case.caseGender == FEMALE){
-                    true -> R.drawable.ic_gender_female
-                    else -> R.drawable.ic_gender_male
+            when(type) {
+                GROUP_TYPE_TITLE -> {
+                    val title = getGroup(groupPosition) as String
+                    holder as GroupTitleViewHolder
+                    holder.tvTitle.text = title
                 }
-            )
+                else -> {
+                    val case:Case = getGroup(groupPosition) as Case
+                    holder as GroupCaseViewHolder
+                    if(isExpanded) {
+                        holder.indicator.setImageResource(R.drawable.ic_expand_open)
+                    } else {
+                        holder.indicator.setImageResource(R.drawable.ic_expand_close)
+                    }
+                    holder.igGender.setImageResource(
+                        when(case.caseGender == FEMALE){
+                            true -> R.drawable.ic_gender_female
+                            else -> R.drawable.ic_gender_male
+                        }
+                    )
 
-            holder.tvName.text = case.caseName
-            holder.tvCaseNo.text = case.caseNumber
+                    holder.tvName.text = case.caseName
+                    holder.tvCaseNo.text = case.caseNumber
+
+                }
+            }
 
             return currentView
         }
@@ -244,7 +367,7 @@ class PendingDataFragment: BaseFragment() {
                     TYPE_BLOOD_GLUCOSE ->
                         currentView = inflater.inflate(R.layout.layout_pending_blood_glucose, viewGroup, false)
                     TYPE_BLOOD_PRESSURE ->
-                            currentView = inflater.inflate(R.layout.layout_pending_blood_pressure, viewGroup, false)
+                        currentView = inflater.inflate(R.layout.layout_pending_blood_pressure, viewGroup, false)
                     TYPE_HEIGHT ->
                         currentView = inflater.inflate(R.layout.layout_pending_height, viewGroup, false)
                     TYPE_OXYGEN ->
@@ -261,6 +384,9 @@ class PendingDataFragment: BaseFragment() {
 
                 holder = ChildViewHolder()
                 holder.measurementData = currentView!!.findViewById(R.id.measureData)
+
+//                titleMeasure.setTextColor(ContextCompat.getColor(context, R.color.storm_dust))
+//                unitMeasure.setTextColor(ContextCompat.getColor(context, R.color.storm_dust))
                 holder.time = currentView.findViewById(R.id.time)
                 currentView.tag = holder
             } else {
@@ -315,6 +441,13 @@ class PendingDataFragment: BaseFragment() {
             return currentView
         }
 
+        override fun getGroupType(groupPosition: Int): Int {
+            return when(getGroup(groupPosition)){
+                is String -> GROUP_TYPE_TITLE
+                else -> GROUP_TYPE_CASE
+            }
+        }
+
         override fun getChildType(groupPosition: Int, childPosition: Int): Int {
             //體溫 脈搏 呼吸 血壓 血糖 身高 體重 血氧
             return when(getChild(groupPosition, childPosition) as Bio) {
@@ -333,12 +466,24 @@ class PendingDataFragment: BaseFragment() {
             //體溫 脈搏 呼吸 血壓 血糖 身高 體重 血氧
             return 8
         }
+
+        override fun getGroupTypeCount(): Int {
+            //Title, Case
+            return 2
+        }
     }
 
-    private class GroupViewHolder {
+    private open class GroupViewHolder{}
+
+    private class GroupCaseViewHolder:GroupViewHolder() {
+        lateinit var indicator: ImageView
         lateinit var igGender: ImageView
         lateinit var tvName: TextView
         lateinit var tvCaseNo: TextView
+    }
+
+    private class GroupTitleViewHolder:GroupViewHolder() {
+        lateinit var tvTitle: TextView
     }
 
     private class ChildViewHolder {

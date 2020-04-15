@@ -1,97 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_pending_data">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/group_1"
+    <ExpandableListView
+        android:id="@+id/listView"
+        style="@style/PendingDataExpandableListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            style="@style/PendingDataTitle"
-            android:id="@+id/title_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ExpandableListView
-            android:id="@+id/listView_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/PendingDataTitle"
-        android:id="@+id/group_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/group_1" >
-
-        <TextView
-            style="@style/PendingDataTitle"
-            android:id="@+id/title_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ExpandableListView
-            android:id="@+id/listView_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/group_3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/group_2" >
-
-        <TextView
-            style="@style/PendingDataTitle"
-            android:id="@+id/title_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ExpandableListView
-            android:id="@+id/listView_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/group_4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/group_3" >
-
-        <TextView
-            style="@style/PendingDataTitle"
-            android:id="@+id/title_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ExpandableListView
-            android:id="@+id/listView_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:groupIndicator="@null"/>
+</FrameLayout>

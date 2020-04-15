@@ -192,7 +192,10 @@ object HttpClientService {
 
     fun uploadBloodGlucose(
         caseNo:String, staffId: String, SCDID: String, sysCode: String,
-        bioData: Bio.BloodGlucose, callback: HttpCallback<DefaultRtnDto>){
+        bioData: Bio.BloodGlucose?, callback: HttpCallback<DefaultRtnDto>){
+        if(bioData == null) {
+            return
+        }
         val takenAt = bioData.takenAt.div(1000L).toString()
 
         val type = CollaborationApplication.context.getString(R.string.blood_glucose)
@@ -277,21 +280,86 @@ object HttpClientService {
         bioData: Bio.Oxygen, callback: HttpCallback<DefaultRtnDto>){
         val takenAt = bioData.takenAt.div(1000L).toString()
         //TODO 血氧上傳格式
-        val type = CollaborationApplication.context.getString(R.string.oxygen)
-        val uploadBioDto:UploadBioDto = UploadBioDto(
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+
+        var uploadBioDto:UploadBioDto = UploadBioDto(
             caseNo,
             staffId,
             SCDID,
             sysCode,
-            type,
+            "actHighest",
+            takenAt,
+            "${bioData.actHighest}",
+            "",
+            "01"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "spo2Lowest",
             takenAt,
             "${bioData.spo2Lowest}",
             "",
-            "01"
-        );
-
-        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+            "02"
+        )
         uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "spo2Highest",
+            takenAt,
+            "${bioData.spo2Highest}",
+            "",
+            "03"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "pulseHighest",
+            takenAt,
+            "${bioData.pulseHighest}",
+            "",
+            "04"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "pulseLowest",
+            takenAt,
+            "${bioData.pulseLowest}",
+            "",
+            "05"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "duration",
+            takenAt,
+            "${bioData.duration}",
+            "",
+            "06"
+        )
+        uploadList.add(uploadBioDto)
+
         uploadBio(uploadList, callback)
     }
 
@@ -342,7 +410,10 @@ object HttpClientService {
 
     fun uploadTemperature(
         caseNo:String, staffId: String, SCDID: String, sysCode: String,
-        bioData: Bio.Temperature, callback: HttpCallback<DefaultRtnDto>){
+        bioData: Bio.Temperature?, callback: HttpCallback<DefaultRtnDto>){
+        if(bioData == null) {
+            return
+        }
         val takenAt = bioData.takenAt.div(1000L).toString()
 
         val type = CollaborationApplication.context.getString(R.string.temperature)
@@ -367,9 +438,75 @@ object HttpClientService {
         caseNo:String, staffId: String, SCDID: String, sysCode: String,
         bioData: Bio.Weight, callback: HttpCallback<DefaultRtnDto>){
         val takenAt = bioData.takenAt.div(1000L).toString()
-        //TODO 體重上傳格式 BMI, BMR,
+
+        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+        var uploadBioDto:UploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "bmi",
+            takenAt,
+            "${bioData.bmi}",
+            "",
+            "01"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "bodyFat",
+            takenAt,
+            "${bioData.bodyFat}",
+            "",
+            "02"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "bodyWater",
+            takenAt,
+            "${bioData.bodyWater}",
+            "",
+            "03"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "muscleMass",
+            takenAt,
+            "${bioData.muscleMass}",
+            "",
+            "04"
+        )
+        uploadList.add(uploadBioDto)
+
+        uploadBioDto = UploadBioDto(
+            caseNo,
+            staffId,
+            SCDID,
+            sysCode,
+            "visceralFat",
+            takenAt,
+            "${bioData.muscleMass}",
+            "",
+            "05"
+        )
+        uploadList.add(uploadBioDto)
+
         val type = CollaborationApplication.context.getString(R.string.weight)
-        val uploadBioDto:UploadBioDto = UploadBioDto(
+        uploadBioDto = UploadBioDto(
             caseNo,
             staffId,
             SCDID,
@@ -378,11 +515,10 @@ object HttpClientService {
             takenAt,
             "${bioData.weight}",
             "",
-            "01"
-        );
-
-        val uploadList:ArrayList<UploadBioDto> = ArrayList();
+            "06"
+        )
         uploadList.add(uploadBioDto)
+
         uploadBio(uploadList, callback)
     }
 
