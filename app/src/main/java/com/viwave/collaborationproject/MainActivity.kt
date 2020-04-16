@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             false -> switchFragmentToTop(LoginFragment())
         }
 
-        navDrawer.menu.getItem(0).isChecked = true
+        initDrawerSelectItem()
         val decorator =
             DividerItemDecoration(
                 applicationContext,
@@ -213,6 +213,10 @@ class MainActivity : AppCompatActivity() {
     /**
      * Drawer
      * */
+    fun initDrawerSelectItem(){
+        navDrawer.menu.getItem(0).isChecked = true
+    }
+
     private fun lockDrawer(isLock: Boolean){
         if(isLock){
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

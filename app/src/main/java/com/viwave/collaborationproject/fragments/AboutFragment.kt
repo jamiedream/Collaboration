@@ -11,10 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.BuildConfig
 import com.viwave.collaborationproject.R
 
-class AboutFragment: BaseFragment() {
+class AboutFragment: BaseFragment(), BackPressedDelegate {
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
     private val TAG = this::class.java.simpleName
     private val textAppVersion by lazy { view!!.findViewById<TextView>(R.id.app_version) }

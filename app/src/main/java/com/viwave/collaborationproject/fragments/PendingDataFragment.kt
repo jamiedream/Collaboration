@@ -1,12 +1,15 @@
 package com.viwave.collaborationproject.fragments
 
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.BaseExpandableListAdapter
+import android.widget.ExpandableListView
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.remote.BioAction
 import com.viwave.collaborationproject.R
@@ -22,7 +25,11 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PendingDataFragment: BaseFragment() {
+class PendingDataFragment: BaseFragment(), BackPressedDelegate {
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
     companion object {
         const val GROUP_TYPE_TITLE:Int = 0;

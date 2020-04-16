@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
+import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.DeviceKey
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.utils.LogUtil
@@ -30,7 +31,11 @@ import com.viwaveulife.vuioht.VUBleScanFilter
 import com.viwaveulife.vuioht.VUScanCallback
 import java.util.*
 
-class DeviceFragment: BaseFragment() {
+class DeviceFragment: BaseFragment(), BackPressedDelegate {
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
     private val TAG = this::class.java.simpleName
 

@@ -14,6 +14,7 @@ import android.widget.TextView
 import com.viwave.collaborationproject.BackPressedDelegate
 import com.viwave.collaborationproject.DB.cache.SysKey
 import com.viwave.collaborationproject.DB.cache.UserPreference
+import com.viwave.collaborationproject.MainActivity
 import com.viwave.collaborationproject.MainActivity.Companion.generalViewModel
 import com.viwave.collaborationproject.R
 import com.viwave.collaborationproject.data.general.SubSys
@@ -73,6 +74,7 @@ class SysListFragment: BaseFragment(), BackPressedDelegate {
         text.apply {
             this.isEnabled = true
             this.setOnClickListener {
+                (activity as MainActivity).initDrawerSelectItem()
                 UserPreference.instance.editSubSys(subSys)
                 generalViewModel.getSelectedSubSys().value = subSys
                 replaceFragment(this@SysListFragment, CaseListFragment(), getString(R.string.tag_case_list))
