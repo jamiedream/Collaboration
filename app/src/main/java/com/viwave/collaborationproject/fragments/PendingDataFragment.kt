@@ -25,6 +25,26 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
+/*
+有三個階層
+日照中心 (Sys)
+    個案名稱 (Case)
+        量測資料 (Bio)
+
+個案名稱要可以收合
+
+一個頁面使用多個 ExpandableListView 的時候，會無法正常將所有的都顯示
+也無法用 scroll view 包多個 ExpandableListView 處理
+
+所以只使用一個 ExpandableListView，日照中心(sys)也算 group
+
+日照中心 (Sys)       Group
+ + 個案名稱 (Case)   Group
+ - 個案名稱 (Case)   Group
+     量測資料 (Bio)     Child
+     量測資料 (Bio)     Child
+
+ */
 class PendingDataFragment: BaseFragment(), BackPressedDelegate {
 
     override fun onBackPressed(): Boolean {
@@ -188,40 +208,42 @@ class PendingDataFragment: BaseFragment(), BackPressedDelegate {
         }
 
         override fun getChildrenCount(groupPosition: Int): Int {
-            when(groupPosition){
+            when(groupPosition) {
                 dailyCareIndex -> return 0
                 dailyNurseIndex -> return 0
                 dailyStationIndex -> return 0
                 dailyHomeCareIndex -> return 0
+            }
 
-                //照順序 Care, Nurse, Station, Home
-                in dailyCareIndex..dailyNurseIndex -> {
-                    val caseMap = dataMap[SysKey.DAILY_CARE_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyCareIndex-1]
-                        return caseMap[case]!!.size
-                    }
+            if(dailyHomeCareIndex != -1 && groupPosition > dailyHomeCareIndex) {
+                val caseMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyHomeCareIndex-1]
+                    return caseMap[case]!!.size
                 }
-                in dailyNurseIndex..dailyStationIndex -> {
-                    val caseMap = dataMap[SysKey.DAILY_NURSING_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyNurseIndex-1]
-                        return caseMap[case]!!.size
-                    }
+            }
+
+            if(dailyStationIndex != -1 && groupPosition > dailyStationIndex) {
+                val caseMap = dataMap[SysKey.DAILY_STATION_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyStationIndex-1]
+                    return caseMap[case]!!.size
                 }
-                in dailyStationIndex..dailyHomeCareIndex -> {
-                    val caseMap = dataMap[SysKey.DAILY_STATION_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyStationIndex-1]
-                        return caseMap[case]!!.size
-                    }
+            }
+
+            if(dailyNurseIndex != -1 && groupPosition > dailyNurseIndex) {
+                val caseMap = dataMap[SysKey.DAILY_NURSING_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyNurseIndex-1]
+                    return caseMap[case]!!.size
                 }
-                else -> {
-                    val caseMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyHomeCareIndex-1]
-                        return caseMap[case]!!.size
-                    }
+            }
+
+            if(dailyCareIndex != -1 && groupPosition > dailyCareIndex) {
+                val caseMap = dataMap[SysKey.DAILY_CARE_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyCareIndex-1]
+                    return caseMap[case]!!.size
                 }
             }
 
@@ -230,36 +252,39 @@ class PendingDataFragment: BaseFragment(), BackPressedDelegate {
         }
 
         override fun getGroup(groupPosition: Int): Any {
-            when(groupPosition){
+            when(groupPosition) {
                 dailyCareIndex -> return getString(R.string.sys_daily_care)
                 dailyNurseIndex -> return getString(R.string.sys_daily_nursing)
                 dailyStationIndex -> return getString(R.string.sys_station)
                 dailyHomeCareIndex -> return getString(R.string.sys_home_service)
+            }
+            //照順序 Care, Nurse, Station, Home
+            //但從最後面算回來
+            if(dailyHomeCareIndex != -1 && groupPosition > dailyHomeCareIndex) {
+                val childMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
+                if(childMap != null) {
+                    return ArrayList(childMap.keys)[groupPosition-dailyHomeCareIndex-1]
+                }
+            }
 
-                //照順序 Care, Nurse, Station, Home
-                in dailyCareIndex..dailyNurseIndex -> {
-                    val childMap = dataMap[SysKey.DAILY_CARE_CODE]
-                    if(childMap != null) {
-                        return ArrayList(childMap.keys)[groupPosition-dailyCareIndex-1]
-                    }
+            if(dailyStationIndex != -1 && groupPosition > dailyStationIndex) {
+                val childMap = dataMap[SysKey.DAILY_STATION_CODE]
+                if(childMap != null) {
+                    return ArrayList(childMap.keys)[groupPosition-dailyStationIndex-1]
                 }
-                in dailyNurseIndex..dailyStationIndex -> {
-                    val childMap = dataMap[SysKey.DAILY_NURSING_CODE]
-                    if(childMap != null) {
-                        return ArrayList(childMap.keys)[groupPosition-dailyNurseIndex-1]
-                    }
+            }
+
+            if(dailyNurseIndex != -1 && groupPosition > dailyNurseIndex) {
+                val childMap = dataMap[SysKey.DAILY_NURSING_CODE]
+                if(childMap != null) {
+                    return ArrayList(childMap.keys)[groupPosition-dailyNurseIndex-1]
                 }
-                in dailyStationIndex..dailyHomeCareIndex -> {
-                    val childMap = dataMap[SysKey.DAILY_STATION_CODE]
-                    if(childMap != null) {
-                        return ArrayList(childMap.keys)[groupPosition-dailyStationIndex-1]
-                    }
-                }
-                else -> {
-                    val childMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
-                    if(childMap != null) {
-                        return ArrayList(childMap.keys)[groupPosition-dailyHomeCareIndex-1]
-                    }
+            }
+
+            if(dailyCareIndex != -1 && groupPosition > dailyCareIndex) {
+                val childMap = dataMap[SysKey.DAILY_CARE_CODE]
+                if (childMap != null) {
+                    return ArrayList(childMap.keys)[groupPosition - dailyCareIndex - 1]
                 }
             }
 
@@ -274,34 +299,39 @@ class PendingDataFragment: BaseFragment(), BackPressedDelegate {
                 dailyStationIndex -> return 0
                 dailyHomeCareIndex -> return 0
 
-                //照順序 Care, Nurse, Station, Home
-                in dailyCareIndex..dailyNurseIndex -> {
-                    val caseMap = dataMap[SysKey.DAILY_CARE_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyCareIndex-1]
-                        return caseMap[case]!![childPosition]
-                    }
+            }
+
+            //照順序 Care, Nurse, Station, Home
+            //但從最後面算回來
+            if(dailyHomeCareIndex != -1 && groupPosition > dailyHomeCareIndex) {
+                val caseMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyHomeCareIndex-1]
+                    return caseMap[case]!![childPosition]
                 }
-                in dailyNurseIndex..dailyStationIndex -> {
-                    val caseMap = dataMap[SysKey.DAILY_NURSING_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyNurseIndex-1]
-                        return caseMap[case]!![childPosition]
-                    }
+            }
+
+            if(dailyStationIndex != -1 && groupPosition > dailyStationIndex) {
+                val caseMap = dataMap[SysKey.DAILY_STATION_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyStationIndex-1]
+                    return caseMap[case]!![childPosition]
                 }
-                in dailyStationIndex..dailyHomeCareIndex -> {
-                    val caseMap = dataMap[SysKey.DAILY_STATION_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyStationIndex-1]
-                        return caseMap[case]!![childPosition]
-                    }
+            }
+
+            if(dailyNurseIndex != -1 && groupPosition > dailyNurseIndex) {
+                val caseMap = dataMap[SysKey.DAILY_NURSING_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyNurseIndex-1]
+                    return caseMap[case]!![childPosition]
                 }
-                else -> {
-                    val caseMap = dataMap[SysKey.DAILY_HOME_CARE_CODE]
-                    if(caseMap != null) {
-                        val case = ArrayList(caseMap.keys)[groupPosition-dailyHomeCareIndex-1]
-                        return caseMap[case]!![childPosition]
-                    }
+            }
+
+            if(dailyCareIndex != -1 && groupPosition > dailyCareIndex) {
+                val caseMap = dataMap[SysKey.DAILY_CARE_CODE]
+                if(caseMap != null) {
+                    val case = ArrayList(caseMap.keys)[groupPosition-dailyCareIndex-1]
+                    return caseMap[case]!![childPosition]
                 }
             }
 
@@ -358,7 +388,6 @@ class PendingDataFragment: BaseFragment(), BackPressedDelegate {
 
                     holder.tvName.text = case.caseName
                     holder.tvCaseNo.text = case.caseNumber
-
                 }
             }
 
