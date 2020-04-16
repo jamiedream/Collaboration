@@ -400,31 +400,66 @@ class PendingDataFragment: BaseFragment(), BackPressedDelegate {
             val childType:Int = getChildType(groupPosition, childPosition)
             if(currentView == null) {
                 when(childType) {
-                    TYPE_BLOOD_GLUCOSE ->
-                        currentView = inflater.inflate(R.layout.layout_pending_blood_glucose, viewGroup, false)
-                    TYPE_BLOOD_PRESSURE ->
-                        currentView = inflater.inflate(R.layout.layout_pending_blood_pressure, viewGroup, false)
-                    TYPE_HEIGHT ->
-                        currentView = inflater.inflate(R.layout.layout_pending_height, viewGroup, false)
-                    TYPE_OXYGEN ->
-                        currentView = inflater.inflate(R.layout.layout_pending_oxygen, viewGroup, false)
-                    TYPE_PULSE ->
-                        currentView = inflater.inflate(R.layout.layout_pending_pulse, viewGroup, false)
-                    TYPE_RESPIRE ->
-                        currentView = inflater.inflate(R.layout.layout_pending_respire, viewGroup, false)
-                    TYPE_TEMPERATURE ->
-                        currentView = inflater.inflate(R.layout.layout_pending_blood_pressure, viewGroup, false)
-                    TYPE_WEIGHT ->
-                        currentView = inflater.inflate(R.layout.layout_pending_weight, viewGroup, false)
+                    TYPE_BLOOD_GLUCOSE -> {
+                        currentView = inflater.inflate(
+                            R.layout.layout_pending_blood_glucose, viewGroup, false)
+                        holder = ChildOneValueViewHolder()
+                        holder.data = currentView!!.findViewById(R.id.measureData)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
+                    TYPE_BLOOD_PRESSURE -> {
+                        currentView = inflater . inflate (
+                            R.layout.layout_pending_blood_pressure, viewGroup, false)
+                        holder = ChildTwoValueViewHolder()
+                        holder.data1 = currentView!!.findViewById(R.id.measureData1)
+                        holder.data2 = currentView.findViewById(R.id.measureData2)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
+                    TYPE_HEIGHT -> {
+                        currentView =
+                            inflater.inflate(R.layout.layout_pending_height, viewGroup, false)
+                        holder = ChildOneValueViewHolder()
+                        holder.data = currentView!!.findViewById(R.id.measureData)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
+                    TYPE_OXYGEN -> {
+                        currentView =
+                            inflater.inflate(R.layout.layout_pending_oxygen, viewGroup, false)
+                        holder = ChildTwoValueViewHolder()
+                        holder.data1 = currentView!!.findViewById(R.id.measureData1)
+                        holder.data2 = currentView.findViewById(R.id.measureData2)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
+                    TYPE_PULSE -> {
+                        currentView =
+                            inflater.inflate(R.layout.layout_pending_pulse, viewGroup, false)
+                        holder = ChildOneValueViewHolder()
+                        holder.data = currentView!!.findViewById(R.id.measureData)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
+                    TYPE_RESPIRE -> {
+                        currentView =
+                            inflater.inflate(R.layout.layout_pending_respire, viewGroup, false)
+                        holder = ChildOneValueViewHolder()
+                        holder.data = currentView!!.findViewById(R.id.measureData)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
+                    TYPE_TEMPERATURE -> {
+                        currentView =
+                            inflater.inflate(R.layout.layout_pending_temperature, viewGroup, false)
+                        holder = ChildOneValueViewHolder()
+                        holder.data = currentView!!.findViewById(R.id.measureData)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
+                    TYPE_WEIGHT -> {
+                        currentView =
+                            inflater.inflate(R.layout.layout_pending_weight, viewGroup, false)
+                        holder = ChildOneValueViewHolder()
+                        holder.data = currentView!!.findViewById(R.id.measureData)
+                        holder.time = currentView.findViewById(R.id.time)
+                    }
                 }
-
-                holder = ChildViewHolder()
-                holder.measurementData = currentView!!.findViewById(R.id.measureData)
-
-//                titleMeasure.setTextColor(ContextCompat.getColor(context, R.color.storm_dust))
-//                unitMeasure.setTextColor(ContextCompat.getColor(context, R.color.storm_dust))
-                holder.time = currentView.findViewById(R.id.time)
-                currentView.tag = holder
+                currentView!!.tag = holder
             } else {
                 holder = currentView.tag as ChildViewHolder
             }
@@ -433,43 +468,53 @@ class PendingDataFragment: BaseFragment(), BackPressedDelegate {
             when(childType) {
                 TYPE_BLOOD_GLUCOSE -> {
                     val data = bio as Bio.BloodGlucose
-                    holder.measurementData.setValue(data.glucose)
+                    holder as ChildOneValueViewHolder
+                    holder.data.setValue(data.glucose)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
                 TYPE_BLOOD_PRESSURE -> {
                     val data = bio as Bio.BloodPressure
-                    holder.measurementData.setValues(data.sys, data.dia)
+                    holder as ChildTwoValueViewHolder
+                    holder.data1.setValues(data.sys, data.dia)
+                    holder.data2.setValue(data.pulse)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
                 TYPE_HEIGHT -> {
                     val data = bio as Bio.Height
-                    holder.measurementData.setValue(data.height)
+                    holder as ChildOneValueViewHolder
+                    holder.data.setValue(data.height)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
                 TYPE_OXYGEN -> {
                     val data = bio as Bio.Oxygen
                     //TODO 如何顯示
-                    holder.measurementData.setValues(data.spo2Highest, data.spo2Lowest)
+                    holder as ChildTwoValueViewHolder
+                    holder.data1.setValues(data.spo2Highest, data.spo2Lowest)
+                    holder.data2.setValues(data.pulseHighest, data.pulseLowest)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
                 TYPE_PULSE -> {
                     val data = bio as Bio.Pulse
-                    holder.measurementData.setValue(data.pulse)
+                    holder as ChildOneValueViewHolder
+                    holder.data.setValue(data.pulse)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
                 TYPE_RESPIRE -> {
                     val data = bio as Bio.Respire
-                    holder.measurementData.setValue(data.respire)
+                    holder as ChildOneValueViewHolder
+                    holder.data.setValue(data.respire)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
                 TYPE_TEMPERATURE -> {
                     val data = bio as Bio.Temperature
-                    holder.measurementData.setValue(data.temperature)
+                    holder as ChildOneValueViewHolder
+                    holder.data.setValue(data.temperature)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
                 TYPE_WEIGHT -> {
                     val data = bio as Bio.Weight
-                    holder.measurementData.setValue(data.weight)
+                    holder as ChildOneValueViewHolder
+                    holder.data.setValue(data.weight)
                     holder.time.text = DateUtil.getPendingDataTime(data.takenAt)
                 }
             }
@@ -522,8 +567,16 @@ class PendingDataFragment: BaseFragment(), BackPressedDelegate {
         lateinit var tvTitle: TextView
     }
 
-    private class ChildViewHolder {
-        lateinit var measurementData: MeasurementItemLayout
+    private open class ChildViewHolder {}
+
+    private class ChildOneValueViewHolder:ChildViewHolder() {
+        lateinit var data: MeasurementItemLayout
+        lateinit var time:TextView
+    }
+
+    private class ChildTwoValueViewHolder:ChildViewHolder() {
+        lateinit var data1: MeasurementItemLayout
+        lateinit var data2: MeasurementItemLayout
         lateinit var time:TextView
     }
 }

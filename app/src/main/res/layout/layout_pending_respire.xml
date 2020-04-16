@@ -23,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_18"
+        app:measureItemTitle="@string/respire"
+        app:measureItemUnit="@string/unit_respire"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_blood_glucose"
-        app:layout_constraintTop_toTopOf="parent"
-        app:measureItemTitle="@string/blood_glucose"
-        app:measureItemUnit="@string/unit_blood_glucose" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/time"
