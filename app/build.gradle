@@ -28,6 +28,12 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 repositories {
@@ -45,9 +51,21 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    def coreVersion = "1.3.0-alpha04"
+    def extJUnitVersion = "1.1.2-alpha04"
+    def runnerVersion = "1.3.0-alpha04"
+    def truthVersion = "1.0"
+    def androidxLibVersion = "1.0.0"
+    def guavaVersion = "26.0-android"
+
+//    implementation "androidx.annotation:annotation:$androidxLibVersion"
+//    implementation "com.google.guava:guava:$guavaVersion"
+    androidTestImplementation "androidx.test:core:$coreVersion"
+    androidTestImplementation "androidx.test.ext:junit:$extJUnitVersion"
+    androidTestImplementation "androidx.test:runner:$runnerVersion"
+    androidTestImplementation "com.google.truth:truth:$truthVersion"
 
     implementation 'com.google.code.gson:gson:2.8.6'
 
