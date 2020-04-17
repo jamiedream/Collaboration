@@ -18,7 +18,7 @@ import com.viwave.collaborationproject.data.DataSort
 import com.viwave.collaborationproject.fragments.subsys.caseList.CaseListFragment.Companion.FEMALE
 import com.viwave.collaborationproject.fragments.subsys.caseList.ICaseClicked
 
-class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private val whichCaseClicked: ICaseClicked): RecyclerView.Adapter<CaseListViewHolder>() {
+class CaseListAdapter<Entity>(private val caseList: MutableList<Entity>, private val whichCaseClicked: ICaseClicked): RecyclerView.Adapter<CaseListViewHolder>() {
 
     private val TAG = this::class.java.simpleName
     private var isNursing = true
@@ -43,7 +43,7 @@ class CaseListAdapter(private val caseList: MutableList<out CaseEntity>, private
             holder.oxygenCountLayout.visibility = View.GONE
         }
 
-        caseList[position].apply {
+        (caseList[position] as CaseEntity).apply {
             holder.imgGender.setImageResource(
                 when(this.getCaseGender == FEMALE){
                     true -> R.drawable.ic_gender_female
